@@ -4,6 +4,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 
@@ -20,6 +23,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const authService = getAuth();
+const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 // 현재 로그인된 유저 정보
 export function useAuth() {
@@ -40,4 +45,12 @@ export function signUp(email, password) {
 
 export function login(email, password) {
   return signInWithEmailAndPassword(authService, email, password);
+}
+
+export function loginGoogle() {
+  return signInWithPopup(authService, googleProvider);
+}
+
+export function loginGithub() {
+  return signInWithPopup(authService, githubProvider);
 }

@@ -4,7 +4,14 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { authService, signUp, login, useAuth } from "myFirebase";
+import {
+  authService,
+  signUp,
+  login,
+  useAuth,
+  loginGoogle,
+  loginGithub,
+} from "myFirebase";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -84,12 +91,6 @@ const AuthStyle = styled.div`
     width: 100%;
     padding: 10px 0;
     background-color: var(--logo-color);
-    color: black;
-    transition: 0.3s;
-
-    :hover {
-      color: white;
-    }
   }
 `;
 
@@ -129,9 +130,9 @@ const Auth = () => {
     } = e;
 
     if (name === "google") {
-      alert("구글");
+      loginGoogle();
     } else if (name === "github") {
-      alert("깃허브");
+      loginGithub();
     }
   }
 
@@ -182,7 +183,7 @@ const Auth = () => {
           </button>
         </div>
         <div className="last__wrapper">
-          <button className="button__st1">이메일 주소로 가입하기</button>
+          <button className="button__st1">이메일 주소로 간편 가입하기</button>
         </div>
       </form>
     </AuthStyle>
