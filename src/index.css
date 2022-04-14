@@ -2,7 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "twayair";
+  font-family: "Godo";
+}
+
+body {
+  background-color: rgb(30, 30, 30);
 }
 
 :root {
@@ -10,11 +14,13 @@
 }
 
 @font-face {
-  font-family: "twayair";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff")
-    format("woff");
-  font-weight: normal;
+  font-family: "Godo";
   font-style: normal;
+  font-weight: 400;
+  src: url("//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2")
+      format("woff2"),
+    url("//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff")
+      format("woff");
 }
 
 button {

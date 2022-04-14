@@ -14,6 +14,7 @@ import {
 } from "myFirebase";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const AuthStyle = styled.div`
   form {
@@ -100,6 +101,7 @@ const Auth = () => {
   const [newAccount, setNewAccount] = useState(false);
 
   const currentUser = useAuth();
+  const navi = useNavigate();
 
   // 여러개의 input onChange를 하나의 함수로 처리하기
   function onChange(e) {
@@ -117,22 +119,31 @@ const Auth = () => {
   async function onSubmit(e) {
     e.preventDefault();
     try {
-      await signUp(email, password);
+      await login(email, password);
+      // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
+      navi("/", { replace: true });
     } catch (e) {
       console.log(e.code, e.message);
       alert(e.message);
     }
   }
 
-  function socialClick(e) {
+  async function socialClick(e) {
     const {
       target: { name },
     } = e;
 
-    if (name === "google") {
-      loginGoogle();
-    } else if (name === "github") {
-      loginGithub();
+    try {
+      if (name === "google") {
+        await loginGoogle();
+        navi("/", { replace: true });
+      } else if (name === "github") {
+        await loginGithub();
+        navi("/", { replace: true });
+      }
+    } catch (e) {
+      console.log(e.code, e.message);
+      alert(e.message);
     }
   }
 

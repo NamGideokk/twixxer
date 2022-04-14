@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 
@@ -53,4 +54,8 @@ export function loginGoogle() {
 
 export function loginGithub() {
   return signInWithPopup(authService, githubProvider);
+}
+
+export function logout() {
+  return signOut(authService);
 }
