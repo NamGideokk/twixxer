@@ -23,7 +23,6 @@ const AuthStyle = styled.div`
     height: fit-content;
     padding: 30px;
     background-color: #d1c4e9;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 
     position: absolute;
     top: 50%;

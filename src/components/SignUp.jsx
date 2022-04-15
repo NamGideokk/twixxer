@@ -18,7 +18,6 @@ const SignUpStyle = styled.div`
     height: fit-content;
     padding: 30px;
     background-color: #d1c4e9;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 
     position: relative;
     top: 50%;
@@ -40,6 +39,15 @@ const SignUpStyle = styled.div`
         border: 1px solid var(--logo-color);
       }
     }
+    .submitBtn {
+      width: 100%;
+      height: 40px;
+      font-size: 18px;
+      background-color: var(--logo-color);
+      color: white;
+      margin-bottom: 10px;
+    }
+
     input[type="submit"] {
       cursor: pointer;
       background-color: var(--logo-color);
@@ -66,6 +74,7 @@ const SignUpStyle = styled.div`
 const SignUp = ({ display, signUpModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
 
   function handleInput(e) {
@@ -83,18 +92,21 @@ const SignUp = ({ display, signUpModal }) => {
   async function handleSignUp(e) {
     e.preventDefault();
 
+    setLoading(true);
     try {
       await signUp(email, password);
     } catch (e) {
-      console.log(e.code);
       if (e.code === "auth/email-already-in-use") {
         setErrorText(
           "이미 사용중인 이메일입니다. 다른 이메일을 입력해 주세요."
         );
       } else if (e.code === "auth/weak-password") {
         setErrorText("비밀번호는 6자 이상 입력해 주세요.");
+      } else if (e.code === "auth/invalid-email") {
+        setErrorText("양식을 모두 입력해 주세요.");
       }
     }
+    setLoading(false);
   }
   return (
     <SignUpStyle>
@@ -114,7 +126,9 @@ const SignUp = ({ display, signUpModal }) => {
             onChange={handleInput}
             value={password}
           />
-          <input type="submit" value="회원가입" />
+          <button type="submit" className="submitBtn" disabled={loading}>
+            {loading ? "로딩중..." : "회원가입"}
+          </button>
           <p className="error-text">{errorText}</p>
 
           <button
