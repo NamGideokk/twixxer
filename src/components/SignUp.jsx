@@ -46,13 +46,11 @@ const SignUpStyle = styled.div`
       background-color: var(--logo-color);
       color: white;
       margin-bottom: 10px;
-    }
+      transition: 0.3s;
 
-    input[type="submit"] {
-      cursor: pointer;
-      background-color: var(--logo-color);
-      color: white;
-      border: none;
+      :hover {
+        background-color: var(--logo-dark-color);
+      }
     }
   }
 
@@ -62,6 +60,11 @@ const SignUpStyle = styled.div`
     font-size: 18px;
     background-color: var(--logo-color);
     margin-top: 46px;
+    transition: 0.3s;
+
+    :hover {
+      background-color: var(--logo-dark-color);
+    }
   }
 
   .error-text {

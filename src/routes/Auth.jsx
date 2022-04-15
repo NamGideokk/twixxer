@@ -4,14 +4,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  authService,
-  signUp,
-  login,
-  useAuth,
-  loginGoogle,
-  loginGithub,
-} from "myFirebase";
+import { login, loginGoogle, loginGithub } from "myFirebase";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -60,6 +53,10 @@ const AuthStyle = styled.div`
       background-color: var(--logo-color);
       color: white;
       border: none;
+
+      :hover {
+        background-color: var(--logo-dark-color);
+      }
     }
 
     .btn__wrapper {
@@ -92,16 +89,20 @@ const AuthStyle = styled.div`
     width: 100%;
     padding: 10px 0;
     background-color: var(--logo-color);
+    transition: 0.3s;
+
+    :hover {
+      background-color: var(--logo-dark-color);
+    }
   }
 `;
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [newAccount, setNewAccount] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("none");
 
-  const currentUser = useAuth();
   const navi = useNavigate();
 
   // 여러개의 input onChange를 하나의 함수로 처리하기
@@ -119,14 +120,23 @@ const Auth = () => {
 
   async function onSubmit(e) {
     e.preventDefault();
+
+    setLoading(true);
     try {
       await login(email, password);
       // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
       navi("/", { replace: true });
     } catch (e) {
-      console.log(e.code, e.message);
-      alert(e.message);
+      console.log(e.code);
+      if (e.code === "auth/user-not-found") {
+        alert("존재하지 않는 이메일 입니다.");
+      } else if (e.code === "auth/wrong-password") {
+        alert("비밀번호가 맞지 않습니다.");
+      } else if (e.code === "auth/too-many-requests") {
+        alert("너무 많은 접속 시도를 하였습니다. 잠시 후 다시 시도하세요.");
+      }
     }
+    setLoading(false);
   }
 
   async function socialClick(e) {
@@ -143,7 +153,7 @@ const Auth = () => {
         navi("/", { replace: true });
       }
     } catch (e) {
-      console.log(e.code, e.message);
+      console.log(e.code);
       alert(e.message);
     }
   }
@@ -186,7 +196,11 @@ const Auth = () => {
             onChange={onChange}
             required
           />
-          <input type="submit" value="로그인" />
+          <input
+            type="submit"
+            value={loading ? "로딩중..." : "로그인"}
+            disabled={loading}
+          />
           <div className="btn__wrapper">
             <button
               name="google"

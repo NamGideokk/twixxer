@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import Footer from "components/Footer";
+import { useAuth } from "myFirebase";
 
 const Home = () => {
   const [feed, setFeed] = useState("");
+
+  const currentUser = useAuth();
+
+  console.log(currentUser);
 
   function onSubmit(e) {
     e.preventDefault();
