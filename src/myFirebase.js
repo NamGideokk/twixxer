@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import {} from "firebase/database";
 import { useEffect, useState } from "react";
 
 const firebaseConfig = {

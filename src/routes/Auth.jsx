@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import SignUp from "components/SignUp";
 
 const AuthStyle = styled.div`
   form {
@@ -99,6 +100,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
+  const [display, setDisplay] = useState("none");
 
   const currentUser = useAuth();
   const navi = useNavigate();
@@ -147,57 +149,78 @@ const Auth = () => {
     }
   }
 
+  function signUpModal(e) {
+    const {
+      target: { name },
+    } = e;
+
+    if (name === "showSignUp") {
+      setDisplay("block");
+    } else if (name === "closeSignUp") {
+      setDisplay("none");
+    }
+  }
+
   return (
-    <AuthStyle>
-      <form onSubmit={onSubmit}>
-        <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
-        <img
-          src={process.env.PUBLIC_URL + "/imgs/twixxer_logo.png"}
-          alt="logo"
-          className="logo"
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={onChange}
-          required
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={onChange}
-          required
-        />
-        <input type="submit" value="로그인" />
-        <div className="btn__wrapper">
-          <button
-            name="google"
-            type="button"
-            className="button__st"
-            onClick={socialClick}
-          >
-            <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
-            Google 계정으로 로그인
-          </button>
-          <button
-            name="github"
-            type="button"
-            className="button__st"
-            onClick={socialClick}
-          >
-            <FontAwesomeIcon icon={faGithub} className="brand__icon" />
-            Github 계정으로 로그인
-          </button>
-        </div>
-        <div className="last__wrapper">
-          <button className="button__st1">이메일 주소로 간편 가입하기</button>
-        </div>
-      </form>
-    </AuthStyle>
+    <>
+      <AuthStyle>
+        <form onSubmit={onSubmit}>
+          <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
+          <img
+            src={process.env.PUBLIC_URL + "/imgs/twixxer_logo.png"}
+            alt="logo"
+            className="logo"
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={onChange}
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={onChange}
+            required
+          />
+          <input type="submit" value="로그인" />
+          <div className="btn__wrapper">
+            <button
+              name="google"
+              type="button"
+              className="button__st"
+              onClick={socialClick}
+            >
+              <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
+              Google 계정으로 로그인
+            </button>
+            <button
+              name="github"
+              type="button"
+              className="button__st"
+              onClick={socialClick}
+            >
+              <FontAwesomeIcon icon={faGithub} className="brand__icon" />
+              Github 계정으로 로그인
+            </button>
+          </div>
+          <div className="last__wrapper">
+            <button
+              name="showSignUp"
+              className="button__st1"
+              onClick={signUpModal}
+            >
+              이메일 주소로 간편 가입하기
+            </button>
+          </div>
+        </form>
+      </AuthStyle>
+      <SignUp display={display} signUpModal={signUpModal} />
+    </>
   );
 };
 
