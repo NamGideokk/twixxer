@@ -23,8 +23,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-export const authService = getAuth();
+const authService = getAuth();
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
@@ -38,6 +37,8 @@ export function useAuth() {
       return unsub;
     });
   }, []);
+
+  return currentUser;
 }
 
 export function signUp(email, password) {

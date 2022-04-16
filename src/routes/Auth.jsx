@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { login, loginGoogle, loginGithub } from "myFirebase";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import SignUp from "components/SignUp";
 
 const AuthStyle = styled.div`
@@ -103,8 +102,6 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("none");
 
-  const navi = useNavigate();
-
   // 여러개의 input onChange를 하나의 함수로 처리하기
   function onChange(e) {
     const {
@@ -125,7 +122,6 @@ const Auth = () => {
     try {
       await login(email, password);
       // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
-      navi("/", { replace: true });
     } catch (e) {
       console.log(e.code);
       if (e.code === "auth/user-not-found") {
@@ -147,10 +143,8 @@ const Auth = () => {
     try {
       if (name === "google") {
         await loginGoogle();
-        navi("/", { replace: true });
       } else if (name === "github") {
         await loginGithub();
-        navi("/", { replace: true });
       }
     } catch (e) {
       console.log(e.code);
