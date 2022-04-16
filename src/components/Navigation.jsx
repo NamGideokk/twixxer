@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout, useAuth } from "myFirebase";
 
 const NaviStyle = styled.div`
@@ -61,10 +61,23 @@ const NaviStyle = styled.div`
 
 const Navigation = () => {
   const currentUser = useAuth();
+  const navi = useNavigate();
+
+  const [photoURL, setPhotoURL] = useState(
+    "http://cdn.onlinewebfonts.com/svg/img_264570.png"
+  );
+
+  useEffect(() => {
+    // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
+    if (currentUser?.photoURL) {
+      setPhotoURL(currentUser.photoURL);
+    }
+  }, [currentUser]);
 
   async function handleLogout() {
     try {
       await logout();
+      navi("/");
     } catch (e) {
       console.log(e);
       alert(e);
@@ -75,11 +88,7 @@ const Navigation = () => {
     <NaviStyle>
       <div className="wrapper">
         <div className="user__wrapper">
-          <img
-            src="http://cdn.onlinewebfonts.com/svg/img_264570.png"
-            alt="avatar"
-            className="avatar"
-          />
+          <img src={photoURL} alt="avatar" className="avatar" />
           <h1 className="user-email">{currentUser?.email}</h1>
         </div>
         <ul className="navi__wrapper">

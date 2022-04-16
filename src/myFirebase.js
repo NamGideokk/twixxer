@@ -8,8 +8,10 @@ import {
   GithubAuthProvider,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import {} from "firebase/database";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 
 const firebaseConfig = {
@@ -24,6 +26,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const authService = getAuth();
+const storage = getStorage();
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
@@ -59,4 +62,23 @@ export function loginGithub() {
 
 export function logout() {
   return signOut(authService);
+}
+
+// Storage
+export async function upload(file, currentUser, setLoading) {
+  const fileRef = ref(storage, "images/" + currentUser.uid + ".png");
+
+  setLoading(true);
+  try {
+    await uploadBytes(fileRef, file);
+    alert("아바타가 변경 되었습니다.");
+    const photoURL = await getDownloadURL(fileRef);
+    updateProfile(currentUser, {
+      photoURL: photoURL,
+    });
+  } catch (e) {
+    console.log(e);
+    alert(e.message);
+  }
+  setLoading(false);
 }
