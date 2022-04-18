@@ -4,7 +4,11 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faPizzaSlice } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faPaperPlane,
+  faPizzaSlice,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -14,6 +18,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
+import FeedMenuModal from "common/FeedMenuModal";
 
 const FormStyle = styled.div`
   .feed__form {
@@ -51,12 +56,42 @@ const FormStyle = styled.div`
   .feed__container {
     width: 500px;
     height: fit-content;
-    padding: 30px;
-    background-color: white;
+    padding: 20px;
+    background-color: var(--logo-color);
     margin: 30px auto;
+    cursor: pointer;
+    transition: 0.3s;
+
+    :hover {
+      transform: translateY(-5px);
+      background-color: var(--logo-dark-color);
+    }
+
+    img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--logo-color);
+    }
 
     h2 {
+      display: inline-block;
+      margin-left: 10px;
       margin-bottom: 10px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .feed-menu__button {
+      margin-left: 20px;
+      transition: 0.3s;
+
+      :hover {
+        color: white;
+      }
     }
   }
 `;
@@ -64,12 +99,12 @@ const FormStyle = styled.div`
 const Home = () => {
   const currentUser = useAuth();
   const [getFeeds, setGetFeeds] = useState([
-    { content: "로딩중...", id: "initial" },
+    { content: "로딩중...", createdAt: "로딩중...", id: "initial" },
   ]);
   const [feed, setFeed] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
 
-  console.log(getFeeds);
-
+  // 데이터(피드) 가져오기
   useEffect(
     () =>
       onSnapshot(collection(myFirestore, "feeds"), (snapshot) =>
@@ -93,7 +128,12 @@ const Home = () => {
       // 세번째 인자값 (id?)를 비워두면 자동랜덤 생성?
       try {
         const collectionRef = collection(myFirestore, "feeds");
-        const payload = { content: feed, createdAt: Date() };
+        const payload = {
+          userId: currentUser.email,
+          photo: currentUser.photoURL,
+          content: feed,
+          createdAt: Date(),
+        };
         await addDoc(collectionRef, payload);
         setFeed("");
       } catch (e) {
@@ -110,6 +150,22 @@ const Home = () => {
     setFeed(value);
   }
 
+  function handleMenu(e) {
+    setShowMenu(!showMenu);
+    if (e.target !== e.target) {
+      setShowMenu(!showMenu);
+    }
+  }
+
+  function handleUpdate() {
+    alert("수정하기");
+  }
+  function handleDelete() {
+    alert("삭제하기");
+  }
+  function handleCancel() {
+    setShowMenu(!showMenu);
+  }
   return (
     <>
       {currentUser ? (
@@ -133,8 +189,15 @@ const Home = () => {
             </form>
             {getFeeds.map((feed) => (
               <div key={feed.id} className="feed__container">
-                <h2>{feed.content}</h2>
-                <small>{feed?.createdAt}</small>
+                <img src={feed.photo} alt="avatar" />
+                <h2>{feed.userId}</h2>
+                <FontAwesomeIcon
+                  icon={faBars}
+                  className="feed-menu__button"
+                  onClick={handleMenu}
+                />
+                <h3>{feed.content}</h3>
+                <small>{feed.createdAt}</small>
               </div>
             ))}
           </FormStyle>
@@ -142,6 +205,14 @@ const Home = () => {
         </>
       ) : (
         <Auth />
+      )}
+
+      {showMenu && (
+        <FeedMenuModal
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+          handleCancel={handleCancel}
+        />
       )}
     </>
   );
