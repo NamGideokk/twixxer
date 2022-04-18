@@ -10,7 +10,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import {} from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 
@@ -82,3 +82,5 @@ export async function upload(file, currentUser, setLoading) {
   }
   setLoading(false);
 }
+
+export const myFirestore = getFirestore();
