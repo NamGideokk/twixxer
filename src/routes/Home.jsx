@@ -4,7 +4,7 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faPizzaSlice } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -54,6 +54,10 @@ const FormStyle = styled.div`
     padding: 30px;
     background-color: white;
     margin: 30px auto;
+
+    h2 {
+      margin-bottom: 10px;
+    }
   }
 `;
 
@@ -63,6 +67,8 @@ const Home = () => {
     { content: "로딩중...", id: "initial" },
   ]);
   const [feed, setFeed] = useState("");
+
+  console.log(getFeeds);
 
   useEffect(
     () =>
@@ -85,10 +91,15 @@ const Home = () => {
       // alert("피드 작성!");
 
       // 세번째 인자값 (id?)를 비워두면 자동랜덤 생성?
-      const collectionRef = collection(myFirestore, "feeds");
-      const payload = { content: feed };
-      await addDoc(collectionRef, payload);
-      setFeed("");
+      try {
+        const collectionRef = collection(myFirestore, "feeds");
+        const payload = { content: feed, createdAt: Date() };
+        await addDoc(collectionRef, payload);
+        setFeed("");
+      } catch (e) {
+        console.log(e.code);
+        alert(e.message);
+      }
     }
   }
 
@@ -123,6 +134,7 @@ const Home = () => {
             {getFeeds.map((feed) => (
               <div key={feed.id} className="feed__container">
                 <h2>{feed.content}</h2>
+                <small>{feed?.createdAt}</small>
               </div>
             ))}
           </FormStyle>
