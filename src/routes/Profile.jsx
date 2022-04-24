@@ -3,7 +3,16 @@ import styled from "styled-components";
 import Navigation from "components/Navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import { useAuth, upload } from "myFirebase";
+import { useAuth, upload, myFirestore } from "myFirebase";
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -17,13 +26,14 @@ const ProfileStyle = styled.div`
   .avatar__label {
     background-color: var(--logo-dark-color);
     padding: 10px 15px;
-    width: fit-content;
+    width: 100%;
     height: fit-content;
     font-size: 20px;
     color: white;
     cursor: pointer;
     display: block;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
   }
   .img__icon {
     margin-right: 10px;
@@ -50,6 +60,25 @@ const ProfileStyle = styled.div`
     padding: 5px 10px;
     font-size: 20px;
     margin-top: 10px;
+  }
+
+  .all-feeds-delete__button {
+    background-color: var(--logo-dark-color);
+    padding: 10px 15px;
+    width: 100%;
+    height: fit-content;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    transition: 0.3s;
+
+    :hover {
+      background-color: red;
+      box-shadow: 0 5px 5px rgba(255, 0, 0, 0.3);
+    }
   }
 `;
 
@@ -78,6 +107,43 @@ const Profile = () => {
   function handleUpload() {
     upload(photo, currentUser, setLoading);
   }
+
+  async function allFeedsDelete() {
+    const collectionRef = collection(myFirestore, "feeds");
+
+    const deleteConfirm = window.confirm(
+      "정말 나의 모든 게시물을 삭제하시겠습니까?"
+    );
+
+    if (deleteConfirm) {
+      const q = query(collectionRef, where("userId", "==", currentUser.email));
+
+      const snapshot = await getDocs(q);
+
+      const results = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log(results);
+
+      results.forEach(async (result) => {
+        const docRef = doc(myFirestore, "feeds", result.id);
+
+        if (results.length === 0) {
+          alert("삭제할 게시물이 없습니다.");
+        }
+
+        try {
+          await deleteDoc(docRef);
+          alert("모든 게시물을 삭제했습니다.");
+        } catch (e) {
+          console.log(e.code, e.message);
+          alert(e.message);
+        }
+      });
+    }
+  }
+
   return (
     <>
       <Navigation />
@@ -98,6 +164,9 @@ const Profile = () => {
               {loading ? "업로드중..." : "업로드"}
             </button>
           )}
+          <button className="all-feeds-delete__button" onClick={allFeedsDelete}>
+            내 게시물 전부 삭제
+          </button>
         </div>
       </ProfileStyle>
     </>

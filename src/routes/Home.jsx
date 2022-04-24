@@ -12,6 +12,7 @@ import {
   onSnapshot,
   setDoc,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 
@@ -174,9 +175,13 @@ const Home = () => {
     };
     setDoc(docRef, payload);
   }
-  function handleDelete(id) {
-    console.log(id);
-    console.log("삭제하기");
+  async function handleDelete(id) {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+
+    if (confirmDelete) {
+      const docRef = doc(myFirestore, "feeds", id);
+      await deleteDoc(docRef);
+    }
   }
 
   return (
@@ -211,11 +216,13 @@ const Home = () => {
                       icon={faPen}
                       className="edit__button"
                       onClick={() => handleEdit(feed.id)}
+                      title="수정하기"
                     />
                     <FontAwesomeIcon
                       icon={faX}
                       className="delete__button"
                       onClick={() => handleDelete(feed.id)}
+                      title="삭제하기"
                     />
                   </>
                 ) : null}
