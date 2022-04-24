@@ -5,11 +5,14 @@ const FooterStyle = styled.div`
   .footer__wrapper {
     width: 100%;
     height: 100px;
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(20, 20, 20);
     text-align: center;
+    margin-top: 100px;
 
-    h2 {
+    p {
       color: white;
+      padding-top: 40px;
+      font-size: 20px;
     }
   }
 `;
@@ -18,7 +21,7 @@ const Footer = () => {
   return (
     <FooterStyle>
       <div className="footer__wrapper">
-        <h2>TWIXXER ⓒ 2022</h2>
+        <p>TWIXXER ⓒ 2022</p>
       </div>
     </FooterStyle>
   );

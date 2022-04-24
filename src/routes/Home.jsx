@@ -4,11 +4,7 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faPaperPlane,
-  faPizzaSlice,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -18,26 +14,27 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-import FeedMenuModal from "common/FeedMenuModal";
 
 const FormStyle = styled.div`
   .feed__form {
-    width: 800px;
+    width: 700px;
     height: fit-content;
     padding: 20px;
     margin: 100px auto;
+    text-align: center;
 
     input {
-      width: 100%;
+      width: 55%;
       height: 50px;
       padding: 0 20px;
       border: none;
       border-radius: 10px;
       font-size: 24px;
-      transition: 0.3s;
+      transition: 0.5s;
       background-color: #eeeeee;
 
       :focus {
+        width: 100%;
         background-color: white;
         box-shadow: 0 0 15px var(--logo-color);
       }
@@ -59,7 +56,6 @@ const FormStyle = styled.div`
     padding: 20px;
     background-color: var(--logo-color);
     margin: 30px auto;
-    cursor: pointer;
     transition: 0.3s;
 
     :hover {
@@ -79,6 +75,7 @@ const FormStyle = styled.div`
       display: inline-block;
       margin-left: 10px;
       margin-bottom: 10px;
+      margin-right: 50px;
     }
 
     h3 {
@@ -94,6 +91,22 @@ const FormStyle = styled.div`
       }
     }
   }
+  .edit__button {
+    margin-right: 10px;
+  }
+
+  .edit__button,
+  .delete__button {
+    cursor: pointer;
+    transition: 0.3s;
+
+    :hover {
+      color: white;
+    }
+  }
+  .delete__button:hover {
+    color: red;
+  }
 `;
 
 const Home = () => {
@@ -102,7 +115,8 @@ const Home = () => {
     { content: "로딩중...", createdAt: "로딩중...", id: "initial" },
   ]);
   const [feed, setFeed] = useState("");
-  const [showMenu, setShowMenu] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editContent, setEditContent] = useState(feed.content);
 
   // 데이터(피드) 가져오기
   useEffect(
@@ -150,22 +164,21 @@ const Home = () => {
     setFeed(value);
   }
 
-  function handleMenu(e) {
-    setShowMenu(!showMenu);
-    if (e.target !== e.target) {
-      setShowMenu(!showMenu);
-    }
+  function handleEdit(id) {
+    const docRef = doc(myFirestore, "feeds", id);
+    const payload = {
+      userId: currentUser.email,
+      photo: currentUser.photoURL,
+      content: "수정했어요 수정됨",
+      createdAt: Date(),
+    };
+    setDoc(docRef, payload);
+  }
+  function handleDelete(id) {
+    console.log(id);
+    console.log("삭제하기");
   }
 
-  function handleUpdate() {
-    alert("수정하기");
-  }
-  function handleDelete() {
-    alert("삭제하기");
-  }
-  function handleCancel() {
-    setShowMenu(!showMenu);
-  }
   return (
     <>
       {currentUser ? (
@@ -180,6 +193,7 @@ const Home = () => {
                 value={feed}
                 onChange={onChange}
               />
+
               <button type="submit" className="upload-feed__button">
                 <FontAwesomeIcon
                   icon={faPaperPlane}
@@ -191,13 +205,29 @@ const Home = () => {
               <div key={feed.id} className="feed__container">
                 <img src={feed.photo} alt="avatar" />
                 <h2>{feed.userId}</h2>
-                <FontAwesomeIcon
-                  icon={faBars}
-                  className="feed-menu__button"
-                  onClick={handleMenu}
-                />
-                <h3>{feed.content}</h3>
-                <small>{feed.createdAt}</small>
+                {currentUser?.email === feed.userId ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      className="edit__button"
+                      onClick={() => handleEdit(feed.id)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faX}
+                      className="delete__button"
+                      onClick={() => handleDelete(feed.id)}
+                    />
+                  </>
+                ) : null}
+                {edit ? (
+                  <textarea
+                    value={editContent}
+                    onChange={setEditContent(editContent)}
+                  />
+                ) : (
+                  <h3>{feed.content}</h3>
+                )}
+                <small>{feed.createdAt.substring(0, 21)}</small>
               </div>
             ))}
           </FormStyle>
@@ -205,14 +235,6 @@ const Home = () => {
         </>
       ) : (
         <Auth />
-      )}
-
-      {showMenu && (
-        <FeedMenuModal
-          handleUpdate={handleUpdate}
-          handleDelete={handleDelete}
-          handleCancel={handleCancel}
-        />
       )}
     </>
   );

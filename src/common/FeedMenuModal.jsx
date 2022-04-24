@@ -20,7 +20,7 @@ const FeedMenuModalStyle = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
+    font-size: 22px;
 
     animation: showing 0.3s;
 
