@@ -13,6 +13,8 @@ import {
   setDoc,
   addDoc,
   deleteDoc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 
@@ -108,6 +110,40 @@ const FormStyle = styled.div`
   .delete__button:hover {
     color: red;
   }
+
+  .prev-content {
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const EditContainerStyle = styled.div`
+  .edit__container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: fit-content;
+    padding: 20px;
+    background-color: var(--logo-color);
+    margin: 30px auto;
+    transition: 0.3s;
+
+    animation: showing 0.6s;
+
+    textarea {
+      width: 100%;
+      height: fit-content;
+      resize: none;
+      font-size: 20px;
+      padding: 10px;
+
+      :focus {
+        outline: none;
+      }
+    }
+  }
 `;
 
 const Home = () => {
@@ -117,16 +153,19 @@ const Home = () => {
   ]);
   const [feed, setFeed] = useState("");
   const [edit, setEdit] = useState(false);
-  const [editContent, setEditContent] = useState(feed.content);
+  const [editContent, setEditContent] = useState("");
 
   // 데이터(피드) 가져오기
-  useEffect(
-    () =>
-      onSnapshot(collection(myFirestore, "feeds"), (snapshot) =>
-        setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      ),
-    []
-  );
+  useEffect(() => {
+    const collectionRef = collection(myFirestore, "feeds");
+    const q = query(collectionRef, orderBy("createdAt", "desc"));
+
+    const unsub = onSnapshot(q, (snapshot) =>
+      setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    );
+
+    return unsub;
+  }, []);
 
   // 피드 작성
   async function onSubmit(e) {
@@ -166,15 +205,21 @@ const Home = () => {
   }
 
   function handleEdit(id) {
-    const docRef = doc(myFirestore, "feeds", id);
-    const payload = {
-      userId: currentUser.email,
-      photo: currentUser.photoURL,
-      content: "수정했어요 수정됨",
-      createdAt: Date(),
-    };
-    setDoc(docRef, payload);
+    setEdit(true);
+    // const docRef = doc(myFirestore, "feeds", id);
+    // const payload = {
+    //   userId: currentUser.email,
+    //   photo: currentUser.photoURL,
+    //   content: "수정했어요 수정됨",
+    //   createdAt: Date(),
+    // };
+    // setDoc(docRef, payload);
   }
+
+  function handleEditContent(e) {
+    setEditContent(e.target.value);
+  }
+
   async function handleDelete(id) {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
 
@@ -226,14 +271,7 @@ const Home = () => {
                     />
                   </>
                 ) : null}
-                {edit ? (
-                  <textarea
-                    value={editContent}
-                    onChange={setEditContent(editContent)}
-                  />
-                ) : (
-                  <h3>{feed.content}</h3>
-                )}
+                <h3>{feed.content}</h3>
                 <small>{feed.createdAt.substring(0, 21)}</small>
               </div>
             ))}
@@ -242,6 +280,27 @@ const Home = () => {
         </>
       ) : (
         <Auth />
+      )}
+      {edit && (
+        <EditContainerStyle>
+          <div className="wrapper-st">
+            <div className="edit__container">
+              <textarea
+                className="prev-content"
+                value={editContent}
+                onChange={handleEditContent}
+              />
+              <button>수정하기</button>
+              <button
+                onClick={() => {
+                  setEdit(false);
+                }}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </EditContainerStyle>
       )}
     </>
   );
