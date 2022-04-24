@@ -150,12 +150,8 @@ const Profile = () => {
       <ProfileStyle>
         <div className="profile__wrapper">
           <img src={photoURL} alt="avatar" className="avatar" />
-          <label htmlFor="file" className="avatar__label">
-            <FontAwesomeIcon icon={faImage} className="img__icon" />
-            아바타 변경
-          </label>
-          <input type="file" id="file" onChange={handleFile} />
-          {photo && (
+
+          {photo ? (
             <button
               disabled={loading}
               onClick={handleUpload}
@@ -163,7 +159,13 @@ const Profile = () => {
             >
               {loading ? "업로드중..." : "업로드"}
             </button>
+          ) : (
+            <label htmlFor="file" className="avatar__label">
+              <FontAwesomeIcon icon={faImage} className="img__icon" />
+              아바타 변경
+            </label>
           )}
+          <input type="file" id="file" onChange={handleFile} />
           <button className="all-feeds-delete__button" onClick={allFeedsDelete}>
             내 게시물 전부 삭제
           </button>
