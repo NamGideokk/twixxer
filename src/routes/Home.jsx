@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Footer from "components/Footer";
 import Auth from "./Auth";
 import Navigation from "components/Navigation";
@@ -60,6 +60,8 @@ const FormStyle = styled.div`
     background-color: var(--logo-color);
     margin: 30px auto;
     transition: 0.3s;
+
+    animation: go-up 0.5s;
 
     :hover {
       transform: translateY(-5px);
@@ -155,6 +157,8 @@ const Home = () => {
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
 
+  const feedCont = useRef();
+
   // 데이터(피드) 가져오기
   useEffect(() => {
     const collectionRef = collection(myFirestore, "feeds");
@@ -206,27 +210,41 @@ const Home = () => {
 
   function handleEdit(id) {
     setEdit(true);
-    // const docRef = doc(myFirestore, "feeds", id);
-    // const payload = {
-    //   userId: currentUser.email,
-    //   photo: currentUser.photoURL,
-    //   content: "수정했어요 수정됨",
-    //   createdAt: Date(),
-    // };
-    // setDoc(docRef, payload);
+    const docRef = doc(myFirestore, "feeds", id);
+    const payload = {
+      userId: currentUser.email,
+      photo: currentUser.photoURL,
+      content: "수정했어요 수정됨",
+      createdAt: Date(),
+    };
+    setDoc(docRef, payload);
   }
 
   function handleEditContent(e) {
     setEditContent(e.target.value);
   }
 
+  function editConfirm() {}
+
   async function handleDelete(id) {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
 
     if (confirmDelete) {
       const docRef = doc(myFirestore, "feeds", id);
-      await deleteDoc(docRef);
+
+      // 삭제 애니메이션
+      feedCont.current.style =
+        "background-color: red; color: white; transform: translate(200px,-5px); opacity: 0; transition: 1s";
+
+      await setTimeout(() => {
+        deleteDoc(docRef);
+        feedCont.current.style = "";
+      }, 1000);
     }
+  }
+
+  function ani() {
+    alert("애니메이션 테스트");
   }
 
   return (
@@ -252,7 +270,7 @@ const Home = () => {
               </button>
             </form>
             {getFeeds.map((feed) => (
-              <div key={feed.id} className="feed__container">
+              <div key={feed.id} className="feed__container" ref={feedCont}>
                 <img src={feed.photo} alt="avatar" />
                 <h2>{feed.userId}</h2>
                 {currentUser?.email === feed.userId ? (
@@ -273,6 +291,7 @@ const Home = () => {
                 ) : null}
                 <h3>{feed.content}</h3>
                 <small>{feed.createdAt.substring(0, 21)}</small>
+                <button onClick={ani}>애니메이션</button>
               </div>
             ))}
           </FormStyle>
@@ -290,7 +309,7 @@ const Home = () => {
                 value={editContent}
                 onChange={handleEditContent}
               />
-              <button>수정하기</button>
+              <button onClick={editConfirm}>수정하기</button>
               <button
                 onClick={() => {
                   setEdit(false);

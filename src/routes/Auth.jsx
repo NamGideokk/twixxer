@@ -192,7 +192,7 @@ const Auth = () => {
           />
           <input
             type="submit"
-            value={loading ? "로딩중..." : "로그인"}
+            value={loading ? "로그인중..." : "로그인"}
             disabled={loading}
           />
           <div className="btn__wrapper">

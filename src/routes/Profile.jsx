@@ -55,11 +55,18 @@ const ProfileStyle = styled.div`
   }
 
   .upload__button {
-    width: 100%;
+    width: 60%;
     height: fit-content;
     padding: 5px 10px;
     font-size: 20px;
     margin-top: 10px;
+    margin-right: 10%;
+  }
+  .clear__button {
+    width: 30%;
+    height: fit-content;
+    padding: 5px 10px;
+    font-size: 20px;
   }
 
   .all-feeds-delete__button {
@@ -90,6 +97,7 @@ const Profile = () => {
   const [photoURL, setPhotoURL] = useState(
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
+  const [prevPhotoURL, setPrevPhotoURL] = useState(null);
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -99,8 +107,14 @@ const Profile = () => {
   }, [currentUser]);
 
   function handleFile(e) {
+    const reader = new FileReader();
+
     if (e.target.files[0]) {
       setPhoto(e.target.files[0]);
+      reader.onloadend = (e) => {
+        setPrevPhotoURL(e.currentTarget.result);
+      };
+      const newPhoto = reader.readAsDataURL(e.target.files[0]);
     }
   }
 
@@ -135,7 +149,6 @@ const Profile = () => {
 
         try {
           await deleteDoc(docRef);
-          alert("모든 게시물을 삭제했습니다.");
         } catch (e) {
           console.log(e.code, e.message);
           alert(e.message);
@@ -144,28 +157,41 @@ const Profile = () => {
     }
   }
 
+  function clearNewPhoto() {
+    setPrevPhotoURL(null);
+    setPhoto(null);
+  }
+
   return (
     <>
       <Navigation />
       <ProfileStyle>
         <div className="profile__wrapper">
-          <img src={photoURL} alt="avatar" className="avatar" />
-
+          <img
+            src={prevPhotoURL ? prevPhotoURL : photoURL}
+            alt="avatar"
+            className="avatar"
+          />
           {photo ? (
-            <button
-              disabled={loading}
-              onClick={handleUpload}
-              className="upload__button"
-            >
-              {loading ? "업로드중..." : "업로드"}
-            </button>
+            <>
+              <button
+                disabled={loading}
+                onClick={handleUpload}
+                className="upload__button"
+              >
+                {loading ? "업로드중..." : "업로드"}
+              </button>
+              <button className="clear__button" onClick={clearNewPhoto}>
+                취소
+              </button>
+            </>
           ) : (
             <label htmlFor="file" className="avatar__label">
               <FontAwesomeIcon icon={faImage} className="img__icon" />
               아바타 변경
             </label>
           )}
-          <input type="file" id="file" onChange={handleFile} />
+          <input type="file" accept="image/*" id="file" onChange={handleFile} />
           <button className="all-feeds-delete__button" onClick={allFeedsDelete}>
             내 게시물 전부 삭제
           </button>
