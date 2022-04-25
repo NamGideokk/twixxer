@@ -4,7 +4,12 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faPen, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUp,
+  faPaperPlane,
+  faPen,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -238,13 +243,17 @@ const Home = () => {
 
       await setTimeout(() => {
         deleteDoc(docRef);
-        feedCont.current.style = "";
       }, 1000);
     }
   }
 
-  function ani() {
-    alert("애니메이션 테스트");
+  function ani() {}
+
+  function upButton() {
+    window.scroll({
+      behavior: "smooth",
+      top: 0,
+    });
   }
 
   return (
@@ -321,6 +330,12 @@ const Home = () => {
           </div>
         </EditContainerStyle>
       )}
+      <FontAwesomeIcon
+        icon={faArrowUp}
+        className="up__button"
+        title="맨 위로 이동"
+        onClick={upButton}
+      />
     </>
   );
 };

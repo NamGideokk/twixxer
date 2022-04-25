@@ -74,3 +74,21 @@ a {
   top: 0;
   left: 0;
 }
+
+.up__button {
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--logo-color);
+  padding: 7px;
+  cursor: pointer;
+  position: fixed;
+  right: 10%;
+  bottom: 10%;
+  transition: 0.3s;
+}
+.up__button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--logo-dark-color);
+}
