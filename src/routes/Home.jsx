@@ -69,7 +69,7 @@ const FormStyle = styled.div`
     animation: go-up 0.5s;
 
     :hover {
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1.1);
       background-color: var(--logo-dark-color);
     }
 
@@ -149,6 +149,28 @@ const EditContainerStyle = styled.div`
       :focus {
         outline: none;
       }
+    }
+  }
+`;
+
+const MainFrameStyle = styled.div`
+  .main__frame {
+    display: flex;
+    max-width: 1500px;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+
+    .sec__a {
+      width: fit-content;
+    }
+    .sec__b {
+      background-color: yellow;
+      flex-grow: 2;
+    }
+    .sec__c {
+      background-color: green;
+      flex-grow: 1;
     }
   }
 `;
@@ -249,6 +271,7 @@ const Home = () => {
 
   function ani() {}
 
+  // 화면 위로 이동 버튼
   function upButton() {
     window.scroll({
       behavior: "smooth",
@@ -260,7 +283,15 @@ const Home = () => {
     <>
       {currentUser ? (
         <>
-          <Navigation />
+          <MainFrameStyle>
+            <div className="main__frame">
+              <div className="sec__a">
+                <Navigation />
+              </div>
+              <div className="sec__b">b</div>
+              <div className="sec__c">c</div>
+            </div>
+          </MainFrameStyle>
           <FormStyle>
             <form onSubmit={onSubmit} className="feed__form">
               <input
@@ -304,6 +335,12 @@ const Home = () => {
               </div>
             ))}
           </FormStyle>
+          <FontAwesomeIcon
+            icon={faArrowUp}
+            className="up__button"
+            title="맨 위로 이동"
+            onClick={upButton}
+          />
           <Footer />
         </>
       ) : (
@@ -330,12 +367,6 @@ const Home = () => {
           </div>
         </EditContainerStyle>
       )}
-      <FontAwesomeIcon
-        icon={faArrowUp}
-        className="up__button"
-        title="맨 위로 이동"
-        onClick={upButton}
-      />
     </>
   );
 };

@@ -85,7 +85,7 @@ a {
   cursor: pointer;
   position: fixed;
   right: 10%;
-  bottom: 10%;
+  bottom: 8%;
   transition: 0.3s;
 }
 .up__button:hover {
