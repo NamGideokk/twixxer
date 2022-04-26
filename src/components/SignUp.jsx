@@ -14,10 +14,11 @@ const SignUpStyle = styled.div`
     left: 0;
   }
   .signup__wrapper {
-    width: 420px;
+    width: 450px;
     height: fit-content;
     padding: 30px;
-    background-color: #d1c4e9;
+    background-color: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(30px);
 
     position: relative;
     top: 50%;
@@ -68,7 +69,7 @@ const SignUpStyle = styled.div`
   }
 
   .error-text {
-    color: red;
+    color: #ff3232;
     font-size: 14px;
     position: absolute;
   }
@@ -130,7 +131,7 @@ const SignUp = ({ display, signUpModal }) => {
             value={password}
           />
           <button type="submit" className="submitBtn" disabled={loading}>
-            {loading ? "로딩중..." : "회원가입"}
+            {loading ? "회원가입중..." : "회원가입"}
           </button>
           <p className="error-text">{errorText}</p>
 

@@ -11,10 +11,9 @@ import SignUp from "components/SignUp";
 
 const AuthStyle = styled.div`
   form {
-    width: 420px;
+    width: 450px;
     height: fit-content;
     padding: 30px;
-    background-color: #d1c4e9;
 
     position: absolute;
     top: 50%;
@@ -25,12 +24,13 @@ const AuthStyle = styled.div`
       color: var(--logo-color);
       font-size: 50px;
       position: absolute;
-      transform: translate(-40px, -180px);
+      transform: translate(-30px, -170px);
     }
 
     .logo {
       position: absolute;
-      transform: translateY(-150px);
+      transform: translateY(-130px);
+      padding-left: 10px;
     }
 
     input {
@@ -61,7 +61,7 @@ const AuthStyle = styled.div`
     .btn__wrapper {
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
+      margin-top: 20px;
     }
 
     .button__st {
@@ -73,6 +73,13 @@ const AuthStyle = styled.div`
       font-size: 14px;
     }
 
+    .google,
+    .github {
+      background-color: white;
+      border-radius: 10px;
+      padding: 5px 10px;
+    }
+
     .brand__icon {
       margin-right: 5px;
       color: purple;
@@ -80,7 +87,7 @@ const AuthStyle = styled.div`
   }
 
   .last__wrapper {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   .button__st1 {
@@ -199,7 +206,7 @@ const Auth = () => {
             <button
               name="google"
               type="button"
-              className="button__st"
+              className="button__st google"
               onClick={socialClick}
             >
               <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
@@ -208,7 +215,7 @@ const Auth = () => {
             <button
               name="github"
               type="button"
-              className="button__st"
+              className="button__st github"
               onClick={socialClick}
             >
               <FontAwesomeIcon icon={faGithub} className="brand__icon" />

@@ -257,10 +257,11 @@ const Home = () => {
 
       // 삭제 애니메이션
       feedCont.current.style =
-        "background-color: red; color: white; transform: translate(200px,-5px); opacity: 0; transition: 1s";
+        "background-color: red; color: white; transform: translate(200px,-5px); opacity: 0; transition: 1s;";
 
       await setTimeout(() => {
         deleteDoc(docRef);
+        feedCont.current.style = "display:none;";
       }, 1000);
     }
   }
