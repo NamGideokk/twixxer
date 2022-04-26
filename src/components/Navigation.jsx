@@ -20,12 +20,13 @@ const NaviStyle = styled.div`
   .wrapper {
     width: fit-content;
     height: fit-content;
-    margin: 50px auto;
+    position: fixed;
+    top: 0;
+  }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .empty__div {
+    width: 300px;
+    height: 1px;
   }
 
   .navi__wrapper {
@@ -34,7 +35,6 @@ const NaviStyle = styled.div`
     padding: 17px 0;
     background-color: var(--logo-color);
     font-size: 24px;
-    border-radius: 10px;
     /* position: fixed;
     top: 0;
     left: 0; */
@@ -53,7 +53,7 @@ const NaviStyle = styled.div`
         border-radius: 10px;
 
         :hover {
-          background-color: white;
+          background-color: var(--logo-dark-color);
         }
       }
       .lang__icon {
@@ -110,68 +110,71 @@ const Navigation = () => {
 
   return (
     <NaviStyle>
-      <div className="wrapper">
-        <ul className="navi__wrapper">
-          <div className="first-list">
-            <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
-            twixxer
-            <span onClick={changeLanguage} className="lang__span">
-              <FontAwesomeIcon icon={faGlobe} className="lang__icon" />
-              {navLang ? "ENG" : "KOR"}
-            </span>
-          </div>
-          <Link to="/">
-            <li>
-              <FontAwesomeIcon icon={faHouse} className="nav__icons" />
-              {navLang ? "홈" : "Home"}
-            </li>
-          </Link>
-          <Link to="/explore">
-            <li>
-              <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
-              {navLang ? "탐색" : "Explore"}
-            </li>
-          </Link>
-          <Link to="/notifications">
-            <li>
-              <FontAwesomeIcon icon={faBell} className="nav__icons" />
-              {navLang ? "알림" : "Notifications"}
-            </li>
-          </Link>
-          <Link to="/messages">
-            <li>
-              <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
-              {navLang ? "메세지" : "Messages"}
-            </li>
-          </Link>
-          <Link to="/bookmarks">
-            <li>
-              <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
-              {navLang ? "북마크" : "Bookmarks"}
-            </li>
-          </Link>
-          <Link to="/lists">
-            <li>
-              <FontAwesomeIcon icon={faList} className="nav__icons" />
-              {navLang ? "목록" : "Lists"}
-            </li>
-          </Link>
-          <Link to="/profile">
-            <li>
-              <FontAwesomeIcon icon={faUser} className="nav__icons" />
-              {navLang ? "프로필" : "Profile"}
-            </li>
-          </Link>
+      <>
+        <div className="wrapper">
+          <ul className="navi__wrapper">
+            <div className="first-list">
+              <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
+              twixxer
+              <span onClick={changeLanguage} className="lang__span">
+                <FontAwesomeIcon icon={faGlobe} className="lang__icon" />
+                {navLang ? "ENG" : "KOR"}
+              </span>
+            </div>
+            <Link to="/">
+              <li>
+                <FontAwesomeIcon icon={faHouse} className="nav__icons" />
+                {navLang ? "홈" : "Home"}
+              </li>
+            </Link>
+            <Link to="/explore">
+              <li>
+                <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
+                {navLang ? "탐색" : "Explore"}
+              </li>
+            </Link>
+            <Link to="/notifications">
+              <li>
+                <FontAwesomeIcon icon={faBell} className="nav__icons" />
+                {navLang ? "알림" : "Notifications"}
+              </li>
+            </Link>
+            <Link to="/messages">
+              <li>
+                <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
+                {navLang ? "메세지" : "Messages"}
+              </li>
+            </Link>
+            <Link to="/bookmarks">
+              <li>
+                <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
+                {navLang ? "북마크" : "Bookmarks"}
+              </li>
+            </Link>
+            <Link to="/lists">
+              <li>
+                <FontAwesomeIcon icon={faList} className="nav__icons" />
+                {navLang ? "목록" : "Lists"}
+              </li>
+            </Link>
+            <Link to="/profile">
+              <li>
+                <FontAwesomeIcon icon={faUser} className="nav__icons" />
+                {navLang ? "프로필" : "Profile"}
+              </li>
+            </Link>
 
-          <li onClick={handleLogout} className="logout">
-            <FontAwesomeIcon
-              icon={faArrowRightFromBracket}
-              className="nav__icons"
-            />
-            {navLang ? "로그아웃" : "Logout"}
-          </li>
-        </ul>
-      </div>
+            <li onClick={handleLogout} className="logout">
+              <FontAwesomeIcon
+                icon={faArrowRightFromBracket}
+                className="nav__icons"
+              />
+              {navLang ? "로그아웃" : "Logout"}
+            </li>
+          </ul>
+        </div>
+        <div className="empty__div"></div>
+      </>
     </NaviStyle>
   );
 };

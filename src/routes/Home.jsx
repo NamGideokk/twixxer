@@ -4,12 +4,7 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUp,
-  faPaperPlane,
-  faPen,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -29,7 +24,7 @@ const FormStyle = styled.div`
     margin-top: 250px;
   }
   .feed__container {
-    width: 500px;
+    width: 555px;
     height: fit-content;
     padding: 20px;
     background-color: var(--logo-color);
@@ -135,7 +130,8 @@ const MainFrameStyle = styled.div`
       width: fit-content;
     }
     .sec__b {
-      flex-grow: 2;
+      /* flex-grow: 2; */
+      width: fit-content;
     }
     .sec__c {
       background-color: green;

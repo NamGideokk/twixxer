@@ -7,16 +7,20 @@ import { collection, addDoc } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 
 const FeedFormStyle = styled.div`
+  .empty__div {
+    width: 700px;
+  }
+
   .user__wrapper {
     // 너비 수정 필요
-    width: 775px;
+    width: 700px;
     height: fit-content;
-    background-color: rgba(192, 75, 255, 0.7);
-    backdrop-filter: blur(15px);
+    background-color: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(10px);
     padding: 20px 20px;
-    margin: 0 auto 20px auto;
     position: fixed;
     top: 0;
+    z-index: 99;
   }
   .avatar {
     width: 80px;
@@ -28,7 +32,8 @@ const FeedFormStyle = styled.div`
   }
   .user-email {
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    color: var(--logo-dark-color);
   }
 
   .feed__form {
@@ -36,14 +41,14 @@ const FeedFormStyle = styled.div`
     height: fit-content;
 
     input {
-      width: 570px;
+      width: 100%;
       height: 50px;
       padding: 0 20px;
       border: none;
       border-radius: 10px;
       font-size: 24px;
       transition: 0.5s;
-      background-color: #eeeeee;
+      background-color: #e1e1e1;
 
       :focus {
         background-color: white;
@@ -116,26 +121,29 @@ const FeedForm = () => {
 
   return (
     <FeedFormStyle>
-      <div className="user__wrapper">
-        <img src={photoURL} alt="avatar" className="avatar" />
-        <h1 className="user-email">{currentUser?.email}</h1>
-        <form onSubmit={onSubmit} className="feed__form">
-          <input
-            type="text"
-            placeholder="친구들과 소식을 공유하세요!"
-            maxLength={120}
-            value={feed}
-            onChange={onChange}
-          />
-
-          <button type="submit" className="upload-feed__button">
-            <FontAwesomeIcon
-              icon={faPaperPlane}
-              className="upload-feed__icon"
+      <>
+        <div className="empty__div"></div>
+        <div className="user__wrapper">
+          <img src={photoURL} alt="avatar" className="avatar" />
+          <h1 className="user-email">{currentUser?.email}</h1>
+          <form onSubmit={onSubmit} className="feed__form">
+            <input
+              type="text"
+              placeholder="친구들과 소식을 공유하세요!"
+              maxLength={120}
+              value={feed}
+              onChange={onChange}
             />
-          </button>
-        </form>
-      </div>
+
+            <button type="submit" className="upload-feed__button">
+              <FontAwesomeIcon
+                icon={faPaperPlane}
+                className="upload-feed__icon"
+              />
+            </button>
+          </form>
+        </div>
+      </>
     </FeedFormStyle>
   );
 };
