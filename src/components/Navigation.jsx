@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, useAuth } from "myFirebase";
+import { logout } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHashtag,
@@ -33,10 +33,14 @@ const NaviStyle = styled.div`
     height: fit-content;
     padding: 17px 0;
     background-color: var(--logo-color);
-    font-size: 28px;
+    font-size: 24px;
     border-radius: 10px;
+    /* position: fixed;
+    top: 0;
+    left: 0; */
 
     .first-list {
+      font-size: 30px;
       padding: 10px;
       padding-top: 0;
 
@@ -83,44 +87,11 @@ const NaviStyle = styled.div`
   .logo__icon {
     width: 60px;
   }
-
-  .user__wrapper {
-    width: fit-content;
-    height: fit-content;
-    background-color: var(--logo-color);
-    border-radius: 10px;
-    padding: 0 20px;
-    margin: 0 auto 20px auto;
-  }
-  .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: white;
-    object-fit: cover;
-    margin-top: 10px;
-    margin-right: 20px;
-  }
-  .user-email {
-    display: inline-block;
-  }
 `;
 
 const Navigation = () => {
-  const currentUser = useAuth();
   const navi = useNavigate();
-
-  const [photoURL, setPhotoURL] = useState(
-    "http://cdn.onlinewebfonts.com/svg/img_264570.png"
-  );
   const [navLang, setNavLang] = useState(true);
-
-  useEffect(() => {
-    // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
-    if (currentUser?.photoURL) {
-      setPhotoURL(currentUser.photoURL);
-    }
-  }, [currentUser]);
 
   async function handleLogout() {
     try {
@@ -140,10 +111,6 @@ const Navigation = () => {
   return (
     <NaviStyle>
       <div className="wrapper">
-        <div className="user__wrapper">
-          <img src={photoURL} alt="avatar" className="avatar" />
-          <h1 className="user-email">{currentUser?.email}</h1>
-        </div>
         <ul className="navi__wrapper">
           <div className="first-list">
             <FontAwesomeIcon icon={faTwitter} className="logo__icon" />

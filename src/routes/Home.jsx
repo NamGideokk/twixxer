@@ -22,42 +22,12 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
+import FeedForm from "components/FeedForm";
 
 const FormStyle = styled.div`
-  .feed__form {
-    width: 700px;
-    height: fit-content;
-    padding: 20px;
-    margin: 100px auto;
-    text-align: center;
-
-    input {
-      width: 55%;
-      height: 50px;
-      padding: 0 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 24px;
-      transition: 0.5s;
-      background-color: #eeeeee;
-
-      :focus {
-        width: 100%;
-        background-color: white;
-        box-shadow: 0 0 15px var(--logo-color);
-      }
-    }
-
-    button {
-      font-size: 30px;
-      padding: 5px;
-      background-color: transparent;
-      color: var(--logo-color);
-      position: absolute;
-      transform: translate(-50px, 5px);
-    }
+  .feed__cont__wrapper {
+    margin-top: 250px;
   }
-
   .feed__container {
     width: 500px;
     height: fit-content;
@@ -165,7 +135,6 @@ const MainFrameStyle = styled.div`
       width: fit-content;
     }
     .sec__b {
-      background-color: yellow;
       flex-grow: 2;
     }
     .sec__c {
@@ -180,7 +149,6 @@ const Home = () => {
   const [getFeeds, setGetFeeds] = useState([
     { content: "로딩중...", createdAt: "로딩중...", id: "initial" },
   ]);
-  const [feed, setFeed] = useState("");
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
 
@@ -197,43 +165,6 @@ const Home = () => {
 
     return unsub;
   }, []);
-
-  // 피드 작성
-  async function onSubmit(e) {
-    e.preventDefault();
-    if (feed.length === 0) {
-      alert("내용을 입력해 주세요.");
-    } else {
-      // doc 이름, ID
-      // const docRef = doc(myFirestore, "feeds", "feed001");
-      // const payload = { content: feed };
-      // await setDoc(docRef, payload);
-      // alert("피드 작성!");
-
-      // 세번째 인자값 (id?)를 비워두면 자동랜덤 생성?
-      try {
-        const collectionRef = collection(myFirestore, "feeds");
-        const payload = {
-          userId: currentUser.email,
-          photo: currentUser.photoURL,
-          content: feed,
-          createdAt: Date(),
-        };
-        await addDoc(collectionRef, payload);
-        setFeed("");
-      } catch (e) {
-        console.log(e.code);
-        alert(e.message);
-      }
-    }
-  }
-
-  function onChange(e) {
-    const {
-      target: { value },
-    } = e;
-    setFeed(value);
-  }
 
   function handleEdit(id) {
     setEdit(true);
@@ -288,53 +219,46 @@ const Home = () => {
               <div className="sec__a">
                 <Navigation />
               </div>
-              <div className="sec__b">b</div>
+              <div className="sec__b">
+                <FeedForm />
+                <FormStyle>
+                  <div className="feed__cont__wrapper">
+                    {getFeeds.map((feed) => (
+                      <div
+                        key={feed.id}
+                        className="feed__container"
+                        ref={feedCont}
+                      >
+                        <img src={feed.photo} alt="avatar" />
+                        <h2>{feed.userId}</h2>
+                        {currentUser?.email === feed.userId ? (
+                          <>
+                            <FontAwesomeIcon
+                              icon={faPen}
+                              className="edit__button"
+                              onClick={() => handleEdit(feed.id)}
+                              title="수정하기"
+                            />
+                            <FontAwesomeIcon
+                              icon={faX}
+                              className="delete__button"
+                              onClick={() => handleDelete(feed.id)}
+                              title="삭제하기"
+                            />
+                          </>
+                        ) : null}
+                        <h3>{feed.content}</h3>
+                        <small>{feed.createdAt.substring(0, 21)}</small>
+                        <button onClick={ani}>애니메이션</button>
+                      </div>
+                    ))}
+                  </div>
+                </FormStyle>
+              </div>
               <div className="sec__c">c</div>
             </div>
           </MainFrameStyle>
-          <FormStyle>
-            <form onSubmit={onSubmit} className="feed__form">
-              <input
-                type="text"
-                placeholder="친구들과 소식을 공유하세요!"
-                maxLength={120}
-                value={feed}
-                onChange={onChange}
-              />
 
-              <button type="submit" className="upload-feed__button">
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                  className="upload-feed__icon"
-                />
-              </button>
-            </form>
-            {getFeeds.map((feed) => (
-              <div key={feed.id} className="feed__container" ref={feedCont}>
-                <img src={feed.photo} alt="avatar" />
-                <h2>{feed.userId}</h2>
-                {currentUser?.email === feed.userId ? (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      className="edit__button"
-                      onClick={() => handleEdit(feed.id)}
-                      title="수정하기"
-                    />
-                    <FontAwesomeIcon
-                      icon={faX}
-                      className="delete__button"
-                      onClick={() => handleDelete(feed.id)}
-                      title="삭제하기"
-                    />
-                  </>
-                ) : null}
-                <h3>{feed.content}</h3>
-                <small>{feed.createdAt.substring(0, 21)}</small>
-                <button onClick={ani}>애니메이션</button>
-              </div>
-            ))}
-          </FormStyle>
           <FontAwesomeIcon
             icon={faArrowUp}
             className="up__button"
