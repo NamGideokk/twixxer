@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Footer from "components/Footer";
 import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
@@ -35,17 +34,18 @@ import Loading from "common/Loading";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
-    margin-top: 250px;
+    margin-top: 220px;
   }
   .feed__container {
-    width: 555px;
+    /* width: 555px; */
+    width: 100%;
     height: fit-content;
-    padding: 20px;
+    padding: 20px 40px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
     margin: 0 auto;
     transition: 0.3s;
-    border: 1px solid #828282;
+    border: 1px solid #525252;
     animation: go-up 0.5s;
 
     img {
@@ -196,6 +196,7 @@ const MainFrameStyle = styled.div`
 
     .sec__a {
       width: fit-content;
+      padding: 0 20px;
     }
     .sec__b {
       /* flex-grow: 2; */
@@ -207,6 +208,7 @@ const MainFrameStyle = styled.div`
     .sec__c {
       /* background-color: green; */
       flex-grow: 1;
+      padding: 0 20px;
     }
   }
 `;

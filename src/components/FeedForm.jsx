@@ -13,7 +13,7 @@ const FeedFormStyle = styled.div`
 
   .user__wrapper {
     // 너비 수정 필요
-    width: 700px;
+    width: 720px;
     height: fit-content;
     background-color: rgba(30, 30, 30, 0.7);
     backdrop-filter: blur(10px);
