@@ -200,6 +200,8 @@ const MainFrameStyle = styled.div`
     .sec__b {
       /* flex-grow: 2; */
       width: fit-content;
+      height: fit-content;
+      padding-bottom: 100px;
     }
 
     .sec__c {
@@ -326,14 +328,14 @@ const Home = () => {
                                   icon={faHeart}
                                   className="heart__button fill-heart"
                                   onClick={clickLike}
-                                  title="좋아요"
+                                  title="좋아요 취소"
                                 />
                               ) : (
                                 <FontAwesomeIcon
                                   icon={borderHeart}
                                   className="heart__button"
                                   onClick={clickLike}
-                                  title="좋아요 취소"
+                                  title="좋아요"
                                 />
                               )}
                               3029

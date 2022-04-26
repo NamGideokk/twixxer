@@ -9,7 +9,7 @@ body {
   background-color: rgb(30, 30, 30);
 }
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 15px;
 }
 *::-webkit-scrollbar-thumb {
   background-color: var(--logo-dark-color);
@@ -18,8 +18,8 @@ body {
   border: 2px solid transparent;
 }
 *::-webkit-scrollbar-track {
-  background-color: var(--logo-light-color);
-  box-shadow: inset 0px 0px 5px white;
+  background-color: rgb(30, 30, 30);
+  box-shadow: inset 0px 0px 5px rgb(61, 61, 61);
 }
 
 :root {
