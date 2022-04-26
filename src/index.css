@@ -2,11 +2,24 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Godo";
+  font-family: "NanumSquareRound";
 }
 
 body {
   background-color: rgb(30, 30, 30);
+}
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--logo-dark-color);
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+*::-webkit-scrollbar-track {
+  background-color: var(--logo-light-color);
+  box-shadow: inset 0px 0px 5px white;
 }
 
 :root {
@@ -23,6 +36,14 @@ body {
       format("woff2"),
     url("//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff")
       format("woff");
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 button {

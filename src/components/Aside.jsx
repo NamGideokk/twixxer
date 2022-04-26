@@ -2,9 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const AsideStyle = styled.div`
+  .empty__div {
+    width: 400px;
+  }
+
   .aside__wrapper {
-    width: 100%;
+    width: 400px;
     height: fit-content;
+    position: fixed;
+    top: 0;
 
     form > input {
       width: 100%;
@@ -36,6 +42,7 @@ const Aside = () => {
   }
   return (
     <AsideStyle>
+      <div className="empty__div"></div>
       <div className="aside__wrapper">
         <form onSubmit={searchTwixxer}>
           <input type="text" placeholder="전세계의 소식을 검색하세요" />

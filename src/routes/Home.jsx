@@ -31,6 +31,7 @@ import {
   faHeart as borderHeart,
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
+import Loading from "common/Loading";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -96,6 +97,7 @@ const FormStyle = styled.div`
         color: #ff4444;
       }
     }
+
     .bm__icon {
       width: 30px;
       height: 30px;
@@ -199,6 +201,7 @@ const MainFrameStyle = styled.div`
       /* flex-grow: 2; */
       width: fit-content;
     }
+
     .sec__c {
       /* background-color: green; */
       flex-grow: 1;
@@ -208,12 +211,11 @@ const MainFrameStyle = styled.div`
 
 const Home = () => {
   const currentUser = useAuth();
-  const [getFeeds, setGetFeeds] = useState([
-    { content: "로딩중...", createdAt: "로딩중...", id: "initial" },
-  ]);
+  const [getFeeds, setGetFeeds] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const feedCont = useRef();
 
@@ -263,8 +265,6 @@ const Home = () => {
     }
   }
 
-  function ani() {}
-
   // 화면 위로 이동 버튼
   function upButton() {
     window.scroll({
@@ -291,70 +291,76 @@ const Home = () => {
                 <FeedForm />
                 <FormStyle>
                   <div className="feed__cont__wrapper">
-                    {getFeeds.map((feed) => (
-                      <div
-                        key={feed.id}
-                        className="feed__container"
-                        ref={feedCont}
-                      >
-                        <img src={feed.photo} alt="avatar" />
-                        <h2>{feed.userId}</h2>
-                        {currentUser?.email === feed.userId ? (
-                          <>
-                            <FontAwesomeIcon
-                              icon={faPen}
-                              className="edit__button"
-                              onClick={() => handleEdit(feed.id)}
-                              title="수정하기"
-                            />
-                            <FontAwesomeIcon
-                              icon={faX}
-                              className="delete__button"
-                              onClick={() => handleDelete(feed.id)}
-                              title="삭제하기"
-                            />
-                          </>
-                        ) : null}
-                        <h3>{feed.content}</h3>
-                        <small>{feed.createdAt.substring(0, 21)}</small>
-                        <button onClick={ani}>애니메이션</button>
-                        <div className="feed-icons__wrapper">
-                          <span>
-                            {like ? (
+                    {getFeeds ? (
+                      getFeeds.map((feed) => (
+                        <div
+                          key={feed.id}
+                          className="feed__container"
+                          ref={feedCont}
+                        >
+                          <img src={feed.photo} alt="avatar" />
+                          <h2>{feed.userId}</h2>
+                          {currentUser?.email === feed.userId ? (
+                            <>
                               <FontAwesomeIcon
-                                icon={faHeart}
-                                className="heart__button fill-heart"
-                                onClick={clickLike}
-                                title="좋아요"
+                                icon={faPen}
+                                className="edit__button"
+                                onClick={() => handleEdit(feed.id)}
+                                title="수정하기"
                               />
-                            ) : (
                               <FontAwesomeIcon
-                                icon={borderHeart}
-                                className="heart__button"
-                                onClick={clickLike}
-                                title="좋아요 취소"
+                                icon={faX}
+                                className="delete__button"
+                                onClick={() => handleDelete(feed.id)}
+                                title="삭제하기"
                               />
-                            )}
-                            3029
-                          </span>
-                          <span className="bm__icon">
-                            <FontAwesomeIcon icon={faBookmark} title="북마크" />
-                          </span>
-                          <span className="cm__icon">
-                            <FontAwesomeIcon icon={faComment} title="댓글" />
-                          </span>
-                          <span className="rp__icon">
-                            <FontAwesomeIcon icon={faRepeat} title="리트윅" />
-                          </span>
-                          <span className="sr__icon">
-                            <FontAwesomeIcon
-                              icon={faShareFromSquare}
-                              title="공유"
-                            />
-                          </span>
+                            </>
+                          ) : null}
+                          <h3>{feed.content}</h3>
+                          <small>{feed.createdAt.substring(0, 21)}</small>
+                          <div className="feed-icons__wrapper">
+                            <span className="lk__icon">
+                              {like ? (
+                                <FontAwesomeIcon
+                                  icon={faHeart}
+                                  className="heart__button fill-heart"
+                                  onClick={clickLike}
+                                  title="좋아요"
+                                />
+                              ) : (
+                                <FontAwesomeIcon
+                                  icon={borderHeart}
+                                  className="heart__button"
+                                  onClick={clickLike}
+                                  title="좋아요 취소"
+                                />
+                              )}
+                              3029
+                            </span>
+                            <span className="bm__icon">
+                              <FontAwesomeIcon
+                                icon={faBookmark}
+                                title="북마크"
+                              />
+                            </span>
+                            <span className="cm__icon">
+                              <FontAwesomeIcon icon={faComment} title="댓글" />
+                            </span>
+                            <span className="rp__icon">
+                              <FontAwesomeIcon icon={faRepeat} title="리트윅" />
+                            </span>
+                            <span className="sr__icon">
+                              <FontAwesomeIcon
+                                icon={faShareFromSquare}
+                                title="공유"
+                              />
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    ) : (
+                      <Loading />
+                    )}
                   </div>
                 </FormStyle>
               </div>
@@ -370,7 +376,6 @@ const Home = () => {
             title="맨 위로 이동"
             onClick={upButton}
           />
-          <Footer />
         </>
       ) : (
         <Auth />
