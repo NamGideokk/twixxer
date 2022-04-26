@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
+import Aside from "components/Aside";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -134,7 +135,7 @@ const MainFrameStyle = styled.div`
       width: fit-content;
     }
     .sec__c {
-      background-color: green;
+      /* background-color: green; */
       flex-grow: 1;
     }
   }
@@ -251,7 +252,9 @@ const Home = () => {
                   </div>
                 </FormStyle>
               </div>
-              <div className="sec__c">c</div>
+              <div className="sec__c">
+                <Aside />
+              </div>
             </div>
           </MainFrameStyle>
 
