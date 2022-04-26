@@ -4,7 +4,13 @@ import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faPen, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUp,
+  faHeart,
+  faPen,
+  faRepeat,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -19,6 +25,12 @@ import {
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
 import Aside from "components/Aside";
+import {
+  faBookmark,
+  faComment,
+  faHeart as borderHeart,
+  faShareFromSquare,
+} from "@fortawesome/free-regular-svg-icons";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -28,23 +40,18 @@ const FormStyle = styled.div`
     width: 555px;
     height: fit-content;
     padding: 20px;
-    background-color: var(--logo-color);
-    margin: 30px auto;
+    background-color: rgb(30, 30, 30);
+    color: #dcdcdc;
+    margin: 0 auto;
     transition: 0.3s;
-
+    border: 1px solid #828282;
     animation: go-up 0.5s;
-
-    :hover {
-      transform: translateY(-5px) scale(1.1);
-      background-color: var(--logo-dark-color);
-    }
 
     img {
       width: 60px;
       height: 60px;
       object-fit: cover;
       border-radius: 50%;
-      border: 2px solid var(--logo-color);
     }
 
     h2 {
@@ -64,6 +71,64 @@ const FormStyle = styled.div`
 
       :hover {
         color: white;
+      }
+    }
+
+    .feed-icons__wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    span {
+      text-align: center;
+      width: fit-content;
+      padding: 7px;
+      font-size: 17px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: 0.3s;
+
+      .heart__button {
+        margin-right: 5px;
+      }
+      .fill-heart {
+        color: #ff4444;
+      }
+    }
+    .bm__icon {
+      width: 30px;
+      height: 30px;
+
+      :hover {
+        color: #5252ff;
+        background-color: #5252ff2f;
+      }
+    }
+    .cm__icon {
+      width: 30px;
+      height: 30px;
+
+      :hover {
+        color: #14ad14;
+        background-color: #40c9402f;
+      }
+    }
+    .rp__icon {
+      width: 30px;
+      height: 30px;
+
+      :hover {
+        color: #d000be;
+        background-color: #d000be2f;
+      }
+    }
+    .sr__icon {
+      width: 30px;
+      height: 30px;
+      :hover {
+        color: #d48e0e;
+        background-color: #f0b4432f;
       }
     }
   }
@@ -148,6 +213,7 @@ const Home = () => {
   ]);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
+  const [like, setLike] = useState(false);
 
   const feedCont = useRef();
 
@@ -207,6 +273,11 @@ const Home = () => {
     });
   }
 
+  // 피드 좋아요 버튼 클릭
+  function clickLike(e) {
+    setLike(!like);
+  }
+
   return (
     <>
       {currentUser ? (
@@ -247,6 +318,41 @@ const Home = () => {
                         <h3>{feed.content}</h3>
                         <small>{feed.createdAt.substring(0, 21)}</small>
                         <button onClick={ani}>애니메이션</button>
+                        <div className="feed-icons__wrapper">
+                          <span>
+                            {like ? (
+                              <FontAwesomeIcon
+                                icon={faHeart}
+                                className="heart__button fill-heart"
+                                onClick={clickLike}
+                                title="좋아요"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={borderHeart}
+                                className="heart__button"
+                                onClick={clickLike}
+                                title="좋아요 취소"
+                              />
+                            )}
+                            3029
+                          </span>
+                          <span className="bm__icon">
+                            <FontAwesomeIcon icon={faBookmark} title="북마크" />
+                          </span>
+                          <span className="cm__icon">
+                            <FontAwesomeIcon icon={faComment} title="댓글" />
+                          </span>
+                          <span className="rp__icon">
+                            <FontAwesomeIcon icon={faRepeat} title="리트윅" />
+                          </span>
+                          <span className="sr__icon">
+                            <FontAwesomeIcon
+                              icon={faShareFromSquare}
+                              title="공유"
+                            />
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>

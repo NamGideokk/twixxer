@@ -20,7 +20,8 @@ const AsideStyle = styled.div`
     }
   }
 
-  .trends__wrapper {
+  .trends__wrapper,
+  .follow__wrapper {
     width: 100%;
     height: 500px;
     background-color: var(--logo-color);
@@ -42,6 +43,9 @@ const Aside = () => {
         </form>
         <div className="trends__wrapper">
           <h2>당신을 위한 핫이슈 🔥</h2>
+        </div>
+        <div className="follow__wrapper">
+          <h2>팔로우 추천</h2>
         </div>
       </div>
     </AsideStyle>

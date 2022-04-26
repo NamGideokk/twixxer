@@ -65,6 +65,15 @@ a {
   }
 }
 
+@keyframes like-action {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
 .wrapper-st {
   width: 100%;
   height: 100%;
