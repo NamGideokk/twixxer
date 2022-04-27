@@ -3,14 +3,17 @@ import styled from "styled-components";
 
 const AsideStyle = styled.div`
   .empty__div {
-    width: 400px;
+    width: 380px;
+    margin: 0 auto;
   }
 
   .aside__wrapper {
-    width: 400px;
+    max-width: 380px;
+    width: 100%;
     height: fit-content;
     position: fixed;
     top: 0;
+    margin: 0 auto;
 
     form > input {
       width: 100%;

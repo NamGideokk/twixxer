@@ -5,10 +5,10 @@ import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUp,
+  faCirclePlus,
+  faCircleXmark,
   faHeart,
-  faPen,
   faRepeat,
-  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
@@ -34,19 +34,50 @@ import Loading from "common/Loading";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
-    margin-top: 220px;
+    /* margin-top: 220px; */
   }
   .feed__container {
     /* width: 555px; */
     width: 100%;
     height: fit-content;
-    padding: 20px 40px;
+    padding: 20px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
     margin: 0 auto;
     transition: 0.3s;
     border: 1px solid #525252;
     animation: go-up 0.5s;
+    display: grid;
+    grid-template-columns: 60px 1fr 70px;
+    grid-template-rows: 60px 1fr 20px 50px;
+    grid-template-areas:
+      "fc01 fc02 fc03"
+      "fc04 fc04 fc04"
+      "fc05 fc05 fc05"
+      "fc06 fc06 fc06";
+
+    .fc01 {
+      grid-area: fc01;
+    }
+    .fc02 {
+      grid-area: fc02;
+      padding-top: 18px;
+    }
+    .fc03 {
+      grid-area: fc03;
+    }
+    .fc04 {
+      grid-area: fc04;
+      padding-top: 20px;
+      padding-bottom: 10px;
+    }
+    .fc05 {
+      grid-area: fc05;
+    }
+    .fc06 {
+      grid-area: fc06;
+      padding-top: 20px;
+    }
 
     img {
       width: 60px;
@@ -57,7 +88,7 @@ const FormStyle = styled.div`
 
     h2 {
       display: inline-block;
-      margin-left: 10px;
+      margin-left: 20px;
       margin-bottom: 10px;
       margin-right: 50px;
     }
@@ -78,7 +109,6 @@ const FormStyle = styled.div`
     .feed-icons__wrapper {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
     }
 
     span {
@@ -133,9 +163,15 @@ const FormStyle = styled.div`
         background-color: #f0b4432f;
       }
     }
+
+    .writer__buttons {
+      text-align: right;
+      font-size: 20px;
+    }
   }
   .edit__button {
     margin-right: 10px;
+    color: #ffb01f95;
   }
 
   .edit__button,
@@ -144,11 +180,14 @@ const FormStyle = styled.div`
     transition: 0.3s;
 
     :hover {
-      color: white;
+      color: #ffb01f;
     }
   }
-  .delete__button:hover {
-    color: red;
+  .delete__button {
+    color: #ff353595;
+    :hover {
+      color: #ff3535;
+    }
   }
 
   .prev-content {
@@ -190,7 +229,7 @@ const MainFrameStyle = styled.div`
   .main__frame {
     display: flex;
     max-width: 1500px;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     margin: 0 auto;
 
@@ -199,15 +238,12 @@ const MainFrameStyle = styled.div`
       padding: 0 20px;
     }
     .sec__b {
-      /* flex-grow: 2; */
-      width: fit-content;
       height: fit-content;
       padding-bottom: 100px;
+      min-width: 500px;
     }
 
     .sec__c {
-      /* background-color: green; */
-      flex-grow: 1;
       padding: 0 20px;
     }
   }
@@ -296,76 +332,96 @@ const Home = () => {
                 <FeedForm />
                 <FormStyle>
                   <div className="feed__cont__wrapper">
+                    {/* 피드 컨테이너 */}
                     {getFeeds ? (
                       getFeeds.map((feed) => (
                         <div
-                          key={feed.id}
                           className="feed__container"
+                          key={feed.id}
                           ref={feedCont}
                         >
-                          <img src={feed.photo} alt="avatar" />
-                          <h2>{feed.userId}</h2>
-                          {currentUser?.email === feed.userId ? (
-                            <>
-                              <FontAwesomeIcon
-                                icon={faPen}
-                                className="edit__button"
-                                onClick={() => handleEdit(feed.id)}
-                                title="수정하기"
-                              />
-                              <FontAwesomeIcon
-                                icon={faX}
-                                className="delete__button"
-                                onClick={() => handleDelete(feed.id)}
-                                title="삭제하기"
-                              />
-                            </>
-                          ) : null}
-                          <h3>{feed.content}</h3>
-                          <small>{feed.createdAt.substring(0, 21)}</small>
-                          <div className="feed-icons__wrapper">
-                            <span className="lk__icon">
-                              {like ? (
+                          <div className="fc01">
+                            <img src={feed.photo} alt="avatar" />
+                          </div>
+                          <div className="fc02">
+                            <h2>{feed.userId}</h2>
+                          </div>
+                          <div className="fc03">
+                            {currentUser?.email === feed.userId ? (
+                              <div className="writer__buttons">
                                 <FontAwesomeIcon
-                                  icon={faHeart}
-                                  className="heart__button fill-heart"
-                                  onClick={clickLike}
-                                  title="좋아요 취소"
+                                  icon={faCirclePlus}
+                                  className="edit__button"
+                                  onClick={() => handleEdit(feed.id)}
+                                  title="수정하기"
                                 />
-                              ) : (
                                 <FontAwesomeIcon
-                                  icon={borderHeart}
-                                  className="heart__button"
-                                  onClick={clickLike}
-                                  title="좋아요"
+                                  icon={faCircleXmark}
+                                  className="delete__button"
+                                  onClick={() => handleDelete(feed.id)}
+                                  title="삭제하기"
                                 />
-                              )}
-                              3029
-                            </span>
-                            <span className="bm__icon">
-                              <FontAwesomeIcon
-                                icon={faBookmark}
-                                title="북마크"
-                              />
-                            </span>
-                            <span className="cm__icon">
-                              <FontAwesomeIcon icon={faComment} title="댓글" />
-                            </span>
-                            <span className="rp__icon">
-                              <FontAwesomeIcon icon={faRepeat} title="리트윅" />
-                            </span>
-                            <span className="sr__icon">
-                              <FontAwesomeIcon
-                                icon={faShareFromSquare}
-                                title="공유"
-                              />
-                            </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="fc04">
+                            <h3>{feed.content}</h3>
+                          </div>
+                          <div className="fc05">
+                            <small>{feed.createdAt.substring(0, 21)}</small>
+                          </div>
+                          <div className="fc06">
+                            <div className="feed-icons__wrapper">
+                              <span className="lk__icon">
+                                {like ? (
+                                  <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className="heart__button fill-heart"
+                                    onClick={clickLike}
+                                    title="좋아요 취소"
+                                  />
+                                ) : (
+                                  <FontAwesomeIcon
+                                    icon={borderHeart}
+                                    className="heart__button"
+                                    onClick={clickLike}
+                                    title="좋아요"
+                                  />
+                                )}
+                                3029
+                              </span>
+                              <span className="bm__icon">
+                                <FontAwesomeIcon
+                                  icon={faBookmark}
+                                  title="북마크"
+                                />
+                              </span>
+                              <span className="cm__icon">
+                                <FontAwesomeIcon
+                                  icon={faComment}
+                                  title="댓글"
+                                />
+                              </span>
+                              <span className="rp__icon">
+                                <FontAwesomeIcon
+                                  icon={faRepeat}
+                                  title="리트윅"
+                                />
+                              </span>
+                              <span className="sr__icon">
+                                <FontAwesomeIcon
+                                  icon={faShareFromSquare}
+                                  title="공유"
+                                />
+                              </span>
+                            </div>
                           </div>
                         </div>
                       ))
                     ) : (
                       <Loading />
                     )}
+                    {/* 피드 컨테이너 끝 */}
                   </div>
                 </FormStyle>
               </div>
