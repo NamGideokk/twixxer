@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../routes/Home";
-import Auth from "../routes/Auth";
 import { useAuth } from "myFirebase";
 import Profile from "routes/Profile";
 

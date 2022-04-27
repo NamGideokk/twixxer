@@ -63,7 +63,7 @@ const NaviStyle = styled.div`
 
     li {
       width: 300px;
-      padding: 15px;
+      padding: 12px 15px;
       color: white;
       cursor: pointer;
       transition: 0.3s;

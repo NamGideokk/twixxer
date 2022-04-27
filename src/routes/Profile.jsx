@@ -13,15 +13,15 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
+import Aside from "components/Aside";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
-    width: fit-content;
+    width: 100%;
     height: fit-content;
     padding: 20px;
     background-color: var(--logo-color);
-    border-radius: 10px;
-    margin: 50px auto;
+    margin: 0 auto;
   }
   .avatar__label {
     background-color: var(--logo-dark-color);
@@ -85,6 +85,29 @@ const ProfileStyle = styled.div`
     :hover {
       background-color: red;
       box-shadow: 0 5px 5px rgba(255, 0, 0, 0.3);
+    }
+  }
+
+  .main__frame {
+    display: flex;
+    max-width: 1500px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    background-color: beige;
+
+    .sec__a {
+      background-color: red;
+      width: 300px;
+    }
+    .sec__b {
+      background-color: orange;
+      width: 780px;
+      padding: 0 20px;
+    }
+    .sec__c {
+      background-color: yellowgreen;
+      width: 380px;
     }
   }
 `;
@@ -164,37 +187,54 @@ const Profile = () => {
 
   return (
     <>
-      <Navigation />
       <ProfileStyle>
-        <div className="profile__wrapper">
-          <img
-            src={prevPhotoURL ? prevPhotoURL : photoURL}
-            alt="avatar"
-            className="avatar"
-          />
-          {photo ? (
-            <>
+        <div className="main__frame">
+          <div className="sec__a">
+            <Navigation />
+          </div>
+          <div className="sec__b">
+            <div className="profile__wrapper">
+              <img
+                src={prevPhotoURL ? prevPhotoURL : photoURL}
+                alt="avatar"
+                className="avatar"
+              />
+              {photo ? (
+                <>
+                  <button
+                    disabled={loading}
+                    onClick={handleUpload}
+                    className="upload__button"
+                  >
+                    {loading ? "업로드중..." : "업로드"}
+                  </button>
+                  <button className="clear__button" onClick={clearNewPhoto}>
+                    취소
+                  </button>
+                </>
+              ) : (
+                <label htmlFor="file" className="avatar__label">
+                  <FontAwesomeIcon icon={faImage} className="img__icon" />
+                  아바타 변경
+                </label>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                id="file"
+                onChange={handleFile}
+              />
               <button
-                disabled={loading}
-                onClick={handleUpload}
-                className="upload__button"
+                className="all-feeds-delete__button"
+                onClick={allFeedsDelete}
               >
-                {loading ? "업로드중..." : "업로드"}
+                내 게시물 전부 삭제
               </button>
-              <button className="clear__button" onClick={clearNewPhoto}>
-                취소
-              </button>
-            </>
-          ) : (
-            <label htmlFor="file" className="avatar__label">
-              <FontAwesomeIcon icon={faImage} className="img__icon" />
-              아바타 변경
-            </label>
-          )}
-          <input type="file" accept="image/*" id="file" onChange={handleFile} />
-          <button className="all-feeds-delete__button" onClick={allFeedsDelete}>
-            내 게시물 전부 삭제
-          </button>
+            </div>
+          </div>
+          <div className="sec__c">
+            <Aside />
+          </div>
         </div>
       </ProfileStyle>
     </>

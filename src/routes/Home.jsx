@@ -194,6 +194,15 @@ const FormStyle = styled.div`
     width: 100%;
     height: 50px;
   }
+
+  /* 삭제 애니메이션 */
+  .delete__animation {
+    background-color: red;
+    color: white;
+    transform: translate(200px, -5px);
+    opacity: 0;
+    transition: 1s;
+  }
 `;
 
 const EditContainerStyle = styled.div`
@@ -202,10 +211,11 @@ const EditContainerStyle = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: fit-content;
+    width: 400px;
+    height: 400px;
     padding: 20px;
     background-color: var(--logo-color);
+    border-radius: 20px;
     margin: 30px auto;
     transition: 0.3s;
 
@@ -213,13 +223,28 @@ const EditContainerStyle = styled.div`
 
     textarea {
       width: 100%;
-      height: fit-content;
+      height: 80%;
       resize: none;
       font-size: 20px;
       padding: 10px;
+      border: none;
 
       :focus {
         outline: none;
+      }
+    }
+
+    button {
+      margin-top: 30px;
+      width: 50%;
+      font-size: 20px;
+      border-top: 1px solid white;
+      background-color: transparent;
+      padding: 15px 0;
+      color: white;
+
+      :nth-of-type(1) {
+        border-right: 1px solid white;
       }
     }
   }
@@ -235,16 +260,17 @@ const MainFrameStyle = styled.div`
 
     .sec__a {
       width: fit-content;
-      padding: 0 20px;
+      width: 300px;
     }
     .sec__b {
       height: fit-content;
       padding-bottom: 100px;
       min-width: 500px;
+      padding: 0 20px;
     }
 
     .sec__c {
-      padding: 0 20px;
+      width: 380px;
     }
   }
 `;
@@ -255,7 +281,8 @@ const Home = () => {
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [selectId, setSelectId] = useState();
 
   const feedCont = useRef();
 
@@ -264,45 +291,60 @@ const Home = () => {
     const collectionRef = collection(myFirestore, "feeds");
     const q = query(collectionRef, orderBy("createdAt", "desc"));
 
-    const unsub = onSnapshot(q, (snapshot) =>
-      setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    );
+    setLoading(true);
+    const unsub = onSnapshot(q, (snapshot) => {
+      setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
+    });
 
     return unsub;
   }, []);
 
+  // 피드 수정 모달창 열고 ID값 state에 저장
   function handleEdit(id) {
     setEdit(true);
-    const docRef = doc(myFirestore, "feeds", id);
-    const payload = {
-      userId: currentUser.email,
-      photo: currentUser.photoURL,
-      content: "수정했어요 수정됨",
-      createdAt: Date(),
-    };
-    setDoc(docRef, payload);
+    setSelectId(id);
   }
 
   function handleEditContent(e) {
     setEditContent(e.target.value);
   }
 
-  function editConfirm() {}
+  // 피드 수정하기 클릭
+  function editConfirm() {
+    const docRef = doc(myFirestore, "feeds", selectId);
+    const payload = {
+      userId: currentUser.email,
+      photo: currentUser.photoURL,
+      content: editContent,
+      createdAt: Date(),
+    };
+
+    if (editContent.length === 0) {
+      alert("내용을 입력해주세요");
+    } else {
+      setDoc(docRef, payload);
+      setEdit(false);
+      setEditContent("");
+    }
+  }
 
   async function handleDelete(id) {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    console.log(id);
 
-    if (confirmDelete) {
-      const docRef = doc(myFirestore, "feeds", id);
+    try {
+      if (confirmDelete) {
+        const docRef = doc(myFirestore, "feeds", id);
 
-      // 삭제 애니메이션
-      feedCont.current.style =
-        "background-color: red; color: white; transform: translate(200px,-5px); opacity: 0; transition: 1s;";
-
-      await setTimeout(() => {
-        deleteDoc(docRef);
-        feedCont.current.style = "display:none;";
-      }, 1000);
+        // 삭제 애니메이션 에러...
+        feedCont.current.className += " delete__animation";
+        await setTimeout(() => {
+          deleteDoc(docRef);
+        }, 1000);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
