@@ -87,21 +87,31 @@ const FeedFormStyle = styled.div`
 
     .alert__container {
       position: relative;
-      width: 200px;
+      width: fit-content;
       height: fit-content;
       background-color: var(--logo-dark-color);
       color: white;
-      padding: 10px;
+      padding: 20px;
       border-radius: 10px;
       margin: 0 10px 0 10px;
       text-align: center;
       transition: 0.5s;
+      box-shadow: 3px 3px 10px #b79aec inset, -3px -3px 7px #563692 inset;
+      z-index: 99;
 
       .alert__icon {
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         display: inline-block;
       }
     }
+  }
+  /* 새 피드 알림 창 애니메이션 */
+  .open-alert {
+    animation: new-feed-alert 2s cubic-bezier(0.38, -0.55, 0.35, 1.33);
+  }
+  .close-alert {
+    animation: close-new-feed-alert 2s forwards
+      cubic-bezier(0.38, -0.55, 0.35, 1.33);
   }
 `;
 
@@ -112,6 +122,7 @@ const FeedForm = () => {
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
   const [feed, setFeed] = useState("");
+  const [animation, setAnimation] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -144,7 +155,10 @@ const FeedForm = () => {
         };
         await addDoc(collectionRef, payload);
         setFeed("");
-        newFeedAlert();
+        setAnimation("open-alert");
+        setTimeout(() => {
+          newFeedAlert();
+        }, 1000);
       } catch (e) {
         console.log(e.code);
         alert(e.message);
@@ -161,16 +175,19 @@ const FeedForm = () => {
 
   // 피드 생성 알림창
   function newFeedAlert() {
+    setTimeout(() => {
+      setAnimation("close-alert");
+    }, 4000);
     const alertDiv = (
       <div className="alert__container">
         <AlertCircleOutline
           color={"white"}
-          width="25px"
-          height="25px"
-          // shake={true}
+          width="30px"
+          height="30px"
+          shake={true}
           className="alert__icon"
         />
-        <p>새 트윅이 작성되었습니다.</p>
+        <p>새 트윅이 작성되었습니다</p>
       </div>
     );
   }
@@ -197,7 +214,18 @@ const FeedForm = () => {
           </button>
         </form>
       </div>
-      <div className="new-feed-alert__wrapper"></div>
+      <div className="new-feed-alert__wrapper">
+        <div className={`alert__container ${animation}`}>
+          <AlertCircleOutline
+            color={"white"}
+            width="30px"
+            height="30px"
+            shake={true}
+            className="alert__icon"
+          />
+          <p>새 트윅이 작성되었습니다</p>
+        </div>
+      </div>
     </FeedFormStyle>
   );
 };
