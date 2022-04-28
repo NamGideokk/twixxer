@@ -15,17 +15,16 @@ const SignUpStyle = styled.div`
   }
   .signup__wrapper {
     width: 450px;
-    height: fit-content;
+    height: 327px;
     padding: 30px;
     background-color: rgb(30, 30, 30);
     backdrop-filter: blur(30px);
+    border-radius: 20px;
 
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -60%);
-
-    animation: showing 0.6s;
 
     input {
       width: 100%;
@@ -57,10 +56,10 @@ const SignUpStyle = styled.div`
 
   .back-login {
     width: 100%;
-    height: 40px;
     font-size: 18px;
+    padding: 10px 0;
     background-color: var(--logo-color);
-    margin-top: 46px;
+    margin-top: 70px;
     transition: 0.3s;
 
     :hover {
@@ -70,7 +69,7 @@ const SignUpStyle = styled.div`
 
   .error-text {
     color: #ff3232;
-    font-size: 14px;
+    font-size: 16px;
     position: absolute;
   }
 `;
@@ -80,6 +79,7 @@ const SignUp = ({ display, signUpModal }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
+  const [animation, setAnimation] = useState("fec__open-animation");
 
   function handleInput(e) {
     const {
@@ -115,7 +115,10 @@ const SignUp = ({ display, signUpModal }) => {
   return (
     <SignUpStyle>
       <div className="outside" style={{ display: display }}>
-        <form className="signup__wrapper" onSubmit={handleSignUp}>
+        <form
+          className={`signup__wrapper ${animation}`}
+          onSubmit={handleSignUp}
+        >
           <input
             name="email"
             type="email"

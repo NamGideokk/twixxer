@@ -167,7 +167,9 @@ const Auth = () => {
     if (name === "showSignUp") {
       setDisplay("block");
     } else if (name === "closeSignUp") {
-      setDisplay("none");
+      setTimeout(() => {
+        setDisplay("none");
+      }, 500);
     }
   }
 

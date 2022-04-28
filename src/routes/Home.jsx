@@ -180,6 +180,7 @@ const FormStyle = styled.div`
 
     :hover {
       color: #ffb01f;
+      transform: rotate(180deg);
     }
   }
   .delete__button {
@@ -283,7 +284,7 @@ const MainFrameStyle = styled.div`
 
 const Home = () => {
   const currentUser = useAuth();
-  const [getFeeds, setGetFeeds] = useState(false);
+  const [getFeeds, setGetFeeds] = useState();
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
@@ -332,6 +333,7 @@ const Home = () => {
       photo: currentUser.photoURL,
       content: editContent,
       createdAt: Date(),
+      editAt: "수정됨",
     };
 
     if (editContent.length === 0) {
@@ -363,7 +365,6 @@ const Home = () => {
         const docRef = doc(myFirestore, "feeds", id);
         setFeedContAnimation("delete__animation");
 
-        // 삭제 애니메이션 에러...
         await setTimeout(() => {
           deleteDoc(docRef);
           setFeedContAnimation("fc__open-animation");
@@ -383,8 +384,10 @@ const Home = () => {
   }
 
   // 피드 좋아요 버튼 클릭
-  function clickLike(e) {
+  function clickLike(id) {
+    setSelectId(id);
     setLike(!like);
+    console.log(id);
   }
 
   return (
@@ -430,13 +433,15 @@ const Home = () => {
                                   title="삭제하기"
                                 />
                               </div>
-                            ) : null}
+                            ) : null}     
                           </div>
                           <div className="fc04">
                             <h3>{feed.content}</h3>
                           </div>
                           <div className="fc05">
-                            <small>{feed.createdAt.substring(0, 21)}</small>
+                            <small>
+                              {feed.createdAt.substring(0, 21)}　{feed?.editAt}
+                            </small>
                           </div>
                           <div className="fc06">
                             <div className="feed-icons__wrapper">
@@ -445,18 +450,18 @@ const Home = () => {
                                   <FontAwesomeIcon
                                     icon={faHeart}
                                     className="heart__button fill-heart"
-                                    onClick={clickLike}
+                                    onClick={() => clickLike(feed.id)}
                                     title="좋아요 취소"
                                   />
                                 ) : (
                                   <FontAwesomeIcon
                                     icon={borderHeart}
                                     className="heart__button"
-                                    onClick={clickLike}
+                                    onClick={() => clickLike(feed.id)}
                                     title="좋아요"
                                   />
                                 )}
-                                3029
+                                {feed.like}
                               </span>
                               <span className="bm__icon">
                                 <FontAwesomeIcon

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { collection, addDoc } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
+import { AlertCircleOutline } from "react-ionicons";
 
 const FeedFormStyle = styled.div`
   .user__wrapper {
@@ -55,7 +56,7 @@ const FeedFormStyle = styled.div`
       border: none;
       border-radius: 10px;
       font-size: 24px;
-      transition: 0.5s;
+      transition: 0.2s;
       background-color: #e1e1e1;
       position: relative;
 
@@ -72,6 +73,34 @@ const FeedFormStyle = styled.div`
       color: var(--logo-color);
       position: absolute;
       transform: translate(-50px, 5px);
+    }
+  }
+
+  /* 새 피드 알림 창 */
+  .new-feed-alert__wrapper {
+    position: fixed;
+    left: 5%;
+    bottom: 5%;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+
+    .alert__container {
+      position: relative;
+      width: 200px;
+      height: fit-content;
+      background-color: var(--logo-dark-color);
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0 10px 0 10px;
+      text-align: center;
+      transition: 0.5s;
+
+      .alert__icon {
+        margin-bottom: 10px;
+        display: inline-block;
+      }
     }
   }
 `;
@@ -111,9 +140,11 @@ const FeedForm = () => {
           photo: currentUser.photoURL,
           content: feed,
           createdAt: Date(),
+          like: 0,
         };
         await addDoc(collectionRef, payload);
         setFeed("");
+        newFeedAlert();
       } catch (e) {
         console.log(e.code);
         alert(e.message);
@@ -126,6 +157,22 @@ const FeedForm = () => {
       target: { value },
     } = e;
     setFeed(value);
+  }
+
+  // 피드 생성 알림창
+  function newFeedAlert() {
+    const alertDiv = (
+      <div className="alert__container">
+        <AlertCircleOutline
+          color={"white"}
+          width="25px"
+          height="25px"
+          // shake={true}
+          className="alert__icon"
+        />
+        <p>새 트윅이 작성되었습니다.</p>
+      </div>
+    );
   }
 
   return (
@@ -150,6 +197,7 @@ const FeedForm = () => {
           </button>
         </form>
       </div>
+      <div className="new-feed-alert__wrapper"></div>
     </FeedFormStyle>
   );
 };
