@@ -83,7 +83,6 @@ const FeedForm = () => {
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
   const [feed, setFeed] = useState("");
-  const [animation, setAnimation] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면

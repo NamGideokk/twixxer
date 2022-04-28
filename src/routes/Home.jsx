@@ -290,6 +290,8 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState();
   const [animation, setAnimation] = useState("");
+  const [feedContAnimation, setFeedContAnimation] =
+    useState("fc__open-animation");
 
   const feedCont = useRef();
   const editCont = useRef();
@@ -359,10 +361,12 @@ const Home = () => {
     try {
       if (confirmDelete) {
         const docRef = doc(myFirestore, "feeds", id);
+        setFeedContAnimation("delete__animation");
 
         // 삭제 애니메이션 에러...
         await setTimeout(() => {
           deleteDoc(docRef);
+          setFeedContAnimation("fc__open-animation");
         }, 1000);
       }
     } catch (e) {
@@ -400,7 +404,7 @@ const Home = () => {
                     {getFeeds ? (
                       getFeeds.map((feed) => (
                         <div
-                          className="feed__container"
+                          className={`feed__container ${feedContAnimation}`}
                           key={feed.id}
                           ref={feedCont}
                         >
