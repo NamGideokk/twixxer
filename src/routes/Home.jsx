@@ -46,7 +46,6 @@ const FormStyle = styled.div`
     margin: 0 auto;
     transition: 0.3s;
     border: 1px solid #525252;
-    animation: go-up 0.5s;
     display: grid;
     grid-template-columns: 60px 1fr 70px;
     grid-template-rows: 60px 1fr 20px 50px;
@@ -213,16 +212,15 @@ const EditContainerStyle = styled.div`
     transform: translate(-50%, -50%);
     width: 400px;
     height: 400px;
-    padding: 20px;
+    padding: 40px 20px;
     background-color: var(--logo-color);
     border-radius: 20px;
     margin: 30px auto;
     transition: 0.3s;
-
-    animation: showing 0.6s;
+    text-align: center;
 
     textarea {
-      width: 100%;
+      width: 90%;
       height: 80%;
       resize: none;
       font-size: 20px;
@@ -235,18 +233,26 @@ const EditContainerStyle = styled.div`
     }
 
     button {
-      margin-top: 30px;
-      width: 50%;
+      margin-top: 20px;
+      width: 40%;
       font-size: 20px;
-      border-top: 1px solid white;
-      background-color: transparent;
-      padding: 15px 0;
+      background-color: var(--logo-dark-color);
+      padding: 10px 0;
       color: white;
+      transition: 0.3s;
 
       :nth-of-type(1) {
-        border-right: 1px solid white;
+        margin-right: 10%;
+      }
+
+      :hover {
+        background-color: var(--logo-dark-color);
       }
     }
+  }
+
+  .edit-cancel {
+    animation: disappear 0.6s;
   }
 `;
 
@@ -283,8 +289,10 @@ const Home = () => {
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState();
+  const [animation, setAnimation] = useState("");
 
   const feedCont = useRef();
+  const editCont = useRef();
 
   // 데이터(피드) 가져오기
   useEffect(() => {
@@ -303,7 +311,11 @@ const Home = () => {
   // 피드 수정 모달창 열고 ID값 state에 저장
   function handleEdit(id) {
     setEdit(true);
+    setAnimation("fec__open-animation");
     setSelectId(id);
+    setTimeout(() => {
+      setAnimation("");
+    }, 500);
   }
 
   function handleEditContent(e) {
@@ -324,9 +336,20 @@ const Home = () => {
       alert("내용을 입력해주세요");
     } else {
       setDoc(docRef, payload);
-      setEdit(false);
-      setEditContent("");
+      setAnimation("fec__close-animation");
+      setTimeout(() => {
+        setEdit(false);
+        setEditContent("");
+      }, 500);
     }
+  }
+
+  // 피드 수정하기 취소
+  function editCancel(e) {
+    setAnimation("fec__close-animation");
+    setTimeout(() => {
+      setEdit(false);
+    }, 500);
   }
 
   async function handleDelete(id) {
@@ -338,7 +361,6 @@ const Home = () => {
         const docRef = doc(myFirestore, "feeds", id);
 
         // 삭제 애니메이션 에러...
-        feedCont.current.className += " delete__animation";
         await setTimeout(() => {
           deleteDoc(docRef);
         }, 1000);
@@ -486,20 +508,14 @@ const Home = () => {
       {edit && (
         <EditContainerStyle>
           <div className="wrapper-st">
-            <div className="edit__container">
+            <div className={`edit__container ${animation}`} ref={editCont}>
               <textarea
                 className="prev-content"
                 value={editContent}
                 onChange={handleEditContent}
               />
               <button onClick={editConfirm}>수정하기</button>
-              <button
-                onClick={() => {
-                  setEdit(false);
-                }}
-              >
-                취소
-              </button>
+              <button onClick={editCancel}>취소</button>
             </div>
           </div>
         </EditContainerStyle>

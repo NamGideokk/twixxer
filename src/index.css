@@ -67,7 +67,7 @@ a {
 @keyframes showing {
   from {
     opacity: 0;
-    top: 53%;
+    top: 60%;
   }
   to {
     opacity: 1;
@@ -78,7 +78,7 @@ a {
 @keyframes go-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -122,4 +122,20 @@ a {
 .up__button:hover {
   transform: scale(1.1);
   box-shadow: 0 0 10px var(--logo-dark-color);
+}
+
+/* 피드 컨테이너 마운트/언마운트 애니메이션 */
+.fc__open-animation {
+  animation: go-up 0.5s;
+}
+.fc__close-animation {
+  animation: go-up 0.5s reverse;
+}
+
+/* 피드 수정 모달창 마운트/언마운트 애니메이션 */
+.fec__open-animation {
+  animation: showing 0.5s;
+}
+.fec__close-animation {
+  animation: showing 0.5s reverse forwards;
 }
