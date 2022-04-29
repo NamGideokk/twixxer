@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -123,48 +123,48 @@ const Navigation = () => {
               {navLang ? "ENG" : "KOR"}
             </span>
           </div>
-          <Link to="/">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faHouse} className="nav__icons" />
               {navLang ? "홈" : "Home"}
             </li>
-          </Link>
-          <Link to="/explore">
+          </NavLink>
+          <NavLink to="/explore">
             <li>
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}
             </li>
-          </Link>
-          <Link to="/notifications">
+          </NavLink>
+          <NavLink to="/notifications">
             <li>
               <FontAwesomeIcon icon={faBell} className="nav__icons" />
               {navLang ? "알림" : "Notifications"}
             </li>
-          </Link>
-          <Link to="/messages">
+          </NavLink>
+          <NavLink to="/messages">
             <li>
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>
-          </Link>
-          <Link to="/bookmarks">
+          </NavLink>
+          <NavLink to="/bookmarks">
             <li>
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
             </li>
-          </Link>
-          <Link to="/lists">
+          </NavLink>
+          <NavLink to="/lists">
             <li>
               <FontAwesomeIcon icon={faList} className="nav__icons" />
               {navLang ? "목록" : "Lists"}
             </li>
-          </Link>
-          <Link to="/profile">
+          </NavLink>
+          <NavLink to="/profile" activeStyle={{ color: "red" }}>
             <li>
               <FontAwesomeIcon icon={faUser} className="nav__icons" />
               {navLang ? "프로필" : "Profile"}
             </li>
-          </Link>
+          </NavLink>
 
           <li onClick={handleLogout} className="logout">
             <FontAwesomeIcon

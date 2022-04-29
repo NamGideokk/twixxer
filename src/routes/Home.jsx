@@ -31,6 +31,7 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import Loading from "common/Loading";
+import LoadingContainer from "common/LoadingContainer";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -249,6 +250,10 @@ const EditContainerStyle = styled.div`
       :hover {
         background-color: var(--logo-dark-color);
       }
+
+      :active {
+        transform: scale(0.9);
+      }
     }
   }
 
@@ -433,7 +438,7 @@ const Home = () => {
                                   title="삭제하기"
                                 />
                               </div>
-                            ) : null}     
+                            ) : null}
                           </div>
                           <div className="fc04">
                             <h3>{feed.content}</h3>
@@ -492,7 +497,10 @@ const Home = () => {
                         </div>
                       ))
                     ) : (
-                      <Loading />
+                      <>
+                        <LoadingContainer />
+                        <Loading />
+                      </>
                     )}
                     {/* 피드 컨테이너 끝 */}
                   </div>

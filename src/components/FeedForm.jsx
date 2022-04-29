@@ -107,10 +107,10 @@ const FeedFormStyle = styled.div`
   }
   /* 새 피드 알림 창 애니메이션 */
   .open-alert {
-    animation: new-feed-alert 2s cubic-bezier(0.38, -0.55, 0.35, 1.33);
+    animation: new-feed-alert 1.5s cubic-bezier(0.38, -0.55, 0.35, 1.33);
   }
   .close-alert {
-    animation: close-new-feed-alert 2s forwards
+    animation: close-new-feed-alert 1.5s forwards
       cubic-bezier(0.38, -0.55, 0.35, 1.33);
   }
 `;
