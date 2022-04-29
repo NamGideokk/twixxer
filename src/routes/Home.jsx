@@ -61,7 +61,11 @@ const FormStyle = styled.div`
     }
     .fc02 {
       grid-area: fc02;
-      padding-top: 18px;
+      padding-top: 5px;
+
+      p {
+        color: #717171;
+      }
     }
     .fc03 {
       grid-area: fc03;
@@ -86,11 +90,10 @@ const FormStyle = styled.div`
       border-radius: 50%;
     }
 
-    h2 {
-      display: inline-block;
+    .name-email {
       margin-left: 20px;
-      margin-bottom: 10px;
       margin-right: 50px;
+      margin-bottom: 3px;
     }
 
     h3 {
@@ -420,7 +423,8 @@ const Home = () => {
                             <img src={feed.photo} alt="avatar" />
                           </div>
                           <div className="fc02">
-                            <h2>{feed.userId}</h2>
+                            <h2 className="name-email">{feed.userName}</h2>
+                            <p className="name-email">{feed.userId}</p>
                           </div>
                           <div className="fc03">
                             {currentUser?.email === feed.userId ? (

@@ -72,6 +72,7 @@ const AuthStyle = styled.div`
       border: none;
       cursor: pointer;
       font-size: 14px;
+      transition: 0.3s;
     }
 
     .google,
@@ -137,7 +138,7 @@ const Auth = () => {
     } = e;
 
     if (name === "email") {
-      console.log("email의 값", e);
+      // console.log("email의 값", e);
       setEmail(value);
       if (name === "email" && e.target.validity.valid) {
         setAnimation("show__icon");
@@ -145,7 +146,7 @@ const Auth = () => {
         setAnimation("");
       }
     } else if (name === "password") {
-      console.log("password의 값", e);
+      // console.log("password의 값", e);
 
       setPassword(value);
       if (name === "password" && e.target.validity.valid) {

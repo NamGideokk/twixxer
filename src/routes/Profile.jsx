@@ -15,6 +15,7 @@ import {
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
+  updateProfile,
 } from "firebase/auth";
 import {
   collection,
@@ -31,7 +32,7 @@ import { useNavigate } from "react-router-dom";
 const ProfileStyle = styled.div`
   .profile__wrapper {
     width: 100%;
-    height: fit-content;
+    height: 100vh;
     padding: 20px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
@@ -84,10 +85,12 @@ const ProfileStyle = styled.div`
     border-radius: 50%;
     background-color: white;
     object-fit: cover;
-    margin-top: 10px;
+    top: 50px;
     margin-right: 20px;
     display: block;
     margin: 0 auto 20px auto;
+    z-index: 10;
+    position: relative;
   }
 
   .upload__button {
@@ -117,7 +120,7 @@ const ProfileStyle = styled.div`
     /* background-color: beige; */
 
     .sec__a {
-      background-color: red;
+      /* background-color: red; */
       width: 300px;
     }
     .sec__b {
@@ -125,7 +128,7 @@ const ProfileStyle = styled.div`
       padding: 0 20px;
     }
     .sec__c {
-      background-color: yellowgreen;
+      /* background-color: yellowgreen; */
       width: 380px;
     }
   }
@@ -177,6 +180,21 @@ const ProfileStyle = styled.div`
     margin: 15px auto;
     transition: 0.3s;
   }
+
+  .avatar-background {
+    position: relative;
+    top: -190px;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    z-index: 9;
+  }
+  .form__wraapper,
+  .info__wrapper,
+  .util__buttons__wrapper {
+    position: relative;
+    bottom: 170px;
+  }
 `;
 
 const Profile = () => {
@@ -189,7 +207,7 @@ const Profile = () => {
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
-  const [displayName, setDisplayName] = useState(currentUser?.displayName);
+  const [displayName, setDisplayName] = useState(null);
   const [nameButton, setNameButton] = useState(false);
 
   useEffect(() => {
@@ -197,7 +215,10 @@ const Profile = () => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
     }
-  }, [currentUser?.photoURL]);
+    if (currentUser?.displayName) {
+      setDisplayName(currentUser.displayName);
+    }
+  }, [currentUser?.photoURL, currentUser?.displayName]);
 
   function handleFile(e) {
     const reader = new FileReader();
@@ -268,7 +289,6 @@ const Profile = () => {
 
   function submitName(e) {
     e.preventDefault();
-    alert("이름이 수정되었습니다.");
     setNameButton(false);
   }
 
@@ -308,6 +328,21 @@ const Profile = () => {
     }
   }
 
+  // 이름 수정
+  async function handleName() {
+    try {
+      await updateProfile(currentUser, {
+        displayName: displayName,
+      });
+      alert("이름이 성공적으로 변경되었습니다.");
+    } catch (e) {
+      alert(e.message);
+      console.log(e.code);
+    }
+  }
+
+  console.log(currentUser);
+
   return (
     <>
       <ProfileStyle>
@@ -322,7 +357,12 @@ const Profile = () => {
                 alt="avatar"
                 className="avatar"
               />
-              <div className="form__wrapper">
+              <img
+                src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+                alt="avatar-background"
+                className="avatar-background"
+              />
+              <div className="form__wraapper">
                 <form onSubmit={submitName}>
                   <input
                     className="display-name__input"
@@ -334,7 +374,12 @@ const Profile = () => {
                     onChange={changeName}
                   />
                   {nameButton && (
-                    <button className="name-change__button">수정</button>
+                    <button
+                      className="name-change__button"
+                      onClick={handleName}
+                    >
+                      수정
+                    </button>
                   )}
                 </form>
               </div>

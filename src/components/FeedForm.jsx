@@ -147,6 +147,7 @@ const FeedForm = () => {
       try {
         const collectionRef = collection(myFirestore, "feeds");
         const payload = {
+          userName: currentUser.displayName,
           userId: currentUser.email,
           photo: currentUser.photoURL,
           content: feed,
