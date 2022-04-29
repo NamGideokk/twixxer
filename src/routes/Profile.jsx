@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navigation from "components/Navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightToBracket,
+  faCalendarDays,
+  faImage,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
 import {
   collection,
@@ -110,10 +114,20 @@ const ProfileStyle = styled.div`
       width: 380px;
     }
   }
+
+  .day__icon {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+  }
+  .date {
+    color: #323232;
+  }
 `;
 
 const Profile = () => {
   const currentUser = useAuth();
+  console.log(currentUser);
 
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -199,6 +213,33 @@ const Profile = () => {
                 alt="avatar"
                 className="avatar"
               />
+              <h2>
+                {!currentUser?.displayName
+                  ? "이름을 설정하세요"
+                  : currentUser?.displayName}
+              </h2>
+              <p>{currentUser?.email}</p>
+              {currentUser && (
+                <>
+                  <p>introduce</p>
+                  <p className="date">
+                    <FontAwesomeIcon
+                      icon={faCalendarDays}
+                      className="day__icon"
+                    />
+                    마지막 접속{" "}
+                    {currentUser?.metadata.lastSignInTime.substring(0, 22)}
+                  </p>
+                  <p className="date">
+                    <FontAwesomeIcon
+                      icon={faArrowRightToBracket}
+                      className="day__icon"
+                    />
+                    {currentUser?.metadata.creationTime.substring(0, 22)}
+                  </p>
+                  <p>내 트윅 (0)</p>
+                </>
+              )}
               {photo ? (
                 <>
                   <button
@@ -230,6 +271,7 @@ const Profile = () => {
               >
                 내 게시물 전부 삭제
               </button>
+              <button>탈퇴</button>
             </div>
           </div>
           <div className="sec__c">

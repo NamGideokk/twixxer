@@ -129,37 +129,37 @@ const Navigation = () => {
               {navLang ? "홈" : "Home"}
             </li>
           </NavLink>
-          <NavLink to="/explore">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}
             </li>
           </NavLink>
-          <NavLink to="/notifications">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faBell} className="nav__icons" />
               {navLang ? "알림" : "Notifications"}
             </li>
           </NavLink>
-          <NavLink to="/messages">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>
           </NavLink>
-          <NavLink to="/bookmarks">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
             </li>
           </NavLink>
-          <NavLink to="/lists">
+          <NavLink to="/">
             <li>
               <FontAwesomeIcon icon={faList} className="nav__icons" />
               {navLang ? "목록" : "Lists"}
             </li>
           </NavLink>
-          <NavLink to="/profile" activeStyle={{ color: "red" }}>
+          <NavLink to="/profile">
             <li>
               <FontAwesomeIcon icon={faUser} className="nav__icons" />
               {navLang ? "프로필" : "Profile"}
