@@ -11,7 +11,11 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
-import { deleteUser } from "firebase/auth";
+import {
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
 import {
   collection,
   query,
@@ -275,11 +279,31 @@ const Profile = () => {
     if (deleteUserConfirm) {
       try {
         await deleteUser(currentUser);
-        alert("정삭적으로 탈퇴되었습니다.");
+        alert("탈퇴가 정상적으로 처리되었습니다. 이용해 주셔서 감사합니다.");
         navi("/");
       } catch (e) {
         console.log(e);
-        alert(e.message);
+        if (e.code === "auth/requires-recent-login") {
+          alert("로그인한지 일정시간이 초과되어 재로그인이 필요합니다.");
+          const confirmPassword = prompt("비밀번호를 입력해주세요");
+
+          try {
+            const credential = EmailAuthProvider.credential(
+              currentUser.email,
+              confirmPassword
+            );
+            await reauthenticateWithCredential(currentUser, credential);
+            alert(
+              "탈퇴가 정상적으로 처리되었습니다. 이용해 주셔서 감사합니다."
+            );
+            navi("/");
+          } catch (e) {
+            console.log(e.code);
+            if (e.code === "auth/wrong-password") {
+              alert("비밀번호가 맞지 않습니다. 다시 시도해 주세요.");
+            }
+          }
+        }
       }
     }
   }
