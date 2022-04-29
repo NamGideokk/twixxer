@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
   faCalendarDays,
+  faCommentDots,
+  faEnvelope,
   faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
@@ -26,6 +28,14 @@ const ProfileStyle = styled.div`
     padding: 20px;
     background-color: var(--logo-color);
     margin: 0 auto;
+
+    .div__wrapper {
+      width: 100%;
+      min-width: 310px;
+    }
+    form {
+      width: 100%;
+    }
   }
   .avatar__label {
     background-color: var(--logo-dark-color);
@@ -115,13 +125,30 @@ const ProfileStyle = styled.div`
     }
   }
 
-  .day__icon {
+  .profile-data__icon {
     margin-right: 10px;
     width: 20px;
     text-align: center;
   }
   .date {
     color: #323232;
+  }
+  .display-name__input {
+    background-color: transparent;
+    font-size: 30px;
+    border: none;
+    width: 70%;
+    min-width: 230px;
+    padding: 0 5px;
+  }
+  .name-change__button {
+    font-size: 20px;
+    padding: 5px 15px;
+    background-color: var(--logo-dark-color);
+    color: white;
+    margin-left: 10px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
   }
 `;
 
@@ -135,6 +162,8 @@ const Profile = () => {
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
+  const [displayName, setDisplayName] = useState(currentUser?.displayName);
+  const [nameButton, setNameButton] = useState(false);
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -199,6 +228,22 @@ const Profile = () => {
     setPhoto(null);
   }
 
+  function changeName(e) {
+    setDisplayName(e.target.value);
+
+    if (e.target.value.length >= 2) {
+      setNameButton(true);
+    } else {
+      setNameButton(false);
+    }
+  }
+
+  function submitName(e) {
+    e.preventDefault();
+    alert("이름이 수정되었습니다.");
+    setNameButton(false);
+  }
+
   return (
     <>
       <ProfileStyle>
@@ -213,19 +258,42 @@ const Profile = () => {
                 alt="avatar"
                 className="avatar"
               />
-              <h2>
-                {!currentUser?.displayName
-                  ? "이름을 설정하세요"
-                  : currentUser?.displayName}
-              </h2>
-              <p>{currentUser?.email}</p>
+              <div className="div__wrapper">
+                <form onSubmit={submitName}>
+                  <input
+                    className="display-name__input"
+                    type="text"
+                    value={!displayName ? "" : displayName}
+                    placeholder="이름을 설정하세요"
+                    minLength={2}
+                    maxLength={8}
+                    onChange={changeName}
+                  />
+                  {nameButton && (
+                    <button className="name-change__button">수정</button>
+                  )}
+                </form>
+              </div>
+              <p>
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="profile-data__icon"
+                />
+                {currentUser?.email}
+              </p>
               {currentUser && (
                 <>
-                  <p>introduce</p>
+                  <p>
+                    <FontAwesomeIcon
+                      icon={faCommentDots}
+                      className="profile-data__icon"
+                    />
+                    introduce
+                  </p>
                   <p className="date">
                     <FontAwesomeIcon
                       icon={faCalendarDays}
-                      className="day__icon"
+                      className="profile-data__icon"
                     />
                     마지막 접속{" "}
                     {currentUser?.metadata.lastSignInTime.substring(0, 22)}
@@ -233,7 +301,7 @@ const Profile = () => {
                   <p className="date">
                     <FontAwesomeIcon
                       icon={faArrowRightToBracket}
-                      className="day__icon"
+                      className="profile-data__icon"
                     />
                     {currentUser?.metadata.creationTime.substring(0, 22)}
                   </p>
