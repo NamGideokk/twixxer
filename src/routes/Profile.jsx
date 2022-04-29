@@ -8,8 +8,10 @@ import {
   faCommentDots,
   faEnvelope,
   faImage,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
+import { deleteUser } from "firebase/auth";
 import {
   collection,
   query,
@@ -20,34 +22,50 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import Aside from "components/Aside";
+import { useNavigate } from "react-router-dom";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
     width: 100%;
     height: fit-content;
     padding: 20px;
-    background-color: var(--logo-color);
+    background-color: rgb(30, 30, 30);
+    color: #dcdcdc;
+
     margin: 0 auto;
 
-    .div__wrapper {
+    .form__wrapper {
       width: 100%;
       min-width: 310px;
+      margin-bottom: 10px;
     }
     form {
       width: 100%;
     }
   }
-  .avatar__label {
+  .util__buttons__wrapper {
+    margin-top: 50px;
+  }
+  .avatar__label,
+  .all-feeds-delete__button,
+  .withdrawal__button {
+    text-align: center;
     background-color: var(--logo-dark-color);
     padding: 10px 15px;
     width: 100%;
+    max-width: 310px;
     height: fit-content;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
     cursor: pointer;
     display: block;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-    text-align: center;
+    margin: 15px auto;
+    transition: 0.3s;
+
+    :active {
+      transform: scale(0.95);
+    }
   }
   .img__icon {
     margin-right: 10px;
@@ -69,53 +87,36 @@ const ProfileStyle = styled.div`
   }
 
   .upload__button {
-    width: 60%;
-    height: fit-content;
-    padding: 5px 10px;
-    font-size: 20px;
-    margin-top: 10px;
-    margin-right: 10%;
   }
   .clear__button {
-    width: 30%;
-    height: fit-content;
-    padding: 5px 10px;
-    font-size: 20px;
+    :hover {
+      background-color: #ff2929;
+    }
   }
 
-  .all-feeds-delete__button {
-    background-color: var(--logo-dark-color);
-    padding: 10px 15px;
-    width: 100%;
-    height: fit-content;
-    font-size: 20px;
-    color: white;
-    cursor: pointer;
-    display: block;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-    margin-top: 10px;
-    transition: 0.3s;
-
+  /* 내 게시물 전부 삭제 버튼 */
+  .all-feeds-delete__button,
+  .withdrawal__button {
     :hover {
-      background-color: red;
+      background-color: #ff2929;
       box-shadow: 0 5px 5px rgba(255, 0, 0, 0.3);
     }
   }
 
+  /* 메인 프레임 */
   .main__frame {
     display: flex;
     max-width: 1500px;
     width: 100vw;
     height: 100vh;
     margin: 0 auto;
-    background-color: beige;
+    /* background-color: beige; */
 
     .sec__a {
       background-color: red;
       width: 300px;
     }
     .sec__b {
-      background-color: orange;
       width: 780px;
       padding: 0 20px;
     }
@@ -130,9 +131,6 @@ const ProfileStyle = styled.div`
     width: 20px;
     text-align: center;
   }
-  .date {
-    color: #323232;
-  }
   .display-name__input {
     background-color: transparent;
     font-size: 30px;
@@ -140,6 +138,7 @@ const ProfileStyle = styled.div`
     width: 70%;
     min-width: 230px;
     padding: 0 5px;
+    color: #dcdcdc;
   }
   .name-change__button {
     font-size: 20px;
@@ -149,12 +148,36 @@ const ProfileStyle = styled.div`
     margin-left: 10px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     transform: translateY(-4px);
+
+    animation: opacity-animation 0.5s;
+  }
+
+  .info__wrapper {
+    p {
+      margin: 5px 0;
+    }
+  }
+
+  .avatar__buttonSt {
+    text-align: center;
+    background-color: var(--logo-dark-color);
+    padding: 10px 15px;
+    width: 100%;
+    max-width: 310px;
+    height: fit-content;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    margin: 15px auto;
+    transition: 0.3s;
   }
 `;
 
 const Profile = () => {
   const currentUser = useAuth();
-  console.log(currentUser);
+  const navi = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -170,7 +193,7 @@ const Profile = () => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
     }
-  }, [currentUser]);
+  }, [currentUser?.photoURL]);
 
   function handleFile(e) {
     const reader = new FileReader();
@@ -186,6 +209,7 @@ const Profile = () => {
 
   function handleUpload() {
     upload(photo, currentUser, setLoading);
+    clearNewPhoto();
   }
 
   async function allFeedsDelete() {
@@ -244,6 +268,22 @@ const Profile = () => {
     setNameButton(false);
   }
 
+  // 회원탈퇴
+  async function handleDeleteUser() {
+    const deleteUserConfirm = window.confirm("회원탈퇴를 진행하시겠습니까?");
+
+    if (deleteUserConfirm) {
+      try {
+        await deleteUser(currentUser);
+        alert("정삭적으로 탈퇴되었습니다.");
+        navi("/");
+      } catch (e) {
+        console.log(e);
+        alert(e.message);
+      }
+    }
+  }
+
   return (
     <>
       <ProfileStyle>
@@ -258,7 +298,7 @@ const Profile = () => {
                 alt="avatar"
                 className="avatar"
               />
-              <div className="div__wrapper">
+              <div className="form__wrapper">
                 <form onSubmit={submitName}>
                   <input
                     className="display-name__input"
@@ -274,72 +314,91 @@ const Profile = () => {
                   )}
                 </form>
               </div>
-              <p>
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="profile-data__icon"
+              <div className="info__wrapper">
+                <p>
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="profile-data__icon"
+                  />
+                  {currentUser?.email}
+                </p>
+                {currentUser && (
+                  <>
+                    <p>
+                      <FontAwesomeIcon
+                        icon={faCommentDots}
+                        className="profile-data__icon"
+                      />
+                      introduce
+                    </p>
+                    <p className="date">
+                      <FontAwesomeIcon
+                        icon={faArrowRightToBracket}
+                        className="profile-data__icon"
+                      />
+                      계정 생성일{" "}
+                      {currentUser?.metadata.creationTime.substring(0, 22)}
+                    </p>
+                    <p className="date">
+                      <FontAwesomeIcon
+                        icon={faCalendarDays}
+                        className="profile-data__icon"
+                      />
+                      마지막 접속{" "}
+                      {currentUser?.metadata.lastSignInTime.substring(0, 22)}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon
+                        icon={faPaperPlane}
+                        className="profile-data__icon"
+                      />
+                      내 트윅 (0)
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="util__buttons__wrapper">
+                {photo ? (
+                  <>
+                    <button
+                      disabled={loading}
+                      onClick={handleUpload}
+                      className="upload__button avatar__buttonSt"
+                    >
+                      {loading ? "업로드중..." : "아바타 업로드"}
+                    </button>
+                    <button
+                      className="clear__button avatar__buttonSt"
+                      onClick={clearNewPhoto}
+                    >
+                      변경 취소
+                    </button>
+                  </>
+                ) : (
+                  <label htmlFor="file" className="avatar__label">
+                    <FontAwesomeIcon icon={faImage} className="img__icon" />
+                    아바타 변경
+                  </label>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="file"
+                  onChange={handleFile}
                 />
-                {currentUser?.email}
-              </p>
-              {currentUser && (
-                <>
-                  <p>
-                    <FontAwesomeIcon
-                      icon={faCommentDots}
-                      className="profile-data__icon"
-                    />
-                    introduce
-                  </p>
-                  <p className="date">
-                    <FontAwesomeIcon
-                      icon={faCalendarDays}
-                      className="profile-data__icon"
-                    />
-                    마지막 접속{" "}
-                    {currentUser?.metadata.lastSignInTime.substring(0, 22)}
-                  </p>
-                  <p className="date">
-                    <FontAwesomeIcon
-                      icon={faArrowRightToBracket}
-                      className="profile-data__icon"
-                    />
-                    {currentUser?.metadata.creationTime.substring(0, 22)}
-                  </p>
-                  <p>내 트윅 (0)</p>
-                </>
-              )}
-              {photo ? (
-                <>
-                  <button
-                    disabled={loading}
-                    onClick={handleUpload}
-                    className="upload__button"
-                  >
-                    {loading ? "업로드중..." : "업로드"}
-                  </button>
-                  <button className="clear__button" onClick={clearNewPhoto}>
-                    취소
-                  </button>
-                </>
-              ) : (
-                <label htmlFor="file" className="avatar__label">
-                  <FontAwesomeIcon icon={faImage} className="img__icon" />
-                  아바타 변경
-                </label>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                id="file"
-                onChange={handleFile}
-              />
-              <button
-                className="all-feeds-delete__button"
-                onClick={allFeedsDelete}
-              >
-                내 게시물 전부 삭제
-              </button>
-              <button>탈퇴</button>
+                <button
+                  className="all-feeds-delete__button"
+                  onClick={allFeedsDelete}
+                >
+                  내 게시물 전부 삭제
+                </button>
+                <button
+                  className="withdrawal__button"
+                  onClick={handleDeleteUser}
+                >
+                  회원탈퇴
+                </button>
+              </div>
             </div>
           </div>
           <div className="sec__c">

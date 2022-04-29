@@ -51,6 +51,10 @@ button {
   cursor: pointer;
 }
 
+button:active {
+  transform: scale(0.95);
+}
+
 input:focus,
 button:focus {
   outline: none;
@@ -114,6 +118,15 @@ a {
   to {
     transform: translateY(300px);
     opacity: 0;
+  }
+}
+
+@keyframes opacity-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
