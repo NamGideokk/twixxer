@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
   faCalendarDays,
-  faCommentDots,
   faEnvelope,
   faImage,
   faPaperPlane,
@@ -91,6 +90,11 @@ const ProfileStyle = styled.div`
     margin: 0 auto 20px auto;
     z-index: 10;
     position: relative;
+    transition: 0.3s;
+
+    :hover {
+      transform: scale(1.2);
+    }
   }
 
   .upload__button {
@@ -137,6 +141,7 @@ const ProfileStyle = styled.div`
     margin-right: 10px;
     width: 20px;
     text-align: center;
+    color: var(--logo-color);
   }
   .display-name__input {
     background-color: transparent;
@@ -188,6 +193,7 @@ const ProfileStyle = styled.div`
     height: 300px;
     object-fit: cover;
     z-index: 9;
+    filter: brightness(60%);
   }
   .form__wraapper,
   .info__wrapper,
@@ -393,19 +399,12 @@ const Profile = () => {
                 </p>
                 {currentUser && (
                   <>
-                    <p>
-                      <FontAwesomeIcon
-                        icon={faCommentDots}
-                        className="profile-data__icon"
-                      />
-                      introduce
-                    </p>
                     <p className="date">
                       <FontAwesomeIcon
                         icon={faArrowRightToBracket}
                         className="profile-data__icon"
                       />
-                      계정 생성일{" "}
+                      계정 생성일 :{" "}
                       {currentUser?.metadata.creationTime.substring(0, 22)}
                     </p>
                     <p className="date">
@@ -413,7 +412,7 @@ const Profile = () => {
                         icon={faCalendarDays}
                         className="profile-data__icon"
                       />
-                      마지막 접속{" "}
+                      마지막 접속 :{" "}
                       {currentUser?.metadata.lastSignInTime.substring(0, 22)}
                     </p>
                     <p>

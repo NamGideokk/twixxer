@@ -38,11 +38,18 @@ const FeedFormStyle = styled.div`
     margin-right: 20px;
     position: relative;
   }
-  .user-email {
+  .name-email__wrapper {
+    width: fit-content;
+    height: fit-content;
     display: inline-block;
     margin-bottom: 15px;
+  }
+  .user-email {
     color: var(--logo-dark-color);
     position: relative;
+  }
+  .name {
+    font-size: 40px;
   }
 
   .feed__form {
@@ -197,7 +204,10 @@ const FeedForm = () => {
     <FeedFormStyle>
       <div className="user__wrapper">
         <img src={photoURL} alt="avatar" className="avatar" />
-        <h1 className="user-email">{currentUser?.email}</h1>
+        <div className="name-email__wrapper">
+          <h1 className="user-email name">{currentUser?.displayName}</h1>
+          <h1 className="user-email">{currentUser?.email}</h1>
+        </div>
         <form onSubmit={onSubmit} className="feed__form">
           <input
             type="text"
