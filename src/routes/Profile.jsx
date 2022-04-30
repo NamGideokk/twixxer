@@ -117,24 +117,27 @@ const ProfileStyle = styled.div`
 
   /* 메인 프레임 */
   .main__frame {
-    display: flex;
+    display: grid;
+    grid-template-columns: 300px minmax(500px, 820px) minmax(300px, 380px);
+    grid-template-rows: 1fr;
+    grid-template-areas: "a b c";
     max-width: 1500px;
-    width: 100vw;
-    height: 100vh;
     margin: 0 auto;
-    /* background-color: beige; */
 
     .sec__a {
-      /* background-color: red; */
-      width: 300px;
+      grid: a;
     }
     .sec__b {
-      width: 780px;
+      grid: b;
+      padding-bottom: 100px;
+      min-width: 500px;
       padding: 0 20px;
+      padding-bottom: 100px;
     }
     .sec__c {
-      /* background-color: yellowgreen; */
-      width: 380px;
+      grid: c;
+      max-width: 380px;
+      min-width: 300px;
     }
   }
 
@@ -231,6 +234,18 @@ const ProfileStyle = styled.div`
       :active {
         transform: scale(0.95);
       }
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .main__frame {
+      grid-template-columns: 300px minmax(500px, 1fr);
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "a b"
+        "c b";
+    }
+    .sec__c {
     }
   }
 `;
