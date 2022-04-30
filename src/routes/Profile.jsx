@@ -200,11 +200,11 @@ const ProfileStyle = styled.div`
   .info__wrapper,
   .util__buttons__wrapper {
     position: relative;
-    bottom: 170px;
+    bottom: 200px;
   }
 
   .my-feed__wrapper {
-    transform: translateY(-540px);
+    transform: translateY(-570px);
   }
 
   #avatar-back__input {
