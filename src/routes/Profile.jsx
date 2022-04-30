@@ -27,7 +27,7 @@ import {
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
-import LoadingContainer from "common/LoadingContainer";
+import Loading from "common/Loading";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -562,7 +562,7 @@ const Profile = () => {
                   />
                 ))
               ) : (
-                <LoadingContainer />
+                <Loading />
               )}
             </div>
           </div>

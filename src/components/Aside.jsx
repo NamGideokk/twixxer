@@ -2,15 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const AsideStyle = styled.div`
-  .empty__div {
-    width: 380px;
-    margin: 0 auto;
-  }
-
   .aside__wrapper {
     max-width: 380px;
     width: 100%;
-    height: fit-content;
     position: fixed;
     top: 0;
     margin: 0 auto;
@@ -129,6 +123,27 @@ const AsideStyle = styled.div`
       color: white;
     }
   }
+
+  @media screen and (max-width: 1280px) {
+    .aside__wrapper {
+      max-width: 300px;
+      width: 100%;
+      top: 540px;
+    }
+
+    .trends__wrapper,
+    .follow__wrapper {
+      div {
+        h2 {
+          font-size: 20px;
+        }
+        .more {
+          font-size: 13px;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
 `;
 
 const Aside = () => {
@@ -137,7 +152,6 @@ const Aside = () => {
   }
   return (
     <AsideStyle>
-      <div className="empty__div"></div>
       <div className="aside__wrapper">
         <form onSubmit={searchTwixxer}>
           <input type="text" placeholder="전세계의 소식을 검색하세요" />
@@ -146,7 +160,7 @@ const Aside = () => {
         <div className="trends__wrapper">
           <div>
             <h2>당신을 위한 핫이슈 🔥</h2>
-            <p>더보기＞</p>
+            <p className="more">더보기＞</p>
           </div>
 
           {/* 필터를 통한 추천 (일단 하드 코딩) */}
@@ -164,7 +178,7 @@ const Aside = () => {
         <div className="follow__wrapper">
           <div>
             <h2>팔로우 추천</h2>
-            <p>더보기＞</p>
+            <p className="more">더보기＞</p>
           </div>
 
           {/* 필터를 통한 추천 (일단 하드 코딩) */}

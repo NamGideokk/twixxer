@@ -233,6 +233,8 @@ const EditContainerStyle = styled.div`
   }
 `;
 
+// 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
+
 const FeedContainer = ({
   photo,
   userName,
