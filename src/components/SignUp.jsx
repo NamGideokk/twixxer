@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { signUp } from "myFirebase";
 
@@ -81,6 +81,12 @@ const SignUp = ({ display, signUpModal }) => {
   const [errorText, setErrorText] = useState("");
   const [animation, setAnimation] = useState("fec__open-animation");
 
+  const emailInput = useRef();
+
+  useEffect(() => {
+    emailInput.current.focus();
+  }, []);
+
   function handleInput(e) {
     const {
       target: { name, value },
@@ -123,8 +129,10 @@ const SignUp = ({ display, signUpModal }) => {
             name="email"
             type="email"
             placeholder="Email"
+            ref={emailInput}
             onChange={handleInput}
             value={email}
+            required
           />
           <input
             name="password"
@@ -132,6 +140,7 @@ const SignUp = ({ display, signUpModal }) => {
             placeholder="Password"
             onChange={handleInput}
             value={password}
+            required
           />
           <button type="submit" className="submitBtn" disabled={loading}>
             {loading ? "회원가입중..." : "회원가입"}

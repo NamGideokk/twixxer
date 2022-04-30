@@ -27,6 +27,7 @@ import {
 } from "firebase/firestore";
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
+import FeedContainer from "components/FeedContainer";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -153,7 +154,7 @@ const ProfileStyle = styled.div`
     color: #dcdcdc;
   }
   .name-change__button {
-    font-size: 20px;
+    font-size: 18px;
     padding: 5px 15px;
     background-color: var(--logo-dark-color);
     color: white;
@@ -215,6 +216,8 @@ const Profile = () => {
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [nameButton, setNameButton] = useState(false);
+  const [myTwixxs, setMyTwixxs] = useState([]);
+  const [feedContAnimation, setFeedContAnimation] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -223,6 +226,30 @@ const Profile = () => {
     }
     if (currentUser?.displayName) {
       setDisplayName(currentUser.displayName);
+    }
+    if (currentUser?.email) {
+      async function getMyTwixxs() {
+        try {
+          const collectionRef = collection(myFirestore, "feeds");
+          const q = query(
+            collectionRef,
+            where("userId", "==", currentUser.email)
+          );
+          const snapshot = await getDocs(q);
+
+          console.log("내 게시물 불러오기", snapshot);
+
+          const results = snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setMyTwixxs(results);
+        } catch (e) {
+          console.log(e.code);
+          alert(e.message);
+        }
+      }
+      getMyTwixxs();
     }
   }, [currentUser?.photoURL, currentUser?.displayName]);
 
@@ -243,6 +270,7 @@ const Profile = () => {
     clearNewPhoto();
   }
 
+  // 내 게시물 전부 삭제
   async function allFeedsDelete() {
     const collectionRef = collection(myFirestore, "feeds");
 
@@ -278,11 +306,13 @@ const Profile = () => {
     }
   }
 
+  // 아바타(프로필사진) 변경값 삭제
   function clearNewPhoto() {
     setPrevPhotoURL(null);
     setPhoto(null);
   }
 
+  // 이름 변경 input, 수정 버튼 생성 handle
   function changeName(e) {
     setDisplayName(e.target.value);
 
@@ -293,6 +323,7 @@ const Profile = () => {
     }
   }
 
+  // 이름 변경 후 수정 버튼 사라지게
   function submitName(e) {
     e.preventDefault();
     setNameButton(false);
@@ -420,7 +451,7 @@ const Profile = () => {
                         icon={faPaperPlane}
                         className="profile-data__icon"
                       />
-                      내 트윅 (0)
+                      내 트윅 ({myTwixxs.length})
                     </p>
                   </>
                 )}
@@ -468,6 +499,23 @@ const Profile = () => {
                 </button>
               </div>
             </div>
+            {myTwixxs.map((twixx) => (
+              <FeedContainer
+                key={twixx.id}
+                photo={twixx.photo}
+                userName={twixx.userName}
+                userId={twixx.userId}
+                content={twixx.content}
+                createdAt={twixx.createdAt.substring(0, 21)}
+                editAt={twixx.editAt}
+                likeCount={twixx.like}
+                clickLike={() => {}}
+                handleEdit={() => {}}
+                handleDelete={() => {}}
+                id={twixx.id}
+                currentUser={currentUser}
+              />
+            ))}
           </div>
           <div className="sec__c">
             <Aside />

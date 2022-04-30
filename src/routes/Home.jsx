@@ -302,9 +302,6 @@ const Home = () => {
   const [feedContAnimation, setFeedContAnimation] =
     useState("fc__open-animation");
 
-  const feedCont = useRef();
-  const editCont = useRef();
-
   // 데이터(피드) 가져오기
   useEffect(() => {
     const collectionRef = collection(myFirestore, "feeds");
@@ -417,7 +414,6 @@ const Home = () => {
                         <div
                           className={`feed__container ${feedContAnimation}`}
                           key={feed.id}
-                          ref={feedCont}
                         >
                           <div className="fc01">
                             <img src={feed.photo} alt="avatar" />
@@ -529,7 +525,7 @@ const Home = () => {
       {edit && (
         <EditContainerStyle>
           <div className="wrapper-st">
-            <div className={`edit__container ${animation}`} ref={editCont}>
+            <div className={`edit__container ${animation}`}>
               <textarea
                 className="prev-content"
                 value={editContent}

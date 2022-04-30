@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { login, loginGoogle, loginGithub } from "myFirebase";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SignUp from "components/SignUp";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -131,6 +131,12 @@ const Auth = () => {
   const [display, setDisplay] = useState("none");
   const [animation, setAnimation] = useState("");
 
+  const emailInput = useRef();
+
+  useEffect(() => {
+    emailInput.current.focus();
+  }, []);
+
   // 여러개의 input onChange를 하나의 함수로 처리하기
   function onChange(e) {
     const {
@@ -222,6 +228,7 @@ const Auth = () => {
             name="email"
             type="email"
             placeholder="Email"
+            ref={emailInput}
             value={email}
             onChange={onChange}
             required
