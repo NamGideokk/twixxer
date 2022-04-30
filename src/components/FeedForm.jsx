@@ -79,7 +79,7 @@ const FeedFormStyle = styled.div`
       background-color: transparent;
       color: var(--logo-color);
       position: absolute;
-      transform: translate(-50px, 5px);
+      transform: translate(-50px, 2px);
     }
   }
 
@@ -120,6 +120,17 @@ const FeedFormStyle = styled.div`
     animation: close-new-feed-alert 1.5s forwards
       cubic-bezier(0.38, -0.55, 0.35, 1.33);
   }
+
+  .red-color {
+    transition: 0.5s !important;
+    border: 1px solid #ff2929 !important;
+    box-shadow: 0 0 15px #ff5656 !important;
+
+    ::placeholder {
+      transition: 0.5s;
+      color: #ff2929;
+    }
+  }
 `;
 
 const FeedForm = () => {
@@ -130,6 +141,8 @@ const FeedForm = () => {
   );
   const [feed, setFeed] = useState("");
   const [animation, setAnimation] = useState("");
+  const [placeholder, setPlaceholder] = useState("친구들과 소식을 공유하세요!");
+  const [errorClass, setErrorClass] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -142,7 +155,12 @@ const FeedForm = () => {
   async function onSubmit(e) {
     e.preventDefault();
     if (feed.length === 0) {
-      alert("내용을 입력해 주세요.");
+      setPlaceholder("내용을 입력해 주세요");
+      setErrorClass("red-color");
+      setTimeout(() => {
+        setErrorClass("");
+        setPlaceholder("친구들과 소식을 공유하세요!");
+      }, 3000);
     } else {
       // doc 이름, ID
       // const docRef = doc(myFirestore, "feeds", "feed001");
@@ -211,7 +229,8 @@ const FeedForm = () => {
         <form onSubmit={onSubmit} className="feed__form">
           <input
             type="text"
-            placeholder="친구들과 소식을 공유하세요!"
+            className={errorClass}
+            placeholder={placeholder}
             maxLength={120}
             value={feed}
             onChange={onChange}
