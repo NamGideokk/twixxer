@@ -20,7 +20,6 @@ import {
   collection,
   query,
   where,
-  getDoc,
   getDocs,
   doc,
   deleteDoc,
@@ -28,6 +27,7 @@ import {
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
+import LoadingContainer from "common/LoadingContainer";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -202,6 +202,37 @@ const ProfileStyle = styled.div`
     position: relative;
     bottom: 170px;
   }
+
+  .my-feed__wrapper {
+    transform: translateY(-540px);
+  }
+
+  #avatar-back__input {
+    display: none;
+  }
+  #avatar-back__label {
+    position: relative;
+    bottom: 250px;
+    left: 30px;
+    z-index: 12;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+
+    .avatar-back__button {
+      color: #d0d0d0;
+      transition: 0.3s;
+
+      :hover {
+        color: white;
+        transform: scale(1.1);
+      }
+      :active {
+        transform: scale(0.95);
+      }
+    }
+  }
 `;
 
 const Profile = () => {
@@ -228,6 +259,7 @@ const Profile = () => {
       setDisplayName(currentUser.displayName);
     }
     if (currentUser?.email) {
+      setLoading(true);
       async function getMyTwixxs() {
         try {
           const collectionRef = collection(myFirestore, "feeds");
@@ -236,8 +268,6 @@ const Profile = () => {
             where("userId", "==", currentUser.email)
           );
           const snapshot = await getDocs(q);
-
-          console.log("내 게시물 불러오기", snapshot);
 
           const results = snapshot.docs.map((doc) => ({
             ...doc.data(),
@@ -249,6 +279,7 @@ const Profile = () => {
           alert(e.message);
         }
       }
+      setLoading(false);
       getMyTwixxs();
     }
   }, [currentUser?.photoURL, currentUser?.displayName]);
@@ -378,8 +409,6 @@ const Profile = () => {
     }
   }
 
-  console.log(currentUser);
-
   return (
     <>
       <ProfileStyle>
@@ -399,6 +428,17 @@ const Profile = () => {
                 alt="avatar-background"
                 className="avatar-background"
               />
+              <label
+                htmlFor="avatar-back__input"
+                id="avatar-back__label"
+                title="배경 이미지 변경"
+              >
+                <FontAwesomeIcon
+                  icon={faImage}
+                  className="avatar-back__button"
+                />
+              </label>
+              <input id="avatar-back__input" type="file" accept="image/*" />
               <div className="form__wraapper">
                 <form onSubmit={submitName}>
                   <input
@@ -451,7 +491,10 @@ const Profile = () => {
                         icon={faPaperPlane}
                         className="profile-data__icon"
                       />
-                      내 트윅 ({myTwixxs.length})
+
+                      {myTwixxs.length === 0
+                        ? "트윅이 없네요😥 지금 작성해 보세요!"
+                        : `내 트윅 (${myTwixxs.length})`}
                     </p>
                   </>
                 )}
@@ -499,23 +542,29 @@ const Profile = () => {
                 </button>
               </div>
             </div>
-            {myTwixxs.map((twixx) => (
-              <FeedContainer
-                key={twixx.id}
-                photo={twixx.photo}
-                userName={twixx.userName}
-                userId={twixx.userId}
-                content={twixx.content}
-                createdAt={twixx.createdAt.substring(0, 21)}
-                editAt={twixx.editAt}
-                likeCount={twixx.like}
-                clickLike={() => {}}
-                handleEdit={() => {}}
-                handleDelete={() => {}}
-                id={twixx.id}
-                currentUser={currentUser}
-              />
-            ))}
+            <div className="my-feed__wrapper">
+              {myTwixxs && !loading ? (
+                myTwixxs.map((twixx) => (
+                  <FeedContainer
+                    key={twixx.id}
+                    photo={twixx.photo}
+                    userName={twixx.userName}
+                    userId={twixx.userId}
+                    content={twixx.content}
+                    createdAt={twixx.createdAt.substring(0, 21)}
+                    editAt={twixx.editAt}
+                    likeCount={twixx.like}
+                    clickLike={() => {}}
+                    handleEdit={() => {}}
+                    handleDelete={() => {}}
+                    id={twixx.id}
+                    currentUser={currentUser}
+                  />
+                ))
+              ) : (
+                <LoadingContainer />
+              )}
+            </div>
           </div>
           <div className="sec__c">
             <Aside />
