@@ -28,6 +28,7 @@ import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
 import Loading from "common/Loading";
+import gsap from "gsap";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -207,7 +208,7 @@ const ProfileStyle = styled.div`
   }
 
   .my-feed__wrapper {
-    transform: translateY(-570px);
+    transform: translateY(-520px);
   }
 
   #avatar-back__input {
@@ -543,12 +544,18 @@ const Profile = () => {
                   id="file"
                   onChange={handleFile}
                 />
-                <button
-                  className="all-feeds-delete__button"
-                  onClick={allFeedsDelete}
-                >
-                  내 게시물 전부 삭제
-                </button>
+                {myTwixxs.length === 0 ? (
+                  <button className="all-feeds-delete__button" disabled>
+                    삭제할 트윅이 없습니다
+                  </button>
+                ) : (
+                  <button
+                    className="all-feeds-delete__button"
+                    onClick={allFeedsDelete}
+                  >
+                    내 게시물 전부 삭제
+                  </button>
+                )}
                 <button
                   className="withdrawal__button"
                   onClick={handleDeleteUser}
@@ -573,7 +580,6 @@ const Profile = () => {
                     handleEdit={() => {}}
                     handleDelete={() => {}}
                     id={twixx.id}
-                    currentUser={currentUser}
                   />
                 ))
               ) : (

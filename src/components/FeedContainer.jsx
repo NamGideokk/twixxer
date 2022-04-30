@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 import { doc, setDoc, deleteDoc, orderBy } from "firebase/firestore";
-import { myFirestore } from "myFirebase";
+import { myFirestore, useAuth } from "myFirebase";
 
 const FeedContStyle = styled.div`
   .feed__container {
@@ -247,8 +247,9 @@ const FeedContainer = ({
   handleEdit,
   handleDelete,
   id,
-  currentUser,
 }) => {
+  const currentUser = useAuth();
+
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);

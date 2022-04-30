@@ -350,6 +350,7 @@ const Home = () => {
   function editConfirm() {
     const docRef = doc(myFirestore, "feeds", selectId);
     const payload = {
+      userName: currentUser.displayName,
       userId: currentUser.email,
       photo: currentUser.photoURL,
       content: editContent,
