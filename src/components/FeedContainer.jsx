@@ -15,14 +15,9 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import {
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-  deleteField,
-} from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
+import AlertContainer from "common/AlertContainer";
 
 const FeedContStyle = styled.div`
   .feed__container {
@@ -210,6 +205,33 @@ const FeedContStyle = styled.div`
       color: #ff3535;
     }
   }
+
+  /* 새 피드 알림 창 애니메이션 */
+  .open-alert {
+    display: block;
+    animation: new-feed-alert 1.5s;
+    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
+  }
+  .close-alert {
+    animation: close-new-feed-alert 1.5s forwards;
+    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
+  }
+
+  .block {
+    display: block !important;
+  }
+  .none {
+    display: none;
+  }
+
+  /* 삭제 애니메이션 */
+  .delete__animation {
+    background-color: red;
+    color: white;
+    transform: translate(200px, -5px);
+    opacity: 0;
+    transition: 13s;
+  }
 `;
 
 const EditContainerStyle = styled.div`
@@ -302,6 +324,12 @@ const FeedContainer = ({
   const [feedContAnimation, setFeedContAnimation] =
     useState("fc__open-animation");
 
+  // 좌측하단 알림창 state
+  const [alertAnimation, setAlertAnimation] = useState("");
+  const [alertContent, setAlertContent] = useState("");
+  const [display, setDisplay] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("");
+
   // 피드 수정 모달창 열고 ID값 state에 저장
   async function handleEdit(id) {
     const docRef = doc(myFirestore, "feeds", id);
@@ -340,7 +368,14 @@ const FeedContainer = ({
       setTimeout(() => {
         setEdit(false);
         setEditContent("");
+        setAlertContent("트윅이 수정되었습니다.");
+        setBackgroundColor("#ffb01f");
+        setDisplay("block");
+        setAlertAnimation("open-alert");
       }, 500);
+      setTimeout(() => {
+        newAlert();
+      }, 1000);
     }
   }
 
@@ -352,6 +387,7 @@ const FeedContainer = ({
     }, 500);
   }
 
+  // 피드 삭제하기
   async function handleDelete(id) {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     console.log(id);
@@ -360,6 +396,15 @@ const FeedContainer = ({
       if (confirmDelete) {
         const docRef = doc(myFirestore, "feeds", id);
         setFeedContAnimation("delete__animation");
+        setTimeout(() => {
+          setAlertContent("트윅이 삭제되었습니다.");
+          setBackgroundColor("#ff3535");
+          setDisplay("block");
+          setAlertAnimation("open-alert");
+        }, 500);
+        setTimeout(() => {
+          newAlert();
+        }, 1000);
 
         await setTimeout(() => {
           deleteDoc(docRef);
@@ -421,6 +466,18 @@ const FeedContainer = ({
       alert(e.message);
     }
     setIconAni("");
+  }
+
+  // 피드 생성 알림창
+  function newAlert() {
+    setTimeout(() => {
+      setAlertAnimation("close-alert");
+    }, 4000);
+    setTimeout(() => {
+      setAlertContent("");
+      setDisplay("none");
+      setBackgroundColor("");
+    }, 5000);
   }
 
   return (
@@ -518,6 +575,12 @@ const FeedContainer = ({
           </div>
         </EditContainerStyle>
       )}
+      <AlertContainer
+        animation={alertAnimation}
+        alertContent={alertContent}
+        display={display}
+        backgroundColor={backgroundColor}
+      />
     </FeedContStyle>
   );
 };

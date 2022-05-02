@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { collection, addDoc } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-import { AlertCircleOutline } from "react-ionicons";
+import AlertContainer from "common/AlertContainer";
 
 const FeedFormStyle = styled.div`
   .user__wrapper {
@@ -83,42 +83,22 @@ const FeedFormStyle = styled.div`
     }
   }
 
-  /* 새 피드 알림 창 */
-  .new-feed-alert__wrapper {
-    position: fixed;
-    left: 5%;
-    bottom: 5%;
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-
-    .alert__container {
-      position: relative;
-      width: fit-content;
-      height: fit-content;
-      background-color: var(--logo-dark-color);
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 0 10px 0 10px;
-      text-align: center;
-      transition: 0.5s;
-      box-shadow: 3px 3px 10px #b79aec inset, -3px -3px 7px #563692 inset;
-      z-index: 99;
-
-      .alert__icon {
-        margin-bottom: 6px;
-        display: inline-block;
-      }
-    }
-  }
   /* 새 피드 알림 창 애니메이션 */
   .open-alert {
-    animation: new-feed-alert 1.5s cubic-bezier(0.38, -0.55, 0.35, 1.33);
+    display: block;
+    animation: new-feed-alert 1.5s;
+    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
   }
   .close-alert {
-    animation: close-new-feed-alert 1.5s forwards
-      cubic-bezier(0.38, -0.55, 0.35, 1.33);
+    animation: close-new-feed-alert 1.5s forwards;
+    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
+  }
+
+  .block {
+    display: block !important;
+  }
+  .none {
+    display: none;
   }
 
   .red-color {
@@ -141,6 +121,8 @@ const FeedForm = () => {
   );
   const [feed, setFeed] = useState("");
   const [animation, setAnimation] = useState("");
+  const [display, setDisplay] = useState("");
+  const [alertContent, setAlertContent] = useState("");
   const [placeholder, setPlaceholder] = useState("친구들과 소식을 공유하세요!");
   const [errorClass, setErrorClass] = useState("");
 
@@ -182,7 +164,11 @@ const FeedForm = () => {
         };
         await addDoc(collectionRef, payload);
         setFeed("");
-        setAnimation("open-alert");
+        setTimeout(() => {
+          setAlertContent("새 트윅이 작성되었습니다.");
+          setDisplay("block");
+          setAnimation("open-alert");
+        }, 500);
         setTimeout(() => {
           newFeedAlert();
         }, 1000);
@@ -205,18 +191,10 @@ const FeedForm = () => {
     setTimeout(() => {
       setAnimation("close-alert");
     }, 4000);
-    const alertDiv = (
-      <div className="alert__container">
-        <AlertCircleOutline
-          color={"white"}
-          width="30px"
-          height="30px"
-          shake={true}
-          className="alert__icon"
-        />
-        <p>새 트윅이 작성되었습니다</p>
-      </div>
-    );
+    setTimeout(() => {
+      setAlertContent("");
+      setDisplay("none");
+    }, 5000);
   }
 
   return (
@@ -245,18 +223,11 @@ const FeedForm = () => {
           </button>
         </form>
       </div>
-      <div className="new-feed-alert__wrapper">
-        <div className={`alert__container ${animation}`}>
-          <AlertCircleOutline
-            color={"white"}
-            width="30px"
-            height="30px"
-            shake={true}
-            className="alert__icon"
-          />
-          <p>새 트윅이 작성되었습니다</p>
-        </div>
-      </div>
+      <AlertContainer
+        animation={animation}
+        alertContent={alertContent}
+        display={display}
+      />
     </FeedFormStyle>
   );
 };

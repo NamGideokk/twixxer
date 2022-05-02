@@ -185,71 +185,6 @@ const FormStyle = styled.div`
     width: 100%;
     height: 50px;
   }
-
-  /* 삭제 애니메이션 */
-  .delete__animation {
-    background-color: red;
-    color: white;
-    transform: translate(200px, -5px);
-    opacity: 0;
-    transition: 1s;
-  }
-`;
-
-const EditContainerStyle = styled.div`
-  .edit__container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 400px;
-    padding: 40px 20px;
-    background-color: var(--logo-color);
-    border-radius: 20px;
-    margin: 30px auto;
-    transition: 0.3s;
-    text-align: center;
-
-    textarea {
-      width: 90%;
-      height: 80%;
-      resize: none;
-      font-size: 20px;
-      padding: 10px;
-      border: none;
-
-      :focus {
-        outline: none;
-      }
-    }
-
-    button {
-      margin-top: 20px;
-      width: 40%;
-      font-size: 20px;
-      background-color: var(--logo-dark-color);
-      padding: 10px 0;
-      color: white;
-      transition: 0.3s;
-
-      :nth-of-type(1) {
-        margin-right: 10%;
-      }
-
-      :hover {
-        background-color: var(--logo-dark-color);
-      }
-
-      :active {
-        transform: scale(0.9);
-      }
-    }
-  }
-
-  .edit-cancel {
-    animation: disappear 0.6s;
-  }
 `;
 
 const MainFrameStyle = styled.div`
@@ -387,13 +322,6 @@ const Home = () => {
       behavior: "smooth",
       top: 0,
     });
-  }
-
-  // 피드 좋아요 버튼 클릭
-  function clickLike(id) {
-    setSelectId(id);
-    setLike(!like);
-    console.log(id);
   }
 
   return (

@@ -101,11 +101,11 @@ a {
 
 @keyframes new-feed-alert {
   from {
-    transform: translateX(-500px);
+    transform: translateY(300px);
     opacity: 0;
   }
   to {
-    transform: translateX(0px);
+    transform: translateY(0px);
     opacity: 1;
   }
 }
