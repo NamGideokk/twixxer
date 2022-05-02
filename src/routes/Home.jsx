@@ -19,6 +19,7 @@ import Aside from "components/Aside";
 
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
+import EmptyFeed from "common/EmptyFeed";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -361,6 +362,7 @@ const Home = () => {
                         <LoadingContainer />
                       </>
                     )}
+                    {getFeeds?.length === 0 && <EmptyFeed />}
                   </div>
                 </FormStyle>
               </div>
