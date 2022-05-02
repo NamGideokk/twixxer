@@ -269,6 +269,9 @@ const EditContainerStyle = styled.div`
   .like-ani-action {
     animation: like-animation 2s;
   }
+  .re-twixx-animation {
+    animation: rotation 1s;
+  }
 `;
 
 // 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
@@ -295,6 +298,7 @@ const FeedContainer = ({
   const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState();
   const [animation, setAnimation] = useState("");
+  const [iconAni, setIconAni] = useState("");
   const [feedContAnimation, setFeedContAnimation] =
     useState("fc__open-animation");
 
@@ -405,6 +409,7 @@ const FeedContainer = ({
 
   // 리트윅 버튼 클릭
   async function clickReTwixx(id) {
+    setIconAni("re-twixx-animation");
     try {
       const docRef = doc(myFirestore, "feeds", id);
       const docSnap = await getDoc(docRef);
@@ -415,6 +420,7 @@ const FeedContainer = ({
       console.log(e.code);
       alert(e.message);
     }
+    setIconAni("");
   }
 
   return (
@@ -483,7 +489,11 @@ const FeedContainer = ({
             </span>
             <div className="rp__div">
               <span className="rp__icon" onClick={() => clickReTwixx(id)}>
-                <FontAwesomeIcon icon={faRepeat} title="리트윅" />
+                <FontAwesomeIcon
+                  icon={faRepeat}
+                  className={iconAni}
+                  title="리트윅"
+                />
               </span>
               <span className="count">{reTwixxCount}</span>
             </div>
