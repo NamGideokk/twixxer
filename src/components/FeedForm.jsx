@@ -177,7 +177,7 @@ const FeedForm = () => {
           photo: currentUser.photoURL,
           content: feed,
           createdAt: Date(),
-          like: [0, currentUser.uid, false],
+          like: [],
           reTwixx: 0,
         };
         await addDoc(collectionRef, payload);

@@ -424,7 +424,7 @@ const Home = () => {
                           content={twixx.content}
                           createdAt={twixx.createdAt.substring(0, 21)}
                           editAt={twixx.editAt}
-                          likeCount={twixx.like[0]}
+                          likeCount={twixx.like.length}
                           reTwixxCount={twixx.reTwixx}
                           clickLike={() => {}}
                           handleEdit={() => {}}
@@ -434,6 +434,8 @@ const Home = () => {
                       ))
                     ) : (
                       <>
+                        <LoadingContainer />
+                        <LoadingContainer />
                         <LoadingContainer />
                         <Loading />
                       </>

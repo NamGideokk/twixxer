@@ -280,8 +280,6 @@ const Profile = () => {
   const currentUser = useAuth();
   const navi = useNavigate();
 
-  console.log(currentUser);
-
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState(

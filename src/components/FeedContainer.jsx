@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,8 +15,18 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { doc, setDoc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  updateDoc,
+  getDoc,
+  deleteField,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
+import { getSuggestedQuery } from "@testing-library/react";
 
 const FeedContStyle = styled.div`
   .feed__container {
@@ -250,6 +260,8 @@ const FeedContainer = ({
 }) => {
   const currentUser = useAuth();
 
+  useEffect(() => {}, []);
+
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
@@ -329,15 +341,77 @@ const FeedContainer = ({
   }
 
   // 피드 좋아요 버튼 클릭
-  function clickLike(id) {
-    setSelectId(id);
+  async function clickLike(id) {
     setLike(!like);
-    console.log(id);
+
+    try {
+      const docRef = doc(myFirestore, "feeds", id);
+      const docSnap = await getDoc(docRef);
+      let prevLike = docSnap.data().like;
+
+      // prevLike.forEach((uid, index) => {
+      //   console.log(index, +" " + uid);
+
+      //   if (uid === currentUser.uid) {
+      //     alert("이미존재합니다");
+      //   }
+
+      // });
+
+      const isLike = prevLike.includes(currentUser.uid);
+
+      // like 배열에 나의 uid가 있으면 (좋아요한 상태)
+      if (isLike) {
+        console.log("좋아요 누른 게시물");
+        // like 배열에 나의 uid 삭제
+        prevLike.forEach((uid, index) => {
+          if (uid === currentUser.uid) {
+            console.log(index, "번");
+          }
+        });
+        const payload = {
+          like,
+        };
+
+        return;
+      } else {
+        console.log("좋아요 안누른 게시물");
+
+        const payload = {
+          like: [...prevLike, currentUser.uid],
+        };
+
+        updateDoc(docRef, payload);
+      }
+    } catch (e) {
+      console.log(e.code);
+      alert(e.message);
+    }
   }
 
   // 리트윅 버튼 클릭
-  function clickReTwixx() {
-    alert("리트윅");
+  async function clickReTwixx(id) {
+    try {
+      const docRef = doc(myFirestore, "feeds", id);
+      const docSnap = await getDoc(docRef);
+      let prevReTwixx = docSnap.data().reTwixx;
+
+      await updateDoc(docRef, { reTwixx: prevReTwixx + 1 });
+    } catch (e) {
+      console.log(e.code);
+      alert(e.message);
+    }
+  }
+
+  // 컬럼 삭제 테스트
+  async function clickShare(id) {
+    alert("컬럼 삭제 테스트");
+    try {
+      const docRef = doc(myFirestore, "feeds", "new");
+      await deleteField(docRef);
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   return (
@@ -402,12 +476,16 @@ const FeedContainer = ({
             <span className="cm__icon">
               <FontAwesomeIcon icon={faComment} title="댓글" />
             </span>
-            <span className="rp__icon" onClick={clickReTwixx}>
+            <span className="rp__icon" onClick={() => clickReTwixx(id)}>
               <FontAwesomeIcon icon={faRepeat} title="리트윅" />
               {reTwixxCount}
             </span>
             <span className="sr__icon">
-              <FontAwesomeIcon icon={faShareFromSquare} title="공유" />
+              <FontAwesomeIcon
+                icon={faShareFromSquare}
+                onClick={() => clickShare(id)}
+                title="공유"
+              />
             </span>
           </div>
         </div>
