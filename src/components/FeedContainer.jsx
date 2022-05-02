@@ -366,14 +366,14 @@ const FeedContainer = ({
         // like 배열에 나의 uid 삭제
         prevLike.forEach((uid, index) => {
           if (uid === currentUser.uid) {
-            console.log(index, "번");
+            prevLike.splice(index, 1);
+            console.log(prevLike);
           }
         });
         const payload = {
-          like,
+          like: prevLike,
         };
-
-        return;
+        updateDoc(docRef, payload);
       } else {
         console.log("좋아요 안누른 게시물");
 
