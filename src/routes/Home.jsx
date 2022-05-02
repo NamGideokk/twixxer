@@ -22,7 +22,6 @@ import FeedContainer from "components/FeedContainer";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
-    /* margin-top: 220px; */
   }
   .feed__container {
     /* width: 555px; */

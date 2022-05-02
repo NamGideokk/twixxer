@@ -262,6 +262,15 @@ const ProfileStyle = styled.div`
       margin: 0;
     }
   }
+  .phone-number-change__button {
+    padding: 3px 10px;
+    background-color: var(--logo-dark-color);
+    color: white;
+    margin-left: 10px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+
+    animation: opacity-animation 0.5s;
+  }
 
   @media screen and (max-width: 1280px) {
     .main__frame {
@@ -280,6 +289,8 @@ const Profile = () => {
   const currentUser = useAuth();
   const navi = useNavigate();
 
+  console.log(currentUser);
+
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState(
@@ -288,7 +299,9 @@ const Profile = () => {
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
   const [bgImg, setBgImg] = useState(null);
   const [displayName, setDisplayName] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [nameButton, setNameButton] = useState(false);
+  const [phoneNumberButton, setPhoneNumberButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
   const [feedContAnimation, setFeedContAnimation] = useState("");
 
@@ -299,6 +312,9 @@ const Profile = () => {
     }
     if (currentUser?.displayName) {
       setDisplayName(currentUser.displayName);
+    }
+    if (currentUser?.phoneNumber) {
+      setPhoneNumber(currentUser.phoneNumber);
     }
     if (currentUser?.email) {
       setLoading(true);
@@ -386,23 +402,6 @@ const Profile = () => {
     setPhoto(null);
   }
 
-  // 이름 변경 input, 수정 버튼 생성 handle
-  function changeName(e) {
-    setDisplayName(e.target.value);
-
-    if (e.target.value.length >= 2) {
-      setNameButton(true);
-    } else {
-      setNameButton(false);
-    }
-  }
-
-  // 이름 변경 후 수정 버튼 사라지게
-  function submitName(e) {
-    e.preventDefault();
-    setNameButton(false);
-  }
-
   // 회원탈퇴
   async function handleDeleteUser() {
     const deleteUserConfirm = window.confirm("회원탈퇴를 진행하시겠습니까?");
@@ -439,6 +438,17 @@ const Profile = () => {
     }
   }
 
+  // 이름 변경 input, 수정 버튼 생성 handle
+  function changeName(e) {
+    setDisplayName(e.target.value);
+
+    if (e.target.value.length >= 2) {
+      setNameButton(true);
+    } else {
+      setNameButton(false);
+    }
+  }
+
   // 이름 수정
   async function handleName() {
     try {
@@ -450,6 +460,40 @@ const Profile = () => {
       alert(e.message);
       console.log(e.code);
     }
+  }
+
+  // 이름 변경 후 수정 버튼 사라지게
+  function submitName(e) {
+    e.preventDefault();
+    setNameButton(false);
+  }
+
+  // 번호 수정 input
+  function handlePhoneNumber(e) {
+    setPhoneNumber(e.target.value);
+    if (e.target.value.length > 8) {
+      setPhoneNumberButton(true);
+    } else {
+      setPhoneNumberButton(false);
+    }
+  }
+
+  async function changePhoneNumber() {
+    try {
+      await updateProfile(currentUser, {
+        phoneNumber: phoneNumber,
+      });
+      alert("번호가 성공적으로 변경되었습니다.");
+      setPhoneNumberButton(false);
+    } catch (e) {
+      alert(e.message);
+      console.log(e.code);
+    }
+  }
+
+  function submitPhoneNumber(e) {
+    e.preventDefault();
+    setPhoneNumberButton(false);
   }
 
   // 이메일 인증하기
@@ -531,21 +575,31 @@ const Profile = () => {
                     </span>
                   )}
                 </p>
-                <p>
+                <form
+                  className="phone-number__form"
+                  onSubmit={submitPhoneNumber}
+                >
                   <FontAwesomeIcon
                     icon={faMobile}
                     className="profile-data__icon"
                   />
-                  {currentUser?.phoneNumber ? (
-                    currentUser.phoneNumber
-                  ) : (
-                    <input
-                      type="number"
-                      className="phone-number__input"
-                      placeholder="번호를 등록하세요"
-                    />
+                  <input
+                    type="number"
+                    className="phone-number__input"
+                    placeholder="번호를 등록하세요"
+                    onChange={handlePhoneNumber}
+                    value={phoneNumber}
+                  />
+                  {phoneNumberButton && (
+                    <button
+                      className="phone-number-change__button"
+                      onClick={changePhoneNumber}
+                    >
+                      수정
+                    </button>
                   )}
-                </p>
+                </form>
+
                 {currentUser && (
                   <>
                     <p className="date">

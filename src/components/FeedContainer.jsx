@@ -228,7 +228,7 @@ const FeedContStyle = styled.div`
   .delete__animation {
     background-color: red;
     color: white;
-    transform: translate(200px, -5px);
+    transform: translateX(200px);
     opacity: 0;
     transition: 1s;
   }
