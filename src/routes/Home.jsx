@@ -9,18 +9,14 @@ import {
   collection,
   doc,
   onSnapshot,
-  setDoc,
-  addDoc,
   deleteDoc,
   query,
   orderBy,
-  updateDoc,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
 import Aside from "components/Aside";
 
-import Loading from "common/Loading";
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 
@@ -426,7 +422,6 @@ const Home = () => {
                           editAt={twixx.editAt}
                           likeCount={twixx.like.length}
                           reTwixxCount={twixx.reTwixx}
-                          clickLike={() => {}}
                           handleEdit={() => {}}
                           handleDelete={() => {}}
                           id={twixx.id}
@@ -437,7 +432,6 @@ const Home = () => {
                         <LoadingContainer />
                         <LoadingContainer />
                         <LoadingContainer />
-                        <Loading />
                       </>
                     )}
                   </div>

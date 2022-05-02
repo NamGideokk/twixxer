@@ -639,7 +639,6 @@ const Profile = () => {
                     editAt={twixx.editAt}
                     likeCount={twixx.like.length}
                     reTwixxCount={twixx.reTwixx}
-                    clickLike={() => {}}
                     handleEdit={() => {}}
                     handleDelete={() => {}}
                     id={twixx.id}

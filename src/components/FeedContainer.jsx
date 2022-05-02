@@ -115,6 +115,8 @@ const FeedContStyle = styled.div`
       transition: 0.3s;
       .fill-heart {
         color: #ff4444;
+
+        animation: like-animation 1.2s;
       }
     }
     .count {
@@ -264,6 +266,9 @@ const EditContainerStyle = styled.div`
   .edit-cancel {
     animation: disappear 0.6s;
   }
+  .like-ani-action {
+    animation: like-animation 2s;
+  }
 `;
 
 // 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
@@ -277,7 +282,6 @@ const FeedContainer = ({
   editAt,
   likeCount,
   reTwixxCount,
-  clickLike,
   handleDelete,
   id,
 }) => {
@@ -413,17 +417,6 @@ const FeedContainer = ({
     }
   }
 
-  // 컬럼 삭제 테스트
-  async function clickShare(id) {
-    alert("컬럼 삭제 테스트");
-    try {
-      const docRef = doc(myFirestore, "feeds", "new");
-      await deleteField(docRef);
-    } catch (e) {
-      console.log(e.message);
-    }
-  }
-
   return (
     <FeedContStyle>
       <div className={`feed__container ${feedContAnimation}`}>
@@ -495,11 +488,7 @@ const FeedContainer = ({
               <span className="count">{reTwixxCount}</span>
             </div>
             <span className="sr__icon">
-              <FontAwesomeIcon
-                icon={faShareFromSquare}
-                onClick={() => clickShare(id)}
-                title="공유"
-              />
+              <FontAwesomeIcon icon={faShareFromSquare} title="공유" />
             </span>
           </div>
         </div>
