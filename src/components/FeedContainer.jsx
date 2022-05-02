@@ -230,7 +230,7 @@ const FeedContStyle = styled.div`
     color: white;
     transform: translate(200px, -5px);
     opacity: 0;
-    transition: 13s;
+    transition: 1s;
   }
 `;
 
@@ -401,7 +401,7 @@ const FeedContainer = ({
           setBackgroundColor("#ff3535");
           setDisplay("block");
           setAlertAnimation("open-alert");
-        }, 500);
+        }, 100);
         setTimeout(() => {
           newAlert();
         }, 1000);
@@ -409,7 +409,7 @@ const FeedContainer = ({
         await setTimeout(() => {
           deleteDoc(docRef);
           setFeedContAnimation("fc__open-animation");
-        }, 1000);
+        }, 2000);
       }
     } catch (e) {
       console.log(e);
