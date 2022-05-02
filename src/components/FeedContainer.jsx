@@ -15,7 +15,7 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { doc, setDoc, deleteDoc, orderBy } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
 
 const FeedContStyle = styled.div`
@@ -243,8 +243,8 @@ const FeedContainer = ({
   createdAt,
   editAt,
   likeCount,
+  reTwixxCount,
   clickLike,
-  handleEdit,
   handleDelete,
   id,
 }) => {
@@ -260,7 +260,14 @@ const FeedContainer = ({
     useState("fc__open-animation");
 
   // 피드 수정 모달창 열고 ID값 state에 저장
-  function handleEdit(id) {
+  async function handleEdit(id) {
+    const docRef = doc(myFirestore, "feeds", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setEditContent(docSnap.data().content);
+    }
+
     setEdit(true);
     setAnimation("fec__open-animation");
     setSelectId(id);
@@ -277,9 +284,6 @@ const FeedContainer = ({
   function editConfirm() {
     const docRef = doc(myFirestore, "feeds", selectId);
     const payload = {
-      userName: currentUser.displayName,
-      userId: currentUser.email,
-      photo: currentUser.photoURL,
       content: editContent,
       createdAt: Date(),
       editAt: "수정됨",
@@ -288,7 +292,7 @@ const FeedContainer = ({
     if (editContent.length === 0) {
       alert("내용을 입력해주세요");
     } else {
-      setDoc(docRef, payload);
+      updateDoc(docRef, payload);
       setAnimation("fec__close-animation");
       setTimeout(() => {
         setEdit(false);
@@ -329,6 +333,11 @@ const FeedContainer = ({
     setSelectId(id);
     setLike(!like);
     console.log(id);
+  }
+
+  // 리트윅 버튼 클릭
+  function clickReTwixx() {
+    alert("리트윅");
   }
 
   return (
@@ -393,8 +402,9 @@ const FeedContainer = ({
             <span className="cm__icon">
               <FontAwesomeIcon icon={faComment} title="댓글" />
             </span>
-            <span className="rp__icon">
+            <span className="rp__icon" onClick={clickReTwixx}>
               <FontAwesomeIcon icon={faRepeat} title="리트윅" />
+              {reTwixxCount}
             </span>
             <span className="sr__icon">
               <FontAwesomeIcon icon={faShareFromSquare} title="공유" />

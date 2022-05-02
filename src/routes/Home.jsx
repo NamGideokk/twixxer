@@ -1,15 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUp,
-  faCirclePlus,
-  faCircleXmark,
-  faHeart,
-  faRepeat,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {
   collection,
@@ -20,18 +14,15 @@ import {
   deleteDoc,
   query,
   orderBy,
+  updateDoc,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
 import Aside from "components/Aside";
-import {
-  faBookmark,
-  faComment,
-  faHeart as borderHeart,
-  faShareFromSquare,
-} from "@fortawesome/free-regular-svg-icons";
+
 import Loading from "common/Loading";
 import LoadingContainer from "common/LoadingContainer";
+import FeedContainer from "components/FeedContainer";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -346,29 +337,26 @@ const Home = () => {
     setEditContent(e.target.value);
   }
 
-  // 피드 수정하기 클릭
-  function editConfirm() {
-    const docRef = doc(myFirestore, "feeds", selectId);
-    const payload = {
-      userName: currentUser.displayName,
-      userId: currentUser.email,
-      photo: currentUser.photoURL,
-      content: editContent,
-      createdAt: Date(),
-      editAt: "수정됨",
-    };
+  // // 피드 수정하기 클릭
+  // async function editConfirm() {
+  //   const docRef = doc(myFirestore, "feeds", selectId);
+  //   const payload = {
+  //     content: editContent,
+  //     createdAt: Date(),
+  //     editAt: "수정됨",
+  //   };
 
-    if (editContent.length === 0) {
-      alert("내용을 입력해주세요");
-    } else {
-      setDoc(docRef, payload);
-      setAnimation("fec__close-animation");
-      setTimeout(() => {
-        setEdit(false);
-        setEditContent("");
-      }, 500);
-    }
-  }
+  //   if (editContent.length === 0) {
+  //     alert("내용을 입력해주세요");
+  //   } else {
+  //     await updateDoc(docRef, payload);
+  //     setAnimation("fec__close-animation");
+  //     setTimeout(() => {
+  //       setEdit(false);
+  //       setEditContent("");
+  //     }, 500);
+  //   }
+  // }
 
   // 피드 수정하기 취소
   function editCancel(e) {
@@ -427,91 +415,22 @@ const Home = () => {
                   <div className="feed__cont__wrapper">
                     {/* 피드 컨테이너 */}
                     {getFeeds ? (
-                      getFeeds.map((feed) => (
-                        <div
-                          className={`feed__container ${feedContAnimation}`}
-                          key={feed.id}
-                        >
-                          <div className="fc01">
-                            <img src={feed.photo} alt="avatar" />
-                          </div>
-                          <div className="fc02">
-                            <h2 className="name-email">{feed.userName}</h2>
-                            <p className="name-email">{feed.userId}</p>
-                          </div>
-                          <div className="fc03">
-                            {currentUser?.email === feed.userId ? (
-                              <div className="writer__buttons">
-                                <FontAwesomeIcon
-                                  icon={faCirclePlus}
-                                  className="edit__button"
-                                  onClick={() => handleEdit(feed.id)}
-                                  title="수정하기"
-                                />
-                                <FontAwesomeIcon
-                                  icon={faCircleXmark}
-                                  className="delete__button"
-                                  onClick={() => handleDelete(feed.id)}
-                                  title="삭제하기"
-                                />
-                              </div>
-                            ) : null}
-                          </div>
-                          <div className="fc04">
-                            <h3>{feed.content}</h3>
-                          </div>
-                          <div className="fc05">
-                            <small>
-                              {feed.createdAt.substring(0, 21)}　{feed?.editAt}
-                            </small>
-                          </div>
-                          <div className="fc06">
-                            <div className="feed-icons__wrapper">
-                              <span className="lk__icon">
-                                {like ? (
-                                  <FontAwesomeIcon
-                                    icon={faHeart}
-                                    className="heart__button fill-heart"
-                                    onClick={() => clickLike(feed.id)}
-                                    title="좋아요 취소"
-                                  />
-                                ) : (
-                                  <FontAwesomeIcon
-                                    icon={borderHeart}
-                                    className="heart__button"
-                                    onClick={() => clickLike(feed.id)}
-                                    title="좋아요"
-                                  />
-                                )}
-                                {feed.like}
-                              </span>
-                              <span className="bm__icon">
-                                <FontAwesomeIcon
-                                  icon={faBookmark}
-                                  title="북마크"
-                                />
-                              </span>
-                              <span className="cm__icon">
-                                <FontAwesomeIcon
-                                  icon={faComment}
-                                  title="댓글"
-                                />
-                              </span>
-                              <span className="rp__icon">
-                                <FontAwesomeIcon
-                                  icon={faRepeat}
-                                  title="리트윅"
-                                />
-                              </span>
-                              <span className="sr__icon">
-                                <FontAwesomeIcon
-                                  icon={faShareFromSquare}
-                                  title="공유"
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
+                      getFeeds.map((twixx) => (
+                        <FeedContainer
+                          key={twixx.id}
+                          photo={twixx.photo}
+                          userName={twixx.userName}
+                          userId={twixx.userId}
+                          content={twixx.content}
+                          createdAt={twixx.createdAt.substring(0, 21)}
+                          editAt={twixx.editAt}
+                          likeCount={twixx.like[0]}
+                          reTwixxCount={twixx.reTwixx}
+                          clickLike={() => {}}
+                          handleEdit={() => {}}
+                          handleDelete={() => {}}
+                          id={twixx.id}
+                        />
                       ))
                     ) : (
                       <>
@@ -519,7 +438,6 @@ const Home = () => {
                         <Loading />
                       </>
                     )}
-                    {/* 피드 컨테이너 끝 */}
                   </div>
                 </FormStyle>
               </div>
@@ -538,21 +456,6 @@ const Home = () => {
         </>
       ) : (
         <Auth />
-      )}
-      {edit && (
-        <EditContainerStyle>
-          <div className="wrapper-st">
-            <div className={`edit__container ${animation}`}>
-              <textarea
-                className="prev-content"
-                value={editContent}
-                onChange={handleEditContent}
-              />
-              <button onClick={editConfirm}>수정하기</button>
-              <button onClick={editCancel}>취소</button>
-            </div>
-          </div>
-        </EditContainerStyle>
       )}
     </>
   );

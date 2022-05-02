@@ -8,8 +8,9 @@ import {
   faEnvelope,
   faImage,
   faPaperPlane,
+  faMobile,
 } from "@fortawesome/free-solid-svg-icons";
-import { useAuth, upload, myFirestore } from "myFirebase";
+import { useAuth, upload, myFirestore, uploadBgImg } from "myFirebase";
 import {
   deleteUser,
   reauthenticateWithCredential,
@@ -23,12 +24,12 @@ import {
   getDocs,
   doc,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
 import Loading from "common/Loading";
-import gsap from "gsap";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -198,7 +199,7 @@ const ProfileStyle = styled.div`
     height: 300px;
     object-fit: cover;
     z-index: 9;
-    filter: brightness(60%);
+    filter: brightness(80%);
   }
   .form__wraapper,
   .info__wrapper,
@@ -238,6 +239,30 @@ const ProfileStyle = styled.div`
     }
   }
 
+  .verify-email__button {
+    color: var(--logo-dark-color);
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+
+    :hover {
+      color: var(--logo-color);
+    }
+  }
+
+  .phone-number__input {
+    background-color: transparent;
+    color: #dcdcdc;
+    border: none;
+    font-size: 15px;
+
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
   @media screen and (max-width: 1280px) {
     .main__frame {
       grid-template-columns: 300px minmax(500px, 1fr);
@@ -255,12 +280,15 @@ const Profile = () => {
   const currentUser = useAuth();
   const navi = useNavigate();
 
+  console.log(currentUser);
+
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState(
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
+  const [bgImg, setBgImg] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [nameButton, setNameButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
@@ -281,7 +309,8 @@ const Profile = () => {
           const collectionRef = collection(myFirestore, "feeds");
           const q = query(
             collectionRef,
-            where("userId", "==", currentUser.email)
+            where("userId", "==", currentUser.email),
+            orderBy("createdAt", "desc")
           );
           const snapshot = await getDocs(q);
 
@@ -425,6 +454,11 @@ const Profile = () => {
     }
   }
 
+  // 이메일 인증하기
+  function verifyEmail() {
+    alert("이메일 인증");
+  }
+
   return (
     <>
       <ProfileStyle>
@@ -440,7 +474,12 @@ const Profile = () => {
                 className="avatar"
               />
               <img
-                src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+                // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+                src={
+                  bgImg
+                    ? bgImg
+                    : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
+                }
                 alt="avatar-background"
                 className="avatar-background"
               />
@@ -482,7 +521,32 @@ const Profile = () => {
                     icon={faEnvelope}
                     className="profile-data__icon"
                   />
-                  {currentUser?.email}
+                  {currentUser?.email}　
+                  {currentUser?.emailVerified ? (
+                    "인증완료"
+                  ) : (
+                    <span
+                      className="verify-email__button"
+                      onClick={verifyEmail}
+                    >
+                      이메일을 인증하세요
+                    </span>
+                  )}
+                </p>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faMobile}
+                    className="profile-data__icon"
+                  />
+                  {currentUser?.phoneNumber ? (
+                    currentUser.phoneNumber
+                  ) : (
+                    <input
+                      type="number"
+                      className="phone-number__input"
+                      placeholder="번호를 등록하세요"
+                    />
+                  )}
                 </p>
                 {currentUser && (
                   <>
@@ -576,6 +640,7 @@ const Profile = () => {
                     createdAt={twixx.createdAt.substring(0, 21)}
                     editAt={twixx.editAt}
                     likeCount={twixx.like}
+                    reTwixxCount={twixx.reTwixx}
                     clickLike={() => {}}
                     handleEdit={() => {}}
                     handleDelete={() => {}}
