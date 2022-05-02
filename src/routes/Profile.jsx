@@ -637,7 +637,7 @@ const Profile = () => {
                     content={twixx.content}
                     createdAt={twixx.createdAt.substring(0, 21)}
                     editAt={twixx.editAt}
-                    likeCount={twixx.like}
+                    likeCount={twixx.like.length}
                     reTwixxCount={twixx.reTwixx}
                     clickLike={() => {}}
                     handleEdit={() => {}}

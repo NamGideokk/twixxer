@@ -17,16 +17,12 @@ import {
 
 import {
   doc,
-  setDoc,
   deleteDoc,
   updateDoc,
   getDoc,
   deleteField,
-  collection,
-  getDocs,
 } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
-import { getSuggestedQuery } from "@testing-library/react";
 
 const FeedContStyle = styled.div`
   .feed__container {
@@ -104,22 +100,44 @@ const FeedContStyle = styled.div`
     .feed-icons__wrapper {
       display: flex;
       justify-content: space-between;
+
+      div {
+        padding-top: 6px;
+      }
     }
 
     span {
-      text-align: center;
       width: fit-content;
       padding: 7px;
       font-size: 17px;
       cursor: pointer;
       border-radius: 50%;
       transition: 0.3s;
-
-      .heart__button {
-        margin-right: 5px;
-      }
       .fill-heart {
         color: #ff4444;
+      }
+    }
+    .count {
+      padding: 0;
+    }
+
+    .heart__button {
+      margin-right: 0 !important;
+    }
+    .lk__div {
+      :hover {
+        color: #ff4444;
+      }
+    }
+
+    .lk__icon {
+      width: 100px !important;
+      height: 30px;
+      text-align: center;
+
+      :hover {
+        color: #ff4444;
+        background-color: #ff44442f;
       }
     }
 
@@ -139,6 +157,11 @@ const FeedContStyle = styled.div`
       :hover {
         color: #14ad14;
         background-color: #40c9402f;
+      }
+    }
+    .rp__div {
+      :hover {
+        color: #d000be;
       }
     }
     .rp__icon {
@@ -349,25 +372,14 @@ const FeedContainer = ({
       const docSnap = await getDoc(docRef);
       let prevLike = docSnap.data().like;
 
-      // prevLike.forEach((uid, index) => {
-      //   console.log(index, +" " + uid);
-
-      //   if (uid === currentUser.uid) {
-      //     alert("이미존재합니다");
-      //   }
-
-      // });
-
       const isLike = prevLike.includes(currentUser.uid);
 
       // like 배열에 나의 uid가 있으면 (좋아요한 상태)
       if (isLike) {
-        console.log("좋아요 누른 게시물");
         // like 배열에 나의 uid 삭제
         prevLike.forEach((uid, index) => {
           if (uid === currentUser.uid) {
             prevLike.splice(index, 1);
-            console.log(prevLike);
           }
         });
         const payload = {
@@ -375,8 +387,6 @@ const FeedContainer = ({
         };
         updateDoc(docRef, payload);
       } else {
-        console.log("좋아요 안누른 게시물");
-
         const payload = {
           like: [...prevLike, currentUser.uid],
         };
@@ -452,34 +462,38 @@ const FeedContainer = ({
         </div>
         <div className="fc06">
           <div className="feed-icons__wrapper">
-            <span className="lk__icon">
-              {like ? (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  className="heart__button fill-heart"
-                  onClick={() => clickLike(id)}
-                  title="좋아요 취소"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={borderHeart}
-                  className="heart__button"
-                  onClick={() => clickLike(id)}
-                  title="좋아요"
-                />
-              )}
-              {likeCount}
-            </span>
+            <div className="lk__div">
+              <span className="lk__icon">
+                {like ? (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className="heart__button fill-heart"
+                    onClick={() => clickLike(id)}
+                    title="좋아요 취소"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={borderHeart}
+                    className="heart__button"
+                    onClick={() => clickLike(id)}
+                    title="좋아요"
+                  />
+                )}
+              </span>
+              <span className="count">{likeCount}</span>
+            </div>
             <span className="bm__icon">
               <FontAwesomeIcon icon={faBookmark} title="북마크" />
             </span>
             <span className="cm__icon">
               <FontAwesomeIcon icon={faComment} title="댓글" />
             </span>
-            <span className="rp__icon" onClick={() => clickReTwixx(id)}>
-              <FontAwesomeIcon icon={faRepeat} title="리트윅" />
-              {reTwixxCount}
-            </span>
+            <div className="rp__div">
+              <span className="rp__icon" onClick={() => clickReTwixx(id)}>
+                <FontAwesomeIcon icon={faRepeat} title="리트윅" />
+              </span>
+              <span className="count">{reTwixxCount}</span>
+            </div>
             <span className="sr__icon">
               <FontAwesomeIcon
                 icon={faShareFromSquare}
