@@ -1,4 +1,6 @@
-import React from "react";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { myFirestore } from "myFirebase";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const AsideStyle = styled.div`
@@ -59,6 +61,13 @@ const AsideStyle = styled.div`
     padding: 5px 20px;
     :hover {
       background-color: white;
+    }
+
+    h3 {
+      margin: 4px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     small {
@@ -152,9 +161,28 @@ const AsideStyle = styled.div`
 `;
 
 const Aside = () => {
+  const [getHotFeeds, setGetHotFeeds] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const collectionRef = collection(myFirestore, "feeds");
+    const q = query(collectionRef, orderBy("reTwixx", "desc"));
+
+    setLoading(true);
+    const unsub = onSnapshot(q, (snapshot) => {
+      setGetHotFeeds(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+      setLoading(false);
+    });
+
+    return unsub;
+  }, []);
+
   function searchTwixxer(e) {
     e.preventDefault();
   }
+
   return (
     <AsideStyle>
       <div className="aside__wrapper">
@@ -169,17 +197,18 @@ const Aside = () => {
           </div>
 
           {/* 필터를 통한 추천 (일단 하드 코딩) */}
-          <div className="trends__item">
-            <small>Trending in South Korea</small>
-            <h3>일론 머스크</h3>
-            <p>3.4k Twixxs</p>
-          </div>
-          <div className="trends__item">
-            <small>Trending in South Korea</small>
-            <h3>디즈니</h3>
-            <p>5.2k Twixxs</p>
-          </div>
+          {getHotFeeds &&
+            getHotFeeds.map((twixx) => (
+              <div className="trends__item" key={twixx.id}>
+                <small>Trending in South Korea</small>
+                <h3>
+                  @{twixx.userName}　<small>{twixx.content}</small>
+                </h3>
+                <p>{twixx.reTwixx} Re-twixx</p>
+              </div>
+            ))}
         </div>
+
         <div className="follow__wrapper">
           <div>
             <h2>팔로우 추천</h2>

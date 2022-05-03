@@ -9,6 +9,7 @@ import {
   faImage,
   faPaperPlane,
   faMobile,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore, uploadBgImg } from "myFirebase";
 import {
@@ -239,6 +240,11 @@ const ProfileStyle = styled.div`
     }
   }
 
+  .check__icon {
+    color: #2ed82e;
+    margin-left: 5px;
+  }
+
   .verify-email__button {
     color: var(--logo-dark-color);
     cursor: pointer;
@@ -314,8 +320,6 @@ const ProfileStyle = styled.div`
 const Profile = () => {
   const currentUser = useAuth();
   const navi = useNavigate();
-
-  console.log(currentUser);
 
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -591,7 +595,10 @@ const Profile = () => {
                   />
                   {currentUser?.email}　
                   {currentUser?.emailVerified ? (
-                    "인증완료"
+                    <span>
+                      인증완료
+                      <FontAwesomeIcon icon={faCheck} className="check__icon" />
+                    </span>
                   ) : (
                     <span
                       className="verify-email__button"
