@@ -5,14 +5,7 @@ import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  deleteDoc,
-  query,
-  orderBy,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
 import Aside from "components/Aside";
@@ -20,6 +13,7 @@ import Aside from "components/Aside";
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
+import Loading from "common/Loading";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -244,90 +238,30 @@ const MainFrameStyle = styled.div`
 const Home = () => {
   const currentUser = useAuth();
   const [getFeeds, setGetFeeds] = useState();
-  const [edit, setEdit] = useState(false);
-  const [editContent, setEditContent] = useState("");
-  const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectId, setSelectId] = useState();
-  const [animation, setAnimation] = useState("");
-  const [feedContAnimation, setFeedContAnimation] =
-    useState("fc__open-animation");
 
   // 데이터(피드) 가져오기
   useEffect(() => {
+    setLoading(true);
+
     const collectionRef = collection(myFirestore, "feeds");
     const q = query(collectionRef, orderBy("createdAt", "desc"));
 
-    setLoading(true);
     const unsub = onSnapshot(q, (snapshot) => {
       setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      setLoading(false);
     });
+
+    if (currentUser) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
 
     return unsub;
   }, []);
-
-  // 피드 수정 모달창 열고 ID값 state에 저장
-  function handleEdit(id) {
-    setEdit(true);
-    setAnimation("fec__open-animation");
-    setSelectId(id);
-    setTimeout(() => {
-      setAnimation("");
-    }, 500);
-  }
-
-  function handleEditContent(e) {
-    setEditContent(e.target.value);
-  }
-
-  // // 피드 수정하기 클릭
-  // async function editConfirm() {
-  //   const docRef = doc(myFirestore, "feeds", selectId);
-  //   const payload = {
-  //     content: editContent,
-  //     createdAt: Date(),
-  //     editAt: "수정됨",
-  //   };
-
-  //   if (editContent.length === 0) {
-  //     alert("내용을 입력해주세요");
-  //   } else {
-  //     await updateDoc(docRef, payload);
-  //     setAnimation("fec__close-animation");
-  //     setTimeout(() => {
-  //       setEdit(false);
-  //       setEditContent("");
-  //     }, 500);
-  //   }
-  // }
-
-  // 피드 수정하기 취소
-  function editCancel(e) {
-    setAnimation("fec__close-animation");
-    setTimeout(() => {
-      setEdit(false);
-    }, 500);
-  }
-
-  async function handleDelete(id) {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    console.log(id);
-
-    try {
-      if (confirmDelete) {
-        const docRef = doc(myFirestore, "feeds", id);
-        setFeedContAnimation("delete__animation");
-
-        await setTimeout(() => {
-          deleteDoc(docRef);
-          setFeedContAnimation("fc__open-animation");
-        }, 1000);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   // 화면 위로 이동 버튼
   function upButton() {
@@ -339,7 +273,11 @@ const Home = () => {
 
   return (
     <>
-      {currentUser ? (
+      {loading ? (
+        // 로딩중이면
+        <Loading />
+      ) : // 로딩끝나면
+      currentUser?.email ? (
         <>
           <MainFrameStyle>
             <div className="main__frame">
@@ -350,7 +288,6 @@ const Home = () => {
                 <FeedForm />
                 <FormStyle>
                   <div className="feed__cont__wrapper">
-                    {/* 피드 컨테이너 */}
                     {getFeeds ? (
                       getFeeds.map((twixx) => (
                         <FeedContainer
@@ -363,8 +300,6 @@ const Home = () => {
                           editAt={twixx.editAt}
                           likeCount={twixx.like.length}
                           reTwixxCount={twixx.reTwixx}
-                          handleEdit={() => {}}
-                          handleDelete={() => {}}
                           id={twixx.id}
                         />
                       ))
@@ -375,6 +310,7 @@ const Home = () => {
                         <LoadingContainer />
                       </>
                     )}
+
                     {getFeeds?.length === 0 && <EmptyFeed />}
                   </div>
                 </FormStyle>
