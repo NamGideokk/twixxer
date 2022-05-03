@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/twixxer/static/css/main.db1e9e0b.css",
+    "main.js": "/twixxer/static/js/main.0ba20527.js",
+    "index.html": "/twixxer/index.html",
+    "main.db1e9e0b.css.map": "/twixxer/static/css/main.db1e9e0b.css.map",
+    "main.0ba20527.js.map": "/twixxer/static/js/main.0ba20527.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.db1e9e0b.css",
+    "static/js/main.0ba20527.js"
+  ]
+}
