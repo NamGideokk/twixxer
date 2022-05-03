@@ -18,16 +18,6 @@ const FeedFormStyle = styled.div`
     position: sticky;
     top: 0;
     z-index: 99;
-
-    ::before {
-      content: "";
-      background: linear-gradient(to top, rgb(30, 30, 30), transparent);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
   .avatar {
     width: 100px;

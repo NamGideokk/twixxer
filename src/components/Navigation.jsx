@@ -88,7 +88,36 @@ const NaviStyle = styled.div`
     width: 60px;
   }
 
-  @media screen and (max-width: 1515px) {
+  @media screen and (max-width: 820px) {
+    .navi__wrapper {
+      width: 80px;
+      overflow: hidden;
+    }
+    .nav__icons {
+      width: 60px;
+      font-size: 30px;
+      margin-right: 30px;
+    }
+
+    li {
+      width: 80px !important;
+      white-space: nowrap;
+      :hover {
+        padding-left: 15px !important;
+      }
+    }
+    .empty__div {
+      width: 80px;
+      height: 1px;
+    }
+    .first-list {
+    }
+    .lang__span {
+      display: none;
+    }
+    .twixxer {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -117,7 +146,7 @@ const Navigation = () => {
         <ul className="navi__wrapper">
           <div className="first-list">
             <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
-            twixxer
+            <span className="twixxer">twixxer</span>
             <span onClick={changeLanguage} className="lang__span">
               <FontAwesomeIcon icon={faGlobe} className="lang__icon" />
               {navLang ? "ENG" : "KOR"}

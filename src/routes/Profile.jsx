@@ -283,6 +283,32 @@ const ProfileStyle = styled.div`
     .sec__c {
     }
   }
+
+  @media screen and (max-width: 1280px) and (min-width: 821px) {
+    .main__frame {
+      grid-template-columns: 300px minmax(500px, 1fr);
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "a b"
+        "c b";
+    }
+    .sec__c {
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    .main__frame {
+      grid-template-columns: 80px minmax(300px, auto) !important;
+      grid-template-rows: 1fr !important;
+      grid-template-areas: "a b" !important;
+    }
+    .sec__b {
+      width: 90vw !important;
+    }
+    .sec__c {
+      width: 0 !important;
+    }
+  }
 `;
 
 const Profile = () => {

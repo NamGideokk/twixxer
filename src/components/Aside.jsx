@@ -124,7 +124,7 @@ const AsideStyle = styled.div`
     }
   }
 
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1280px) and (min-width: 821px) {
     .aside__wrapper {
       max-width: 300px;
       width: 100%;
@@ -142,6 +142,11 @@ const AsideStyle = styled.div`
           transform: translateY(-2px);
         }
       }
+    }
+  }
+  @media screen and (max-width: 820px) {
+    .aside__wrapper {
+      display: none;
     }
   }
 `;
