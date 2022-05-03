@@ -1,4 +1,10 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -166,7 +172,7 @@ const Aside = () => {
 
   useEffect(() => {
     const collectionRef = collection(myFirestore, "feeds");
-    const q = query(collectionRef, orderBy("reTwixx", "desc"));
+    const q = query(collectionRef, orderBy("reTwixx", "desc"), limit(3));
 
     setLoading(true);
     const unsub = onSnapshot(q, (snapshot) => {
