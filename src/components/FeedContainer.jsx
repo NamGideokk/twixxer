@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -307,17 +307,13 @@ const FeedContainer = ({
   editAt,
   likeCount,
   reTwixxCount,
-  handleDelete,
   id,
 }) => {
   const currentUser = useAuth();
 
-  useEffect(() => {}, []);
-
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState();
   const [animation, setAnimation] = useState("");
   const [iconAni, setIconAni] = useState("");

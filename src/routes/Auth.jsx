@@ -8,7 +8,6 @@ import { login, loginGoogle, loginGithub } from "myFirebase";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SignUp from "components/SignUp";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const AuthStyle = styled.div`
   form {
@@ -103,25 +102,6 @@ const AuthStyle = styled.div`
       background-color: var(--logo-dark-color);
     }
   }
-
-  .validation__icon {
-    position: absolute;
-    right: 38px;
-    transform: translateY(-45px);
-    color: #2da52d;
-    font-size: 20px;
-    display: none;
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    border-radius: 50%;
-    background-color: #6dd26dc3;
-    animation: opacity-animation 1s;
-  }
-
-  .show__icon {
-    display: block;
-  }
 `;
 
 const Auth = () => {
@@ -129,7 +109,6 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("none");
-  const [animation, setAnimation] = useState("");
 
   const emailInput = useRef();
 
@@ -144,22 +123,9 @@ const Auth = () => {
     } = e;
 
     if (name === "email") {
-      // console.log("email의 값", e);
       setEmail(value);
-      if (name === "email" && e.target.validity.valid) {
-        setAnimation("show__icon");
-      } else {
-        setAnimation("");
-      }
     } else if (name === "password") {
-      // console.log("password의 값", e);
-
       setPassword(value);
-      if (name === "password" && e.target.validity.valid) {
-        setAnimation("show__icon");
-      } else {
-        setAnimation("");
-      }
     }
   }
 
@@ -233,10 +199,6 @@ const Auth = () => {
             onChange={onChange}
             required
           />
-          <FontAwesomeIcon
-            icon={faCheck}
-            className={`validation__icon ${animation}`}
-          />
           <input
             name="password"
             type="password"
@@ -245,10 +207,6 @@ const Auth = () => {
             value={password}
             onChange={onChange}
             required
-          />
-          <FontAwesomeIcon
-            icon={faCheck}
-            className={`validation__icon ${animation}`}
           />
           <input
             type="submit"

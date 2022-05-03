@@ -1,7 +1,9 @@
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEarthAmerica,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { EarthOutline } from "react-ionicons";
 import styled from "styled-components";
 
 const EmptyFeedStyle = styled.div`
@@ -18,7 +20,7 @@ const EmptyFeedStyle = styled.div`
     }
   }
   .earth {
-    font-size: 200px;
+    font-size: 180px;
     color: #d5d5d5;
   }
   .plane__wrapper {
@@ -32,6 +34,12 @@ const EmptyFeedStyle = styled.div`
 
     animation: flying-plane 5s infinite;
   }
+
+  .earth__icon {
+    font-size: 200px;
+    color: #d5d5d5;
+  }
+
   .plane {
     transform: rotate(40deg);
     color: var(--logo-color);
@@ -51,7 +59,7 @@ const EmptyFeed = () => {
   return (
     <EmptyFeedStyle>
       <div className="ef__wrapper">
-        <EarthOutline width="200px" height="200px" color="#d5d5d5" />
+        <FontAwesomeIcon icon={faEarthAmerica} className="earth__icon" />
         <p>전 세계인들과의 소통을 지금 시작해 보세요</p>
       </div>
       <div className="plane__wrapper">

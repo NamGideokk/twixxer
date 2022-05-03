@@ -203,16 +203,31 @@ const Aside = () => {
           </div>
 
           {/* 필터를 통한 추천 (일단 하드 코딩) */}
-          {getHotFeeds &&
+          {getHotFeeds.length > 0 && !loading ? (
             getHotFeeds.map((twixx) => (
               <div className="trends__item" key={twixx.id}>
                 <small>Trending in South Korea</small>
                 <h3>
-                  @{twixx.userName}　<small>{twixx.content}</small>
+                  {twixx.userName}　<small>{twixx.content}</small>
                 </h3>
                 <p>{twixx.reTwixx} Re-twixx</p>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="trends__item">
+              <small></small>
+              <h3
+                style={{
+                  textAlign: "center",
+                  color: "#1e1e1e",
+                  fontWeight: "lighter",
+                }}
+              >
+                추천할 게시물이 없네요 😥
+              </h3>
+              <p></p>
+            </div>
+          )}
         </div>
 
         <div className="follow__wrapper">

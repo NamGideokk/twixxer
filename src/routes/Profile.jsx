@@ -11,7 +11,7 @@ import {
   faMobile,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useAuth, upload, myFirestore, uploadBgImg } from "myFirebase";
+import { useAuth, upload, myFirestore } from "myFirebase";
 import {
   deleteUser,
   reauthenticateWithCredential,
@@ -333,7 +333,6 @@ const Profile = () => {
   const [nameButton, setNameButton] = useState(false);
   const [phoneNumberButton, setPhoneNumberButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
-  const [feedContAnimation, setFeedContAnimation] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -371,7 +370,7 @@ const Profile = () => {
       setLoading(false);
       getMyTwixxs();
     }
-  }, [currentUser?.photoURL, currentUser?.displayName]);
+  }, [currentUser?.photoURL]);
 
   function handleFile(e) {
     const reader = new FileReader();
