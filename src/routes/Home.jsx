@@ -253,7 +253,7 @@ const MainFrameStyle = styled.div`
     .sec__b {
       width: 100% !important;
       padding: 0 !important;
-      margin: 210px auto 70px auto !important;
+      margin: 210px auto 30px auto !important;
     }
     .sec__c {
       width: 0 !important;

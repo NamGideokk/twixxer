@@ -208,8 +208,9 @@ a {
   .up__button {
     width: 20px;
     height: 20px;
-    opacity: 0.9;
     right: 50px;
     bottom: 12%;
+    background-color: rgba(169, 132, 237, 0.5);
+    backdrop-filter: blur(10px);
   }
 }
