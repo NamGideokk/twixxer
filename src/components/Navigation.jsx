@@ -129,6 +129,8 @@ const NaviStyle = styled.div`
       width: 100%;
       height: 75px;
       padding: 0;
+      background-color: rgba(169, 132, 237, 0.5);
+      backdrop-filter: blur(10px);
 
       li {
         width: 50px !important;
