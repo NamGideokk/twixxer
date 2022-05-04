@@ -241,7 +241,7 @@ const MainFrameStyle = styled.div`
       grid-template-areas:
         "b"
         "a" !important;
-      width: 414px !important;
+      width: 100% !important;
     }
     .sec__a {
       width: 414px !important;
@@ -254,11 +254,13 @@ const MainFrameStyle = styled.div`
       left: 0 !important;
     }
     .sec__b {
-      width: 414px !important;
+      margin-top: 210px;
+      width: 100vw !important;
       padding: 0 !important;
     }
     .sec__c {
       width: 0 !important;
+      display: none;
     }
   }
 `;

@@ -34,6 +34,12 @@ const AlertContStyle = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 414px) {
+    .new-feed-alert__wrapper {
+      width: 414px !important;
+    }
+  }
 `;
 
 const AlertContainer = ({

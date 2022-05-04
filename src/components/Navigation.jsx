@@ -127,15 +127,15 @@ const NaviStyle = styled.div`
       bottom: 0;
       margin: 0 auto;
       width: 414px;
-      height: 55px;
+      height: 75px;
       padding: 0;
 
       li {
         width: 50px !important;
-        height: 55px;
+        height: 75px;
         overflow: hidden;
         margin: 0 44px;
-        padding: 12px 0;
+        padding: 20px 0;
 
         :hover {
           color: white;
