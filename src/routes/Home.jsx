@@ -237,7 +237,7 @@ const MainFrameStyle = styled.div`
 
 const Home = () => {
   const currentUser = useAuth();
-  const [getFeeds, setGetFeeds] = useState();
+  const [getFeeds, setGetFeeds] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // 데이터(피드) 가져오기
@@ -250,15 +250,7 @@ const Home = () => {
     const unsub = onSnapshot(q, (snapshot) => {
       setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
-
-    if (currentUser) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    setLoading(false);
 
     return unsub;
   }, []);

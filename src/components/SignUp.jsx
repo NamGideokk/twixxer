@@ -25,7 +25,7 @@ const SignUpStyle = styled.div`
     position: relative;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -50%);
 
     input {
       width: 100%;
@@ -60,6 +60,7 @@ const SignUpStyle = styled.div`
     font-size: 18px;
     padding: 10px 0;
     background-color: var(--logo-color);
+    color: black;
     margin-top: 70px;
     transition: 0.3s;
 

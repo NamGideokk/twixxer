@@ -19,18 +19,18 @@ const AuthStyle = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -50%);
 
     .logo__icon {
       color: var(--logo-color);
       font-size: 50px;
       position: absolute;
-      transform: translate(-30px, -170px);
+      transform: translate(-30px, -140px);
     }
 
     .logo {
       position: absolute;
-      transform: translateY(-130px);
+      transform: translateY(-100px);
       padding-left: 10px;
       max-width: 100%;
       width: 85%;
@@ -50,11 +50,13 @@ const AuthStyle = styled.div`
       }
     }
 
-    input[type="submit"] {
-      cursor: pointer;
+    .login__button {
+      width: 100%;
+      height: 40px;
+      font-size: 18px;
       background-color: var(--logo-color);
       color: white;
-      border: none;
+      transition: 0.3s;
 
       :hover {
         background-color: var(--logo-dark-color);
@@ -80,6 +82,7 @@ const AuthStyle = styled.div`
     .google,
     .github {
       background-color: white;
+      color: black;
       border-radius: 10px;
       padding: 5px 10px;
     }
@@ -100,6 +103,7 @@ const AuthStyle = styled.div`
     padding: 10px 0;
     background-color: var(--logo-color);
     transition: 0.3s;
+    color: black;
 
     :hover {
       background-color: var(--logo-dark-color);
@@ -218,11 +222,9 @@ const Auth = () => {
             onChange={onChange}
             required
           />
-          <input
-            type="submit"
-            value={loading ? "로그인중..." : "로그인"}
-            disabled={loading}
-          />
+          <button className="login__button" type="submit" disabled={loading}>
+            {loading ? "로그인중..." : "로그인"}
+          </button>
           <div className="btn__wrapper">
             <button
               name="google"
