@@ -244,19 +244,16 @@ const MainFrameStyle = styled.div`
       width: 100% !important;
     }
     .sec__a {
-      width: 414px !important;
+      width: 100% !important;
       height: 55px !important;
-      position: fixed !important;
-      bottom: 0 !important;
-      left: 0 !important;
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
     }
     .sec__b {
-      margin-top: 210px;
-      width: 100vw !important;
+      width: 100% !important;
       padding: 0 !important;
+      margin: 210px auto 0 auto !important;
     }
     .sec__c {
       width: 0 !important;

@@ -208,8 +208,9 @@ const FeedContStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .feed__container {
-      margin: 0 7px !important;
-      width: 400px !important;
+      margin: 0 auto !important;
+      max-width: 95% !important;
+      width: 90% !important;
     }
   }
 

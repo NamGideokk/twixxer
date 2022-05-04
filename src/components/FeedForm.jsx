@@ -113,7 +113,6 @@ const FeedFormStyle = styled.div`
       position: fixed !important;
       top: 0 !important;
       z-index: 20;
-      background-color: #8b558b6c;
     }
     .name-email__wrapper {
       h1 {

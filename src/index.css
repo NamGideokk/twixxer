@@ -209,7 +209,7 @@ a {
     width: 20px;
     height: 20px;
     opacity: 0.9;
-    left: 30px;
+    right: 50px;
     bottom: 12%;
   }
 }
