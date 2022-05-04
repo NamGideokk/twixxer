@@ -14,7 +14,8 @@ const SignUpStyle = styled.div`
     left: 0;
   }
   .signup__wrapper {
-    width: 450px;
+    max-width: 450px;
+    width: 85%;
     height: 327px;
     padding: 30px;
     background-color: rgb(30, 30, 30);

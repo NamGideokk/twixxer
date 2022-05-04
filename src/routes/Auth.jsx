@@ -11,7 +11,8 @@ import SignUp from "components/SignUp";
 
 const AuthStyle = styled.div`
   form {
-    width: 450px;
+    max-width: 450px;
+    width: 85%;
     height: fit-content;
     padding: 30px;
 
@@ -31,6 +32,8 @@ const AuthStyle = styled.div`
       position: absolute;
       transform: translateY(-130px);
       padding-left: 10px;
+      max-width: 100%;
+      width: 85%;
     }
 
     input {
@@ -100,6 +103,13 @@ const AuthStyle = styled.div`
 
     :hover {
       background-color: var(--logo-dark-color);
+    }
+  }
+
+  @media screen and (max-width: 414px) {
+    .google,
+    .github {
+      font-size: 10px !important;
     }
   }
 `;
