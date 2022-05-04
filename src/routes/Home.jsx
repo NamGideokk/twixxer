@@ -241,12 +241,14 @@ const MainFrameStyle = styled.div`
       grid-template-areas:
         "b"
         "a" !important;
+      width: 414px !important;
     }
     .sec__a {
-      margin: 0 auto;
-      width: 414px;
-      height: 50px;
-      background-color: red;
+      width: 414px !important;
+      height: 55px !important;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
