@@ -203,3 +203,12 @@ a {
 .fec__close-animation {
   animation: showing 0.5s reverse forwards;
 }
+
+@media screen and (max-width: 414px) {
+  .up__button {
+    width: 20px;
+    height: 20px;
+    opacity: 0.9;
+    left: 30px;
+  }
+}

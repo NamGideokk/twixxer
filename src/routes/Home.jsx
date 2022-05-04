@@ -233,6 +233,32 @@ const MainFrameStyle = styled.div`
       width: 0 !important;
     }
   }
+
+  @media screen and (max-width: 414px) {
+    .main__frame {
+      grid-template-columns: 1fr !important;
+      grid-template-rows: 1fr 70px !important;
+      grid-template-areas:
+        "b"
+        "a" !important;
+    }
+    .sec__a {
+      margin: 0 auto;
+      width: 414px;
+      height: 50px;
+      background-color: red;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+    }
+    .sec__b {
+      width: 414px !important;
+      padding: 0 !important;
+    }
+    .sec__c {
+      width: 0 !important;
+    }
+  }
 `;
 
 const Home = () => {

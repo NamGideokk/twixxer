@@ -206,6 +206,13 @@ const FeedContStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 414px) {
+    .feed__container {
+      margin: 0 7px !important;
+      width: 400px !important;
+    }
+  }
+
   /* 새 피드 알림 창 애니메이션 */
   .open-alert {
     display: block;

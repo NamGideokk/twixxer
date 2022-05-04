@@ -119,6 +119,43 @@ const NaviStyle = styled.div`
       font-size: 18px;
     }
   }
+
+  @media screen and (max-width: 414px) {
+    .navi__wrapper {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      margin: 0 auto;
+      width: 414px;
+      height: 55px;
+      padding: 0;
+
+      li {
+        width: 50px !important;
+        height: 55px;
+        overflow: hidden;
+        margin: 0 44px;
+        padding: 12px 0;
+
+        :hover {
+          color: white;
+          padding-left: 0 !important;
+          background-color: var(--logo-color);
+        }
+      }
+
+      .phone-device-none {
+        display: none;
+      }
+    }
+    .nav__icons {
+      padding: 0 !important;
+      margin-right: 0 !important;
+    }
+    .first-list {
+      display: none;
+    }
+  }
 `;
 
 const Navigation = () => {
@@ -159,31 +196,31 @@ const Navigation = () => {
             </li>
           </NavLink>
           <NavLink to="/">
-            <li>
+            <li className="phone-device-none">
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li>
+            <li className="phone-device-none">
               <FontAwesomeIcon icon={faBell} className="nav__icons" />
               {navLang ? "알림" : "Notifications"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li>
+            <li className="phone-device-none">
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li>
+            <li className="phone-device-none">
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li>
+            <li className="phone-device-none">
               <FontAwesomeIcon icon={faList} className="nav__icons" />
               {navLang ? "목록" : "Lists"}
             </li>
