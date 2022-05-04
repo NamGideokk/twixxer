@@ -7,7 +7,9 @@ twixxer - 트위터 클론 코딩
 　
 
 
-* 💻 https://namgideokk.github.io/twixxer/ - ❗ 아직 모바일 기기 스크린에 최적화가 되지 않아 데스크톱에서 보시길 권장합니다 ❗
+* 💻 https://namgideokk.github.io/twixxer/
+
+    ❗ 아직 모바일 기기 스크린에 최적화가 되지 않아 데스크톱에서 보시길 권장합니다 ❗
 
 * 🛠 Skill to use  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=black"/>
 
@@ -117,6 +119,14 @@ twixxer - 트위터 클론 코딩
 
 　
  
+ * 게시물 권한
+
+![16](https://user-images.githubusercontent.com/96227239/166671713-b42f535c-1a51-4e74-abbe-d05cc6709b5c.gif)
+
+나의 게시물에만 수정, 삭제 아이콘이 출력됩니다.
+
+　
+ 
  * 추천 게시물
 
 ![08](https://user-images.githubusercontent.com/96227239/166668882-e993d817-1425-4daf-b579-59a06a33f1f0.gif)
@@ -187,3 +197,11 @@ twixxer - 트위터 클론 코딩
  ✒ 1인 프로젝트를 마치며
 --------------------------
 
+이번 작은 프로젝트를 통해 Firebase를 처음 사용해 보았는데, 진입장벽이 높거나 크게 어렵지 않으면서도 충분한 웹서비스를 구축할 수 있어서 굉장히 재미있고 좋은 배움을 얻었습니다. 다음에는 좀 더 큰 규모의 프로젝트를 Firebase로 구축해 보고 싶다고 느낄 정도로 편리하고 흥미로운 플랫폼이었습니다.
+
+ 
+ 이번 프로젝트에서 가장 중점적으로 공들인 점은 애니메이션이었습니다. 이전에는 아주 간단한 애니메이션만 적용해 보다가 모달창이 사라질 때 애니메이션을 적용하는 법이나 여러 상황에 따라 다르게 출력되는 애니메이션 등 해보지 않아 어려웠던 작업들을 라이브러리 없이 직접 코딩해보면서 애니메이션에 대한 이해도, 리액트의 편리성을 한 번 더 느끼고 배웠으며, 프론트엔드 개발자의 큰 덕목이 될 수 있는 지식을 조금이지만 제 것으로 만들 수 있어서 굉장히 좋았고 재미있게 작업할 수 있었습니다.
+ 
+  
+아직도 여러 많은 기능들이나 로직은 쉽게 구현하지 못하지만 차근차근 배워가며 완성도 있는 웹페이지로 만들어 갈 예정입니다.
+앞으로도 많은 유용하고 재미있는 프로젝트를 만들고 싶습니다! 읽어주셔서 감사합니다 👋
