@@ -35,7 +35,7 @@ import Loading from "common/Loading";
 const ProfileStyle = styled.div`
   .profile__wrapper {
     width: 100%;
-    height: calc(100% / 2.72);
+    height: fit-content;
     padding: 0 20px 20px 20px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
