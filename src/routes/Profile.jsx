@@ -301,6 +301,7 @@ const ProfileStyle = styled.div`
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
+      z-index: 90;
     }
     .sec__b {
       width: 100vw !important;
@@ -354,6 +355,9 @@ const Profile = () => {
   const [myTwixxs, setMyTwixxs] = useState([]);
 
   useEffect(() => {
+    window.scroll({
+      top: 0,
+    });
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);

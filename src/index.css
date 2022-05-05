@@ -209,7 +209,7 @@ a {
     width: 20px;
     height: 20px;
     right: 7%;
-    bottom: 12%;
+    bottom: 90px;
     background-color: rgba(169, 132, 237, 0.5);
     backdrop-filter: blur(10px);
   }

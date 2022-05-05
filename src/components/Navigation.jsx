@@ -132,12 +132,13 @@ const NaviStyle = styled.div`
       background-color: rgba(169, 132, 237, 0.5);
       backdrop-filter: blur(10px);
       z-index: 80 !important;
+      justify-content: space-evenly;
 
       li {
-        width: 50px !important;
+        width: 25px !important;
         height: 65px;
         overflow: hidden;
-        margin: 0 27px;
+        /* margin: 0 25px; */
         padding: 17px 0;
 
         :hover {
@@ -152,6 +153,7 @@ const NaviStyle = styled.div`
       }
     }
     .nav__icons {
+      width: 25px !important;
       padding: 0 !important;
       margin-right: 0 !important;
     }
@@ -193,19 +195,20 @@ const Navigation = () => {
             </span>
           </div>
           <NavLink to="/">
+            {/* className="phone-device-none" */}
             <li>
               <FontAwesomeIcon icon={faHouse} className="nav__icons" />
               {navLang ? "홈" : "Home"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li className="phone-device-none">
+            <li>
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li className="phone-device-none">
+            <li>
               <FontAwesomeIcon icon={faBell} className="nav__icons" />
               {navLang ? "알림" : "Notifications"}
             </li>
@@ -217,13 +220,13 @@ const Navigation = () => {
             </li>
           </NavLink>
           <NavLink to="/">
-            <li className="phone-device-none">
+            <li>
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
             </li>
           </NavLink>
           <NavLink to="/">
-            <li className="phone-device-none">
+            <li>
               <FontAwesomeIcon icon={faList} className="nav__icons" />
               {navLang ? "목록" : "Lists"}
             </li>
