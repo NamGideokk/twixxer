@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/twixxer/static/css/main.dc54f215.css",
-    "main.js": "/twixxer/static/js/main.5e927824.js",
+    "main.js": "/twixxer/static/js/main.1140e6c6.js",
     "index.html": "/twixxer/index.html",
     "main.dc54f215.css.map": "/twixxer/static/css/main.dc54f215.css.map",
-    "main.5e927824.js.map": "/twixxer/static/js/main.5e927824.js.map"
+    "main.1140e6c6.js.map": "/twixxer/static/js/main.1140e6c6.js.map"
   },
   "entrypoints": [
     "static/css/main.dc54f215.css",
-    "static/js/main.5e927824.js"
+    "static/js/main.1140e6c6.js"
   ]
 }
