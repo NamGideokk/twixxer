@@ -216,7 +216,6 @@ const FeedContStyle = styled.div`
 
   /* 새 피드 알림 창 애니메이션 */
   .open-alert {
-    display: block;
     animation: new-feed-alert 1.5s;
     /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
   }
@@ -234,11 +233,11 @@ const FeedContStyle = styled.div`
 
   /* 삭제 애니메이션 */
   .delete__animation {
-    background-color: red;
+    background-color: red !important;
     color: white;
-    transform: translateX(200px);
+    transform: scale(0);
     opacity: 0;
-    transition: 1s;
+    transition: 1s !important;
   }
 `;
 
@@ -331,7 +330,7 @@ const FeedContainer = ({
   // 좌측하단 알림창 state
   const [alertAnimation, setAlertAnimation] = useState("");
   const [alertContent, setAlertContent] = useState("");
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState("none");
   const [backgroundColor, setBackgroundColor] = useState("");
 
   // 피드 수정 모달창 열고 ID값 state에 저장
@@ -393,30 +392,22 @@ const FeedContainer = ({
 
   // 피드 삭제하기
   async function handleDelete(id) {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    console.log(id);
+    let confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    const docRef = doc(myFirestore, "feeds", id);
 
     try {
       if (confirmDelete) {
-        const docRef = doc(myFirestore, "feeds", id);
-        setFeedContAnimation("delete__animation");
-        setTimeout(() => {
-          setAlertContent("트윅이 삭제되었습니다.");
-          setBackgroundColor("#ff3535");
-          setDisplay("block");
-          setAlertAnimation("open-alert");
-        }, 100);
-        setTimeout(() => {
-          newAlert();
-        }, 1000);
+        // setFeedContAnimation("delete__animation");
+        await deleteDoc(docRef);
 
-        await setTimeout(() => {
-          deleteDoc(docRef);
-          setFeedContAnimation("fc__open-animation");
-        }, 2000);
+        setAlertContent("트윅이 삭제되었습니다.");
+        setBackgroundColor("#ff3535");
+        setDisplay("block");
+        setAlertAnimation("open-alert");
       }
     } catch (e) {
-      console.log(e);
+      console.log(e.code);
+      alert(e.message);
     }
   }
 
@@ -482,6 +473,16 @@ const FeedContainer = ({
       setDisplay("none");
       setBackgroundColor("");
     }, 5000);
+  }
+
+  function newnew() {
+    setTimeout(() => {
+      console.log("삭제 애니메이션");
+      setAlertContent("트윅이 삭제되었습니다.");
+      setBackgroundColor("#ff3535");
+      setDisplay("block");
+      setAlertAnimation("open-alert");
+    }, 3000);
   }
 
   return (

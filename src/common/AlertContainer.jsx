@@ -13,7 +13,7 @@ const AlertContStyle = styled.div`
     display: flex;
 
     .alert__container {
-      display: none;
+      /* display: none; */
       position: relative;
       width: fit-content;
       height: fit-content;
@@ -45,7 +45,7 @@ const AlertContStyle = styled.div`
 
 const AlertContainer = ({
   animation,
-  display,
+  display = "none",
   alertContent,
   backgroundColor = "#a984ed",
 }) => {
@@ -53,8 +53,8 @@ const AlertContainer = ({
     <AlertContStyle>
       <div className="new-feed-alert__wrapper">
         <div
-          style={{ backgroundColor: backgroundColor }}
-          className={`alert__container ${animation} ${display}`}
+          style={{ backgroundColor: backgroundColor, display: display }}
+          className={`alert__container ${animation}`}
         >
           <FontAwesomeIcon icon={faCircleExclamation} className="alert__icon" />
           <p>{alertContent}</p>

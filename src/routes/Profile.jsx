@@ -26,6 +26,7 @@ import {
   doc,
   deleteDoc,
   orderBy,
+  onSnapshot,
 } from "firebase/firestore";
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
@@ -262,7 +263,7 @@ const ProfileStyle = styled.div`
   @media screen and (max-width: 1280px) and (min-width: 821px) {
     .main__frame {
       grid-template-columns: 300px minmax(500px, 1fr);
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: fit-content fit-content;
       grid-template-areas:
         "a b"
         "c b";
@@ -343,28 +344,21 @@ const Profile = () => {
     }
     if (currentUser?.email) {
       setLoading(true);
-      async function getMyTwixxs() {
-        try {
-          const collectionRef = collection(myFirestore, "feeds");
-          const q = query(
-            collectionRef,
-            where("userId", "==", currentUser.email),
-            orderBy("createdAt", "desc")
-          );
-          const snapshot = await getDocs(q);
 
-          const results = snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
-          setMyTwixxs(results);
-        } catch (e) {
-          console.log(e.code);
-          alert(e.message);
-        }
-      }
+      const collectionRef = collection(myFirestore, "feeds");
+      const q = query(
+        collectionRef,
+        where("userId", "==", currentUser.email),
+        orderBy("createdAt", "desc")
+      );
+
+      const unsub = onSnapshot(q, (snapshot) => {
+        setMyTwixxs(
+          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+      });
       setLoading(false);
-      getMyTwixxs();
+      return unsub;
     }
   }, [currentUser?.photoURL]);
 
@@ -402,7 +396,6 @@ const Profile = () => {
         ...doc.data(),
         id: doc.id,
       }));
-      console.log(results);
 
       results.forEach(async (result) => {
         const docRef = doc(myFirestore, "feeds", result.id);

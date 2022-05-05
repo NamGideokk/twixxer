@@ -75,7 +75,6 @@ const FeedFormStyle = styled.div`
 
   /* 새 피드 알림 창 애니메이션 */
   .open-alert {
-    display: block;
     animation: new-feed-alert 1.5s;
     /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
   }
