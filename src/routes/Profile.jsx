@@ -35,8 +35,8 @@ import Loading from "common/Loading";
 const ProfileStyle = styled.div`
   .profile__wrapper {
     width: 100%;
-    height: 100vh;
-    padding: 20px;
+    height: calc(100% / 2.72);
+    padding: 0 20px 20px 20px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
 
@@ -52,7 +52,7 @@ const ProfileStyle = styled.div`
     }
   }
   .util__buttons__wrapper {
-    margin-top: 50px;
+    margin-top: 30px;
   }
   .avatar__label,
   .all-feeds-delete__button,
@@ -88,13 +88,12 @@ const ProfileStyle = styled.div`
     border-radius: 50%;
     background-color: white;
     object-fit: cover;
-    top: 50px;
-    margin-right: 20px;
     display: block;
-    margin: 0 auto 20px auto;
+    margin: 0 auto;
     z-index: 10;
-    position: relative;
     transition: 0.3s;
+    position: relative;
+    bottom: 230px;
 
     :hover {
       transform: scale(1.2);
@@ -194,8 +193,6 @@ const ProfileStyle = styled.div`
   }
 
   .avatar-background {
-    position: relative;
-    top: -190px;
     width: 100%;
     height: 300px;
     object-fit: cover;
@@ -206,38 +203,10 @@ const ProfileStyle = styled.div`
   .info__wrapper,
   .util__buttons__wrapper {
     position: relative;
-    bottom: 200px;
+    bottom: 130px;
   }
 
   .my-feed__wrapper {
-    transform: translateY(-520px);
-  }
-
-  #avatar-back__input {
-    display: none;
-  }
-  #avatar-back__label {
-    position: relative;
-    bottom: 250px;
-    left: 30px;
-    z-index: 12;
-    text-align: center;
-    border-radius: 50%;
-    font-size: 30px;
-    cursor: pointer;
-
-    .avatar-back__button {
-      color: #d0d0d0;
-      transition: 0.3s;
-
-      :hover {
-        color: white;
-        transform: scale(1.1);
-      }
-      :active {
-        transform: scale(0.95);
-      }
-    }
   }
 
   .check__icon {
@@ -531,216 +500,192 @@ const Profile = () => {
   }
 
   return (
-    <>
-      <ProfileStyle>
-        <div className="main__frame">
-          <div className="sec__a">
-            <Navigation />
-          </div>
-          <div className="sec__b">
-            <div className="profile__wrapper">
-              <img
-                src={prevPhotoURL ? prevPhotoURL : photoURL}
-                alt="avatar"
-                className="avatar"
-              />
-              <img
-                // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
-                src={
-                  bgImg
-                    ? bgImg
-                    : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
-                }
-                alt="avatar-background"
-                className="avatar-background"
-              />
-              <label
-                htmlFor="avatar-back__input"
-                id="avatar-back__label"
-                title="배경 이미지 변경"
-              >
-                <FontAwesomeIcon
-                  icon={faImage}
-                  className="avatar-back__button"
-                />
-              </label>
-              <input id="avatar-back__input" type="file" accept="image/*" />
-              <div className="form__wraapper">
-                <form onSubmit={submitName}>
-                  <input
-                    className="display-name__input"
-                    type="text"
-                    value={!displayName ? "" : displayName}
-                    placeholder="이름을 설정하세요"
-                    minLength={2}
-                    maxLength={8}
-                    onChange={changeName}
-                  />
-                  {nameButton && (
-                    <button
-                      className="name-change__button"
-                      onClick={handleName}
-                    >
-                      수정
-                    </button>
-                  )}
-                </form>
-              </div>
-              <div className="info__wrapper">
-                <p>
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className="profile-data__icon"
-                  />
-                  {currentUser?.email}　
-                  {currentUser?.emailVerified ? (
-                    <span>
-                      인증완료
-                      <FontAwesomeIcon icon={faCheck} className="check__icon" />
-                    </span>
-                  ) : (
-                    <span
-                      className="verify-email__button"
-                      onClick={verifyEmail}
-                    >
-                      이메일을 인증하세요
-                    </span>
-                  )}
-                </p>
-                <form
-                  className="phone-number__form"
-                  onSubmit={submitPhoneNumber}
-                >
-                  <FontAwesomeIcon
-                    icon={faMobile}
-                    className="profile-data__icon"
-                  />
-                  <input
-                    type="number"
-                    className="phone-number__input"
-                    placeholder="번호를 등록하세요"
-                    onChange={handlePhoneNumber}
-                    value={phoneNumber}
-                  />
-                  {phoneNumberButton && (
-                    <button
-                      className="phone-number-change__button"
-                      onClick={changePhoneNumber}
-                    >
-                      수정
-                    </button>
-                  )}
-                </form>
+    <ProfileStyle>
+      <div className="main__frame">
+        <div className="sec__a">
+          <Navigation />
+        </div>
+        <div className="sec__b">
+          <div className="profile__wrapper">
+            <img
+              // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+              src={
+                bgImg
+                  ? bgImg
+                  : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
+              }
+              alt="avatar-background"
+              className="avatar-background"
+            />
+            <img
+              src={prevPhotoURL ? prevPhotoURL : photoURL}
+              alt="avatar"
+              className="avatar"
+            />
 
-                {currentUser && (
-                  <>
-                    <p className="date">
-                      <FontAwesomeIcon
-                        icon={faArrowRightToBracket}
-                        className="profile-data__icon"
-                      />
-                      계정 생성일 :{" "}
-                      {currentUser?.metadata.creationTime.substring(0, 22)}
-                    </p>
-                    <p className="date">
-                      <FontAwesomeIcon
-                        icon={faCalendarDays}
-                        className="profile-data__icon"
-                      />
-                      마지막 접속 :{" "}
-                      {currentUser?.metadata.lastSignInTime.substring(0, 22)}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon
-                        icon={faPaperPlane}
-                        className="profile-data__icon"
-                      />
-
-                      {myTwixxs.length === 0
-                        ? "트윅이 없네요😥 지금 작성해 보세요!"
-                        : `내 트윅 (${myTwixxs.length})`}
-                    </p>
-                  </>
-                )}
-              </div>
-              <div className="util__buttons__wrapper">
-                {photo ? (
-                  <>
-                    <button
-                      disabled={loading}
-                      onClick={handleUpload}
-                      className="upload__button avatar__buttonSt"
-                    >
-                      {loading ? "업로드중..." : "아바타 업로드"}
-                    </button>
-                    <button
-                      className="clear__button avatar__buttonSt"
-                      onClick={clearNewPhoto}
-                    >
-                      변경 취소
-                    </button>
-                  </>
-                ) : (
-                  <label htmlFor="file" className="avatar__label">
-                    <FontAwesomeIcon icon={faImage} className="img__icon" />
-                    아바타 변경
-                  </label>
-                )}
+            <div className="form__wraapper">
+              <form onSubmit={submitName}>
                 <input
-                  type="file"
-                  accept="image/*"
-                  id="file"
-                  onChange={handleFile}
+                  className="display-name__input"
+                  type="text"
+                  value={!displayName ? "" : displayName}
+                  placeholder="이름을 설정하세요"
+                  minLength={2}
+                  maxLength={8}
+                  onChange={changeName}
                 />
-                {myTwixxs.length === 0 ? (
-                  <button className="all-feeds-delete__button" disabled>
-                    삭제할 트윅이 없습니다
-                  </button>
-                ) : (
-                  <button
-                    className="all-feeds-delete__button"
-                    onClick={allFeedsDelete}
-                  >
-                    내 게시물 전부 삭제
+                {nameButton && (
+                  <button className="name-change__button" onClick={handleName}>
+                    수정
                   </button>
                 )}
-                <button
-                  className="withdrawal__button"
-                  onClick={handleDeleteUser}
-                >
-                  회원탈퇴
-                </button>
-              </div>
+              </form>
             </div>
-            <div className="my-feed__wrapper">
-              {myTwixxs && !loading ? (
-                myTwixxs.map((twixx) => (
-                  <FeedContainer
-                    key={twixx.id}
-                    photo={twixx.photo}
-                    userName={twixx.userName}
-                    userId={twixx.userId}
-                    content={twixx.content}
-                    createdAt={twixx.createdAt.substring(0, 21)}
-                    editAt={twixx.editAt}
-                    likeCount={twixx.like.length}
-                    reTwixxCount={twixx.reTwixx}
-                    handleEdit={() => {}}
-                    handleDelete={() => {}}
-                    id={twixx.id}
-                  />
-                ))
-              ) : (
-                <Loading />
+            <div className="info__wrapper">
+              <p>
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="profile-data__icon"
+                />
+                {currentUser?.email}　
+                {currentUser?.emailVerified ? (
+                  <span>
+                    인증완료
+                    <FontAwesomeIcon icon={faCheck} className="check__icon" />
+                  </span>
+                ) : (
+                  <span className="verify-email__button" onClick={verifyEmail}>
+                    이메일을 인증하세요
+                  </span>
+                )}
+              </p>
+              <form className="phone-number__form" onSubmit={submitPhoneNumber}>
+                <FontAwesomeIcon
+                  icon={faMobile}
+                  className="profile-data__icon"
+                />
+                <input
+                  type="number"
+                  className="phone-number__input"
+                  placeholder="번호를 등록하세요"
+                  onChange={handlePhoneNumber}
+                  value={phoneNumber}
+                />
+                {phoneNumberButton && (
+                  <button
+                    className="phone-number-change__button"
+                    onClick={changePhoneNumber}
+                  >
+                    수정
+                  </button>
+                )}
+              </form>
+
+              {currentUser && (
+                <>
+                  <p className="date">
+                    <FontAwesomeIcon
+                      icon={faArrowRightToBracket}
+                      className="profile-data__icon"
+                    />
+                    계정 생성일 :{" "}
+                    {currentUser?.metadata.creationTime.substring(0, 22)}
+                  </p>
+                  <p className="date">
+                    <FontAwesomeIcon
+                      icon={faCalendarDays}
+                      className="profile-data__icon"
+                    />
+                    마지막 접속 :{" "}
+                    {currentUser?.metadata.lastSignInTime.substring(0, 22)}
+                  </p>
+                  <p>
+                    <FontAwesomeIcon
+                      icon={faPaperPlane}
+                      className="profile-data__icon"
+                    />
+
+                    {myTwixxs.length === 0
+                      ? "트윅이 없네요😥 지금 작성해 보세요!"
+                      : `내 트윅 (${myTwixxs.length})`}
+                  </p>
+                </>
               )}
             </div>
+            <div className="util__buttons__wrapper">
+              {photo ? (
+                <>
+                  <button
+                    disabled={loading}
+                    onClick={handleUpload}
+                    className="upload__button avatar__buttonSt"
+                  >
+                    {loading ? "업로드중..." : "아바타 업로드"}
+                  </button>
+                  <button
+                    className="clear__button avatar__buttonSt"
+                    onClick={clearNewPhoto}
+                  >
+                    변경 취소
+                  </button>
+                </>
+              ) : (
+                <label htmlFor="file" className="avatar__label">
+                  <FontAwesomeIcon icon={faImage} className="img__icon" />
+                  아바타 변경
+                </label>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                id="file"
+                onChange={handleFile}
+              />
+              {myTwixxs.length === 0 ? (
+                <button className="all-feeds-delete__button" disabled>
+                  삭제할 트윅이 없습니다
+                </button>
+              ) : (
+                <button
+                  className="all-feeds-delete__button"
+                  onClick={allFeedsDelete}
+                >
+                  내 게시물 전부 삭제
+                </button>
+              )}
+              <button className="withdrawal__button" onClick={handleDeleteUser}>
+                회원탈퇴
+              </button>
+            </div>
           </div>
-          <div className="sec__c">
-            <Aside />
+          <div className="my-feed__wrapper">
+            {myTwixxs && !loading ? (
+              myTwixxs.map((twixx) => (
+                <FeedContainer
+                  key={twixx.id}
+                  photo={twixx.photo}
+                  userName={twixx.userName}
+                  userId={twixx.userId}
+                  content={twixx.content}
+                  createdAt={twixx.createdAt.substring(0, 21)}
+                  editAt={twixx.editAt}
+                  likeCount={twixx.like.length}
+                  reTwixxCount={twixx.reTwixx}
+                  handleEdit={() => {}}
+                  handleDelete={() => {}}
+                  id={twixx.id}
+                />
+              ))
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
-      </ProfileStyle>
-    </>
+        <div className="sec__c">
+          <Aside />
+        </div>
+      </div>
+    </ProfileStyle>
   );
 };
 
