@@ -52,7 +52,7 @@ const ProfileStyle = styled.div`
     }
   }
   .util__buttons__wrapper {
-    margin-top: 30px;
+    margin-top: 70px;
   }
   .avatar__label,
   .all-feeds-delete__button,
@@ -61,7 +61,7 @@ const ProfileStyle = styled.div`
     background-color: var(--logo-dark-color);
     padding: 10px 15px;
     width: 100%;
-    max-width: 310px;
+    max-width: 250px;
     height: fit-content;
     font-size: 18px;
     color: white;
@@ -181,7 +181,7 @@ const ProfileStyle = styled.div`
     background-color: var(--logo-dark-color);
     padding: 10px 15px;
     width: 100%;
-    max-width: 310px;
+    max-width: 250px;
     height: fit-content;
     font-size: 18px;
     color: white;
