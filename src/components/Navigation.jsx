@@ -127,7 +127,7 @@ const NaviStyle = styled.div`
       bottom: 0;
       margin: 0 auto;
       width: 100vw;
-      height: 75px;
+      height: 65px;
       padding: 0;
       background-color: rgba(169, 132, 237, 0.5);
       backdrop-filter: blur(10px);
@@ -135,10 +135,10 @@ const NaviStyle = styled.div`
 
       li {
         width: 50px !important;
-        height: 75px;
+        height: 65px;
         overflow: hidden;
-        margin: 0 44px;
-        padding: 20px 0;
+        margin: 0 27px;
+        padding: 17px 0;
 
         :hover {
           color: white;
@@ -211,7 +211,7 @@ const Navigation = () => {
             </li>
           </NavLink>
           <NavLink to="/">
-            <li className="phone-device-none">
+            <li>
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>

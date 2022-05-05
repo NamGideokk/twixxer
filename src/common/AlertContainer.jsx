@@ -13,7 +13,7 @@ const AlertContStyle = styled.div`
     display: flex;
 
     .alert__container {
-      /* display: none; */
+      display: none;
       position: relative;
       width: fit-content;
       height: fit-content;
@@ -38,7 +38,7 @@ const AlertContStyle = styled.div`
   @media screen and (max-width: 414px) {
     .new-feed-alert__wrapper {
       width: 100vw !important;
-      bottom: 75px !important;
+      bottom: 65px !important;
     }
   }
 `;

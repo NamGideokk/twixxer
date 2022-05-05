@@ -318,6 +318,15 @@ const ProfileStyle = styled.div`
       padding: 0;
       font-size: 15px;
     }
+    .avatar-background {
+      height: 200px;
+    }
+    .avatar {
+      bottom: 180px;
+      :hover {
+        transform: scale(1.1);
+      }
+    }
     .form__wraapper {
       padding: 0 20px;
     }
