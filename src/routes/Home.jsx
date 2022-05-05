@@ -14,6 +14,7 @@ import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading";
+import { Link } from "react-router-dom";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -306,6 +307,9 @@ const Home = () => {
               <div className="sec__b">
                 <FeedForm />
                 <FormStyle>
+                  <button>
+                    <Link to="/mobile">mobile</Link>
+                  </button>
                   <div className="feed__cont__wrapper">
                     {getFeeds ? (
                       getFeeds.map((twixx) => (

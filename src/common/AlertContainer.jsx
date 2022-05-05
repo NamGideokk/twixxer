@@ -37,7 +37,7 @@ const AlertContStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .new-feed-alert__wrapper {
-      width: 414px !important;
+      width: 100vw !important;
       bottom: 75px !important;
     }
   }
