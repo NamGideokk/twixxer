@@ -126,7 +126,7 @@ const NaviStyle = styled.div`
       position: fixed;
       bottom: 0;
       margin: 0 auto;
-      width: 100%;
+      width: 100vw;
       height: 75px;
       padding: 0;
       background-color: rgba(169, 132, 237, 0.5);
@@ -136,7 +136,7 @@ const NaviStyle = styled.div`
         width: 50px !important;
         height: 75px;
         overflow: hidden;
-        margin: 0 60px;
+        margin: 0 40px;
         padding: 20px 0;
 
         :hover {
@@ -197,7 +197,7 @@ const Navigation = () => {
               {navLang ? "홈" : "Home"}
             </li>
           </NavLink>
-          <NavLink to="/mobile">
+          <NavLink to="/">
             <li className="phone-device-none">
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}

@@ -208,9 +208,13 @@ const FeedContStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .feed__container {
-      margin: 0 auto !important;
-      max-width: 95% !important;
-      width: 90% !important;
+      margin: 0 20px !important;
+      max-width: 95vw !important;
+      width: 90vw !important;
+    }
+    .feed-icons__wrapper {
+      justify-content: space-between !important;
+      width: 100% !important;
     }
   }
 

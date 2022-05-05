@@ -14,7 +14,6 @@ import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading";
-import Mobile from "./Mobile";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -242,17 +241,17 @@ const MainFrameStyle = styled.div`
       grid-template-areas:
         "b"
         "a" !important;
-      width: 100% !important;
+      width: 100vw !important;
     }
     .sec__a {
-      width: 100% !important;
+      width: 100vw !important;
       height: 55px !important;
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
     }
     .sec__b {
-      width: 100% !important;
+      width: 100vw !important;
       padding: 0 !important;
       margin: 210px auto 30px auto !important;
     }
@@ -305,7 +304,6 @@ const Home = () => {
                 <Navigation />
               </div>
               <div className="sec__b">
-                <Mobile />
                 <FeedForm />
                 <FormStyle>
                   <div className="feed__cont__wrapper">
