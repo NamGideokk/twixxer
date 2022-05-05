@@ -197,7 +197,7 @@ const Navigation = () => {
               {navLang ? "홈" : "Home"}
             </li>
           </NavLink>
-          <NavLink to="/">
+          <NavLink to="/mobile">
             <li className="phone-device-none">
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}

@@ -14,6 +14,7 @@ import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading";
+import Mobile from "./Mobile";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -304,6 +305,7 @@ const Home = () => {
                 <Navigation />
               </div>
               <div className="sec__b">
+                <Mobile />
                 <FeedForm />
                 <FormStyle>
                   <div className="feed__cont__wrapper">
