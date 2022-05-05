@@ -142,7 +142,7 @@ const NaviStyle = styled.div`
         :hover {
           color: white;
           padding-left: 0 !important;
-          background-color: var(--logo-color);
+          background-color: transparent !important;
         }
       }
 

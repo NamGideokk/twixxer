@@ -284,6 +284,33 @@ const ProfileStyle = styled.div`
       width: 0 !important;
     }
   }
+
+  @media screen and (max-width: 414px) {
+    .main__frame {
+      grid-template-columns: 1fr !important;
+      grid-template-rows: 1fr 70px !important;
+      grid-template-areas:
+        "b"
+        "a" !important;
+      width: 100% !important;
+    }
+    .sec__a {
+      width: 100% !important;
+      height: 55px !important;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+    }
+    .sec__b {
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+    }
+    .sec__c {
+      width: 0 !important;
+      display: none;
+    }
+  }
 `;
 
 const Profile = () => {
