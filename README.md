@@ -190,7 +190,13 @@
 
 추후 탈퇴 요청 시 비밀번호를 재입력하도록 추가할 예정입니다.
 
+　
+ 
+ - 모바일 환경
 
+![twixxer mobile](https://user-images.githubusercontent.com/96227239/166860188-b778a8e1-9ea7-445d-b11e-c706bbd70b2d.jpg)
+
+　
 
 ## ✒ 1인 프로젝트를 마치며
 
