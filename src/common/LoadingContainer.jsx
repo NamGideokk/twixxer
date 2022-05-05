@@ -49,6 +49,12 @@ const LcStyle = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 414px) {
+    .loading__container {
+      width: 100vw !important;
+    }
+  }
 `;
 
 const LoadingContainer = () => {

@@ -250,11 +250,13 @@ const MainFrameStyle = styled.div`
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
+      padding: 0 !important;
     }
     .sec__b {
       width: 100vw !important;
+      min-width: 100vw !important;
       padding: 0 !important;
-      margin: 190px auto 30px auto !important;
+      margin: 190px 0 30px 0 !important;
     }
     .sec__c {
       width: 0 !important;
@@ -307,9 +309,9 @@ const Home = () => {
               <div className="sec__b">
                 <FeedForm />
                 <FormStyle>
-                  <button>
+                  {/* <button>
                     <Link to="/mobile">mobile</Link>
-                  </button>
+                  </button> */}
                   <div className="feed__cont__wrapper">
                     {getFeeds ? (
                       getFeeds.map((twixx) => (

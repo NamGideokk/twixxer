@@ -136,7 +136,7 @@ const NaviStyle = styled.div`
         width: 50px !important;
         height: 75px;
         overflow: hidden;
-        margin: 0 40px;
+        margin: 0 44px;
         padding: 20px 0;
 
         :hover {

@@ -21,13 +21,11 @@ import AlertContainer from "common/AlertContainer";
 
 const FeedContStyle = styled.div`
   .feed__container {
-    /* width: 555px; */
     width: 100%;
     height: fit-content;
     padding: 20px;
     background-color: rgb(30, 30, 30);
     color: #dcdcdc;
-    margin: 0 auto;
     transition: 0.3s;
     border: 1px solid #525252;
     display: grid;
@@ -208,8 +206,9 @@ const FeedContStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .feed__container {
-      margin: 0 20px !important;
       width: 100vw !important;
+      margin: 0 !important;
+      margin-right: 0 !important;
     }
     .feed-icons__wrapper {
       justify-content: space-between !important;
@@ -250,12 +249,12 @@ const EditContainerStyle = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    max-width: 400px;
+    width: 90vw;
     height: 400px;
     padding: 40px 20px;
-    background-color: var(--logo-color);
+    background-color: rgba(30, 30, 30, 0.8);
     border-radius: 20px;
-    margin: 30px auto;
     transition: 0.3s;
     text-align: center;
 
@@ -269,6 +268,7 @@ const EditContainerStyle = styled.div`
 
       :focus {
         outline: none;
+        border: 1px solid var(--logo-dark-color);
       }
     }
 
@@ -276,7 +276,7 @@ const EditContainerStyle = styled.div`
       margin-top: 20px;
       width: 40%;
       font-size: 20px;
-      background-color: var(--logo-dark-color);
+      background-color: var(--logo-color);
       padding: 10px 0;
       color: white;
       transition: 0.3s;

@@ -103,7 +103,6 @@ const FeedFormStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .user__wrapper {
-      // 너비 수정 필요
       width: 100vw !important;
       height: fit-content;
       background-color: rgba(30, 30, 30, 0.7);

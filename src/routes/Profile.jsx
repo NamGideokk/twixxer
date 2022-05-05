@@ -288,7 +288,7 @@ const ProfileStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     .main__frame {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: 100vw !important;
       grid-template-rows: 1fr 70px !important;
       grid-template-areas:
         "b"
@@ -304,6 +304,7 @@ const ProfileStyle = styled.div`
     }
     .sec__b {
       width: 100vw !important;
+      min-width: 100vw !important;
       padding: 0 !important;
       margin: 0 auto 50px auto !important;
     }
@@ -314,7 +315,14 @@ const ProfileStyle = styled.div`
     .profile__wrapper {
       width: 100vw !important;
       margin: 0;
+      padding: 0;
       font-size: 15px;
+    }
+    .form__wraapper {
+      padding: 0 20px;
+    }
+    .info__wrapper {
+      padding: 0 20px;
     }
   }
 `;
