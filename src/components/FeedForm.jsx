@@ -115,7 +115,7 @@ const FeedFormStyle = styled.div`
     }
     .name-email__wrapper {
       h1 {
-        font-size: 25px;
+        font-size: 22px;
       }
     }
     .feed__form {
@@ -127,6 +127,10 @@ const FeedFormStyle = styled.div`
     .upload-feed__icon {
       font-size: 25px;
       transform: translateY(-5px);
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
     }
   }
 `;
