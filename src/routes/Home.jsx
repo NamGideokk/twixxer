@@ -274,7 +274,7 @@ const Home = () => {
     setLoading(true);
 
     const collectionRef = collection(myFirestore, "feeds");
-    const q = query(collectionRef, orderBy("createdAt", "desc"));
+    const q = query(collectionRef, orderBy("timestamp", "desc"));
 
     const unsub = onSnapshot(q, (snapshot) => {
       setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));

@@ -39,6 +39,10 @@ const FeedContStyle = styled.div`
 
     .fc01 {
       grid-area: fc01;
+
+      img {
+        background-color: white;
+      }
     }
     .fc02 {
       grid-area: fc02;

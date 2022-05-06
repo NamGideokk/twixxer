@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
 
@@ -177,9 +177,10 @@ const FeedForm = () => {
         const payload = {
           userName: currentUser.displayName,
           userId: currentUser.email,
-          photo: currentUser.photoURL,
+          photo: photoURL,
           content: feed,
           createdAt: Date(),
+          timestamp: Timestamp.fromDate(new Date()),
           like: [],
           reTwixx: 0,
         };
