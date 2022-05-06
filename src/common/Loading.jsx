@@ -2,6 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const LoadingStyle = styled.div`
+  .wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(30, 30, 30);
+    z-index: 99;
+  }
   .loading__wrapper {
     padding: 20px;
     width: fit-content;
@@ -66,14 +75,16 @@ const LoadingStyle = styled.div`
 const Loading = () => {
   return (
     <LoadingStyle>
-      <div className="loading__wrapper">
-        <span>t</span>
-        <span>w</span>
-        <span>i</span>
-        <span>x</span>
-        <span>x</span>
-        <span>e</span>
-        <span>r</span>
+      <div className="wrapper">
+        <div className="loading__wrapper">
+          <span>t</span>
+          <span>w</span>
+          <span>i</span>
+          <span>x</span>
+          <span>x</span>
+          <span>e</span>
+          <span>r</span>
+        </div>
       </div>
     </LoadingStyle>
   );

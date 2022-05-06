@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,7 +15,16 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  getDoc,
+  where,
+  collection,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
 
@@ -325,6 +334,7 @@ const FeedContainer = ({
 }) => {
   const currentUser = useAuth();
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
@@ -339,6 +349,24 @@ const FeedContainer = ({
   const [alertContent, setAlertContent] = useState("");
   const [display, setDisplay] = useState("none");
   const [backgroundColor, setBackgroundColor] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+
+    const collectionRef = collection(myFirestore, "feeds");
+    const q1 = query(
+      collectionRef,
+      where("like", "array-contains", "Mk9OyrJjNkgvEBThgQy68zkSLCx2")
+    );
+
+    const unsub = onSnapshot(q1, (snapshot) => {
+      console.log(snapshot.docs.map((doc) => console.log(doc.data())));
+    });
+
+    setLoading(false);
+
+    return unsub;
+  }, []);
 
   // 피드 수정 모달창 열고 ID값 state에 저장
   async function handleEdit(id) {

@@ -375,7 +375,7 @@ const Profile = () => {
       const q = query(
         collectionRef,
         where("userId", "==", currentUser.email),
-        orderBy("createdAt", "desc")
+        orderBy("timestamp", "desc")
       );
 
       const unsub = onSnapshot(q, (snapshot) => {

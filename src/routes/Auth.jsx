@@ -4,10 +4,11 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { login, loginGoogle, loginGithub } from "myFirebase";
+import { login, loginGoogle, loginGithub, useAuth } from "myFirebase";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SignUp from "components/SignUp";
+import Loading from "common/Loading";
 
 const AuthStyle = styled.div`
   form {
@@ -119,15 +120,28 @@ const AuthStyle = styled.div`
 `;
 
 const Auth = () => {
+  const currentUser = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("none");
+  const [animation, setAnimation] = useState("fec__open-animation");
 
   const emailInput = useRef();
 
   useEffect(() => {
     emailInput.current.focus();
+    setLoading(true);
+    if (currentUser) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   }, []);
 
   // 여러개의 input onChange를 하나의 함수로 처리하기
@@ -187,76 +201,95 @@ const Auth = () => {
 
     if (name === "showSignUp") {
       setDisplay("block");
+      setTimeout(() => {
+        setAnimation("");
+      }, 500);
     } else if (name === "closeSignUp") {
+      setAnimation("fec__close-animation");
       setTimeout(() => {
         setDisplay("none");
+        setAnimation("fec__open-animation");
       }, 500);
     }
   }
 
   return (
     <>
-      <AuthStyle>
-        <form onSubmit={onSubmit}>
-          <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
-          <img
-            src={process.env.PUBLIC_URL + "/imgs/twixxer_logo.png"}
-            alt="logo"
-            className="logo"
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <AuthStyle>
+            <form onSubmit={onSubmit}>
+              <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
+              <img
+                src={process.env.PUBLIC_URL + "/imgs/twixxer_logo.png"}
+                alt="logo"
+                className="logo"
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                ref={emailInput}
+                value={email}
+                onChange={onChange}
+                required
+              />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                minLength={6}
+                value={password}
+                onChange={onChange}
+                required
+              />
+              <button
+                className="login__button"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "로그인중..." : "로그인"}
+              </button>
+              <div className="btn__wrapper">
+                <button
+                  name="google"
+                  type="button"
+                  className="button__st google"
+                  onClick={socialClick}
+                >
+                  <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
+                  Google 계정으로 로그인
+                </button>
+                <button
+                  name="github"
+                  type="button"
+                  className="button__st github"
+                  onClick={socialClick}
+                >
+                  <FontAwesomeIcon icon={faGithub} className="brand__icon" />
+                  Github 계정으로 로그인
+                </button>
+              </div>
+              <div className="last__wrapper">
+                <button
+                  name="showSignUp"
+                  className="button__st1"
+                  onClick={signUpModal}
+                >
+                  이메일 주소로 간편 가입하기
+                </button>
+              </div>
+            </form>
+          </AuthStyle>
+          <SignUp
+            display={display}
+            signUpModal={signUpModal}
+            animation={animation}
           />
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            ref={emailInput}
-            value={email}
-            onChange={onChange}
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            minLength={6}
-            value={password}
-            onChange={onChange}
-            required
-          />
-          <button className="login__button" type="submit" disabled={loading}>
-            {loading ? "로그인중..." : "로그인"}
-          </button>
-          <div className="btn__wrapper">
-            <button
-              name="google"
-              type="button"
-              className="button__st google"
-              onClick={socialClick}
-            >
-              <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
-              Google 계정으로 로그인
-            </button>
-            <button
-              name="github"
-              type="button"
-              className="button__st github"
-              onClick={socialClick}
-            >
-              <FontAwesomeIcon icon={faGithub} className="brand__icon" />
-              Github 계정으로 로그인
-            </button>
-          </div>
-          <div className="last__wrapper">
-            <button
-              name="showSignUp"
-              className="button__st1"
-              onClick={signUpModal}
-            >
-              이메일 주소로 간편 가입하기
-            </button>
-          </div>
-        </form>
-      </AuthStyle>
-      <SignUp display={display} signUpModal={signUpModal} />
+        </>
+      )}
     </>
   );
 };

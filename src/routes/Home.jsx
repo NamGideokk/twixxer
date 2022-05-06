@@ -14,6 +14,7 @@ import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading";
+import SetName from "components/SetName";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -268,17 +269,28 @@ const Home = () => {
   const currentUser = useAuth();
   const [getFeeds, setGetFeeds] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState(false);
+  const [animation, setAnimation] = useState("");
 
   // 데이터(피드) 가져오기
   useEffect(() => {
     setLoading(true);
 
     const collectionRef = collection(myFirestore, "feeds");
-    const q = query(collectionRef, orderBy("timestamp", "desc"));
+    const q1 = query(collectionRef, orderBy("timestamp", "desc"));
 
-    const unsub = onSnapshot(q, (snapshot) => {
+    const unsub = onSnapshot(q1, (snapshot) => {
       setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
+
+    if (currentUser?.displayName === null) {
+      setName(true);
+      setAnimation("fec__open-animation");
+      setTimeout(() => {
+        setAnimation("");
+      }, 500);
+    }
+
     setLoading(false);
 
     return unsub;
@@ -292,6 +304,14 @@ const Home = () => {
     });
   }
 
+  function handleClose() {
+    setAnimation("fec__close-animation");
+    setTimeout(() => {
+      setName(false);
+      setAnimation("");
+    }, 500);
+  }
+
   return (
     <>
       {loading ? (
@@ -300,6 +320,7 @@ const Home = () => {
       ) : // 로딩끝나면
       currentUser?.email ? (
         <>
+          {name && <SetName handleClose={handleClose} animation={animation} />}
           <MainFrameStyle>
             <div className="main__frame">
               <div className="sec__a">

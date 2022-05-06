@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { signUp } from "myFirebase";
 
@@ -16,7 +16,8 @@ const SignUpStyle = styled.div`
   .signup__wrapper {
     max-width: 450px;
     width: 85%;
-    height: 327px;
+    height: fit-content;
+    min-height: 38px;
     padding: 30px;
     background-color: rgb(30, 30, 30);
     backdrop-filter: blur(30px);
@@ -61,7 +62,6 @@ const SignUpStyle = styled.div`
     padding: 10px 0;
     background-color: var(--logo-color);
     color: black;
-    margin-top: 70px;
     transition: 0.3s;
 
     :hover {
@@ -72,22 +72,15 @@ const SignUpStyle = styled.div`
   .error-text {
     color: #ff3232;
     font-size: 16px;
-    position: absolute;
+    margin-bottom: 10px;
   }
 `;
 
-const SignUp = ({ display, signUpModal }) => {
+const SignUp = ({ display, signUpModal, animation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const [animation, setAnimation] = useState("fec__open-animation");
-
-  const emailInput = useRef();
-
-  useEffect(() => {
-    emailInput.current.focus();
-  }, []);
 
   function handleInput(e) {
     const {
@@ -109,9 +102,7 @@ const SignUp = ({ display, signUpModal }) => {
       await signUp(email, password);
     } catch (e) {
       if (e.code === "auth/email-already-in-use") {
-        setErrorText(
-          "이미 사용중인 이메일입니다. 다른 이메일을 입력해 주세요."
-        );
+        setErrorText("사용 중인 이메일입니다. 다른 이메일을 입력해 주세요.");
       } else if (e.code === "auth/weak-password") {
         setErrorText("비밀번호는 6자 이상 입력해 주세요.");
       } else if (e.code === "auth/invalid-email") {
@@ -131,7 +122,6 @@ const SignUp = ({ display, signUpModal }) => {
             name="email"
             type="email"
             placeholder="Email"
-            ref={emailInput}
             onChange={handleInput}
             value={email}
             required

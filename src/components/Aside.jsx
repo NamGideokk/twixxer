@@ -206,11 +206,11 @@ const Aside = () => {
           {getHotFeeds.length > 0 && !loading ? (
             getHotFeeds.map((twixx) => (
               <div className="trends__item" key={twixx.id}>
-                <small>Trending in South Korea</small>
+                <small>한국에서 핫한 게시물</small>
                 <h3>
                   {twixx.userName}　<small>{twixx.content}</small>
                 </h3>
-                <p>{twixx.reTwixx} Re-twixx</p>
+                <p>{twixx.reTwixx} 리트윅</p>
               </div>
             ))
           ) : (
