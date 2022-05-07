@@ -226,6 +226,31 @@ a {
   animation: showing 0.5s reverse forwards;
 }
 
+/*알림 창 애니메이션 */
+.open-alert {
+  animation: new-feed-alert 1.5s;
+  /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
+}
+.close-alert {
+  animation: close-new-feed-alert 1.5s forwards;
+  /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
+}
+
+/* 모바일 환경 애니메이션 */
+.mobile-open-alert {
+  animation: mobile-feed-alert 1.5s;
+}
+.mobile-close-alert {
+  animation: mobile-feed-alert2 1.5s forwards;
+}
+
+.block {
+  display: block !important;
+}
+.none {
+  display: none;
+}
+
 @media screen and (max-width: 414px) {
   .up__button {
     width: 20px;

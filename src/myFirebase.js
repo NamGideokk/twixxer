@@ -66,11 +66,11 @@ export async function upload(file, currentUser, setLoading) {
   setLoading(true);
   try {
     await uploadBytes(fileRef, file);
-    alert("아바타가 변경 되었습니다.");
     const photoURL = await getDownloadURL(fileRef);
     updateProfile(currentUser, {
       photoURL: photoURL,
     });
+    alert("아바타가 변경 되었습니다.");
   } catch (e) {
     console.log(e);
     alert(e.message);

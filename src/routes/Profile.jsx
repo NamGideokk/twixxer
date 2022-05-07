@@ -31,6 +31,7 @@ import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
 import LoadingContainer from "common/LoadingContainer";
+import AlertContainer from "common/AlertContainer";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -329,6 +330,12 @@ const Profile = () => {
   const [nameButton, setNameButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
 
+  // 좌측하단 알림창 state
+  const [alertAnimation, setAlertAnimation] = useState("");
+  const [alertContent, setAlertContent] = useState("");
+  const [display, setDisplay] = useState("none");
+  const [backgroundColor, setBackgroundColor] = useState("");
+
   useEffect(() => {
     window.scroll({
       top: 0,
@@ -404,10 +411,6 @@ const Profile = () => {
       results.forEach(async (result) => {
         const docRef = doc(myFirestore, "feeds", result.id);
 
-        if (results.length === 0) {
-          alert("삭제할 게시물이 없습니다.");
-        }
-
         try {
           await deleteDoc(docRef);
         } catch (e) {
@@ -477,7 +480,19 @@ const Profile = () => {
       await updateProfile(currentUser, {
         displayName: displayName,
       });
-      alert("이름이 성공적으로 변경되었습니다.");
+      setTimeout(() => {
+        setAlertContent("이름이 변경되었습니다.");
+        setBackgroundColor("#a984ed");
+        setDisplay("block");
+        if (window.screen.width <= 414) {
+          setAlertAnimation("mobile-open-alert");
+        } else {
+          setAlertAnimation("open-alert");
+        }
+      }, 500);
+      setTimeout(() => {
+        newAlert();
+      }, 1000);
     } catch (e) {
       alert(e.message);
       console.log(e.code);
@@ -495,171 +510,204 @@ const Profile = () => {
     alert("이메일 인증");
   }
 
+  function newAlert() {
+    setTimeout(() => {
+      if (window.screen.width <= 414) {
+        setAlertAnimation("mobile-close-alert");
+      } else {
+        setAlertAnimation("close-alert");
+      }
+    }, 4000);
+
+    setTimeout(() => {
+      setAlertContent("");
+      setBackgroundColor("");
+      setDisplay("none");
+    }, 5000);
+  }
+
   return (
-    <ProfileStyle>
-      <div className="main__frame">
-        <div className="sec__a">
-          <Navigation />
-        </div>
-        <div className="sec__b">
-          <div className="profile__wrapper">
-            <img
-              // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
-              src={
-                bgImg
-                  ? bgImg
-                  : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
-              }
-              alt="avatar-background"
-              className="avatar-background"
-            />
-            <img
-              src={prevPhotoURL ? prevPhotoURL : photoURL}
-              alt="avatar"
-              className="avatar"
-            />
-
-            <div className="form__wraapper">
-              <form onSubmit={submitName}>
-                <input
-                  className="display-name__input"
-                  type="text"
-                  value={!displayName ? "" : displayName}
-                  placeholder="이름을 설정하세요"
-                  minLength={2}
-                  maxLength={8}
-                  onChange={changeName}
-                />
-                {nameButton && (
-                  <button className="name-change__button" onClick={handleName}>
-                    수정
-                  </button>
-                )}
-              </form>
-            </div>
-            <div className="info__wrapper">
-              <p>
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="profile-data__icon"
-                />
-                {currentUser?.email}　
-                {currentUser?.emailVerified ? (
-                  <span>
-                    인증완료
-                    <FontAwesomeIcon icon={faCheck} className="check__icon" />
-                  </span>
-                ) : (
-                  <span className="verify-email__button" onClick={verifyEmail}>
-                    이메일을 인증하세요
-                  </span>
-                )}
-              </p>
-              {currentUser && (
-                <>
-                  <p className="date">
-                    <FontAwesomeIcon
-                      icon={faArrowRightToBracket}
-                      className="profile-data__icon"
-                    />
-                    계정 생성일 :{" "}
-                    {currentUser?.metadata.creationTime.substring(0, 22)}
-                  </p>
-                  <p className="date">
-                    <FontAwesomeIcon
-                      icon={faCalendarDays}
-                      className="profile-data__icon"
-                    />
-                    마지막 접속 :{" "}
-                    {currentUser?.metadata.lastSignInTime.substring(0, 22)}
-                  </p>
-                  <p>
-                    <FontAwesomeIcon
-                      icon={faPaperPlane}
-                      className="profile-data__icon"
-                    />
-
-                    {myTwixxs.length === 0
-                      ? "트윅이 없네요😥 지금 작성해 보세요!"
-                      : `내 트윅 (${myTwixxs.length})`}
-                  </p>
-                </>
-              )}
-            </div>
-            <div className="util__buttons__wrapper">
-              {photo ? (
-                <>
-                  <button
-                    disabled={loading}
-                    onClick={handleUpload}
-                    className="upload__button avatar__buttonSt"
-                  >
-                    {loading ? "업로드중..." : "아바타 업로드"}
-                  </button>
-                  <button
-                    className="clear__button avatar__buttonSt"
-                    onClick={clearNewPhoto}
-                  >
-                    변경 취소
-                  </button>
-                </>
-              ) : (
-                <label htmlFor="file" className="avatar__label">
-                  <FontAwesomeIcon icon={faImage} className="img__icon" />
-                  아바타 변경
-                </label>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                id="file"
-                onChange={handleFile}
+    <>
+      <ProfileStyle>
+        <div className="main__frame">
+          <div className="sec__a">
+            <Navigation />
+          </div>
+          <div className="sec__b">
+            <div className="profile__wrapper">
+              <img
+                // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+                src={
+                  bgImg
+                    ? bgImg
+                    : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
+                }
+                alt="avatar-background"
+                className="avatar-background"
               />
-              {myTwixxs.length === 0 ? (
-                <button className="all-feeds-delete__button" disabled>
-                  삭제할 트윅이 없습니다
-                </button>
-              ) : (
+              <img
+                src={prevPhotoURL ? prevPhotoURL : photoURL}
+                alt="avatar"
+                className="avatar"
+              />
+
+              <div className="form__wraapper">
+                <form onSubmit={submitName}>
+                  <input
+                    className="display-name__input"
+                    type="text"
+                    value={!displayName ? "" : displayName}
+                    placeholder="이름을 설정하세요"
+                    minLength={2}
+                    maxLength={8}
+                    onChange={changeName}
+                  />
+                  {nameButton && (
+                    <button
+                      className="name-change__button"
+                      onClick={handleName}
+                    >
+                      수정
+                    </button>
+                  )}
+                </form>
+              </div>
+              <div className="info__wrapper">
+                <p>
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="profile-data__icon"
+                  />
+                  {currentUser?.email}　
+                  {currentUser?.emailVerified ? (
+                    <span>
+                      인증완료
+                      <FontAwesomeIcon icon={faCheck} className="check__icon" />
+                    </span>
+                  ) : (
+                    <span
+                      className="verify-email__button"
+                      onClick={verifyEmail}
+                    >
+                      이메일을 인증하세요
+                    </span>
+                  )}
+                </p>
+                {currentUser && (
+                  <>
+                    <p className="date">
+                      <FontAwesomeIcon
+                        icon={faArrowRightToBracket}
+                        className="profile-data__icon"
+                      />
+                      계정 생성일 :{" "}
+                      {currentUser?.metadata.creationTime.substring(0, 22)}
+                    </p>
+                    <p className="date">
+                      <FontAwesomeIcon
+                        icon={faCalendarDays}
+                        className="profile-data__icon"
+                      />
+                      마지막 접속 :{" "}
+                      {currentUser?.metadata.lastSignInTime.substring(0, 22)}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon
+                        icon={faPaperPlane}
+                        className="profile-data__icon"
+                      />
+
+                      {myTwixxs.length === 0
+                        ? "트윅이 없네요😥 지금 작성해 보세요!"
+                        : `내 트윅 (${myTwixxs.length})`}
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="util__buttons__wrapper">
+                {photo ? (
+                  <>
+                    <button
+                      disabled={loading}
+                      onClick={handleUpload}
+                      className="upload__button avatar__buttonSt"
+                    >
+                      {loading ? "업로드중..." : "아바타 업로드"}
+                    </button>
+                    <button
+                      className="clear__button avatar__buttonSt"
+                      onClick={clearNewPhoto}
+                    >
+                      변경 취소
+                    </button>
+                  </>
+                ) : (
+                  <label htmlFor="file" className="avatar__label">
+                    <FontAwesomeIcon icon={faImage} className="img__icon" />
+                    아바타 변경
+                  </label>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="file"
+                  onChange={handleFile}
+                />
+                {myTwixxs.length === 0 ? (
+                  <button className="all-feeds-delete__button" disabled>
+                    삭제할 트윅이 없습니다
+                  </button>
+                ) : (
+                  <button
+                    className="all-feeds-delete__button"
+                    onClick={allFeedsDelete}
+                  >
+                    내 게시물 전부 삭제
+                  </button>
+                )}
                 <button
-                  className="all-feeds-delete__button"
-                  onClick={allFeedsDelete}
+                  className="withdrawal__button"
+                  onClick={handleDeleteUser}
                 >
-                  내 게시물 전부 삭제
+                  회원탈퇴
                 </button>
+              </div>
+            </div>
+            <div className="my-feed__wrapper">
+              {myTwixxs && !loading ? (
+                myTwixxs.map((twixx) => (
+                  <FeedContainer
+                    key={twixx.id}
+                    photo={twixx.photo}
+                    userName={twixx.userName}
+                    userId={twixx.userId}
+                    content={twixx.content}
+                    createdAt={twixx.createdAt.substring(0, 21)}
+                    editAt={twixx.editAt}
+                    likeCount={twixx.like.length}
+                    reTwixxCount={twixx.reTwixx}
+                    handleEdit={() => {}}
+                    handleDelete={() => {}}
+                    id={twixx.id}
+                  />
+                ))
+              ) : (
+                <LoadingContainer />
               )}
-              <button className="withdrawal__button" onClick={handleDeleteUser}>
-                회원탈퇴
-              </button>
             </div>
           </div>
-          <div className="my-feed__wrapper">
-            {myTwixxs && !loading ? (
-              myTwixxs.map((twixx) => (
-                <FeedContainer
-                  key={twixx.id}
-                  photo={twixx.photo}
-                  userName={twixx.userName}
-                  userId={twixx.userId}
-                  content={twixx.content}
-                  createdAt={twixx.createdAt.substring(0, 21)}
-                  editAt={twixx.editAt}
-                  likeCount={twixx.like.length}
-                  reTwixxCount={twixx.reTwixx}
-                  handleEdit={() => {}}
-                  handleDelete={() => {}}
-                  id={twixx.id}
-                />
-              ))
-            ) : (
-              <LoadingContainer />
-            )}
+          <div className="sec__c">
+            <Aside />
           </div>
         </div>
-        <div className="sec__c">
-          <Aside />
-        </div>
-      </div>
-    </ProfileStyle>
+      </ProfileStyle>
+      <AlertContainer
+        animation={alertAnimation}
+        alertContent={alertContent}
+        display={display}
+        backgroundColor={backgroundColor}
+      />
+    </>
   );
 };
 

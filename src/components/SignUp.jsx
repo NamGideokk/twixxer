@@ -19,7 +19,7 @@ const SignUpStyle = styled.div`
     width: 85%;
     height: fit-content;
     min-height: 38px;
-    padding: 30px;
+    padding: 40px 30px;
     background-color: rgb(30, 30, 30);
     backdrop-filter: blur(30px);
     border-radius: 20px;

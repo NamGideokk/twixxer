@@ -358,6 +358,7 @@ const Home = () => {
       />
 
       {name === null && name !== undefined ? <SetName /> : null}
+      {loading && <Loading />}
     </>
   );
 };

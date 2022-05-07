@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -220,31 +220,6 @@ const FeedContStyle = styled.div`
     }
   }
 
-  /* 새 피드 알림 창 애니메이션 */
-  .open-alert {
-    animation: new-feed-alert 1.5s;
-    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
-  }
-  .close-alert {
-    animation: close-new-feed-alert 1.5s forwards;
-    /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
-  }
-
-  /* 모바일 환경 애니메이션 */
-  .mobile-open-alert {
-    animation: mobile-feed-alert 1.5s;
-  }
-  .mobile-close-alert {
-    animation: mobile-feed-alert2 1.5s forwards;
-  }
-
-  .block {
-    display: block !important;
-  }
-  .none {
-    display: none;
-  }
-
   /* 삭제 애니메이션 */
   .delete__animation {
     background-color: red !important;
@@ -348,6 +323,8 @@ const FeedContainer = ({
   const [display, setDisplay] = useState("none");
   const [backgroundColor, setBackgroundColor] = useState("");
 
+  const [deleteDisplay, setDeleteDisplay] = useState("");
+
   // 피드 수정 모달창 열고 ID값 state에 저장
   async function handleEdit(id) {
     const docRef = doc(myFirestore, "feeds", id);
@@ -414,19 +391,31 @@ const FeedContainer = ({
     let confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     const docRef = doc(myFirestore, "feeds", id);
 
-    try {
-      if (confirmDelete) {
-        // setFeedContAnimation("delete__animation");
-        await deleteDoc(docRef);
-
-        setAlertContent("트윅이 삭제되었습니다.");
-        setBackgroundColor("#ff3535");
-        setDisplay("block");
-        setAlertAnimation("open-alert");
+    if (confirmDelete) {
+      try {
+        setFeedContAnimation("delete__animation");
+        setTimeout(() => {
+          setAlertContent("트윅이 삭제되었습니다.");
+          setBackgroundColor("#ff3535");
+          setDisplay("block");
+          if (window.screen.width <= 414) {
+            setAlertAnimation("mobile-open-alert");
+          } else {
+            setAlertAnimation("open-alert");
+          }
+          console.log("hio");
+        }, 500);
+        setTimeout(() => {
+          newAlert();
+          setDeleteDisplay("none");
+        }, 1000);
+        await setTimeout(() => {
+          deleteDoc(docRef);
+        }, 6000);
+      } catch (e) {
+        console.log(e.code);
+        alert(e.message);
       }
-    } catch (e) {
-      console.log(e.code);
-      alert(e.message);
     }
   }
 
@@ -495,22 +484,16 @@ const FeedContainer = ({
       setAlertContent("");
       setDisplay("none");
       setBackgroundColor("");
+      setAlertAnimation("");
     }, 5000);
-  }
-
-  function newnew() {
-    setTimeout(() => {
-      console.log("삭제 애니메이션");
-      setAlertContent("트윅이 삭제되었습니다.");
-      setBackgroundColor("#ff3535");
-      setDisplay("block");
-      setAlertAnimation("open-alert");
-    }, 3000);
   }
 
   return (
     <FeedContStyle>
-      <div className={`feed__container ${feedContAnimation}`}>
+      <div
+        className={`feed__container ${feedContAnimation}`}
+        style={{ display: deleteDisplay }}
+      >
         <div className="fc01">
           <img src={photo} alt="avatar" />
         </div>

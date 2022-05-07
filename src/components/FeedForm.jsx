@@ -255,6 +255,7 @@ const FeedForm = () => {
       }
     }, 4000);
     setTimeout(() => {
+      setAnimation("");
       setAlertContent("");
       setDisplay("none");
     }, 5000);
