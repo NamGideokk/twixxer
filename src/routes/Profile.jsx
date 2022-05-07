@@ -8,7 +8,6 @@ import {
   faEnvelope,
   faImage,
   faPaperPlane,
-  faMobile,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
@@ -226,28 +225,6 @@ const ProfileStyle = styled.div`
     }
   }
 
-  .phone-number__input {
-    background-color: transparent;
-    color: #dcdcdc;
-    border: none;
-    font-size: 15px;
-
-    ::-webkit-outer-spin-button,
-    ::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-  .phone-number-change__button {
-    padding: 3px 10px;
-    background-color: var(--logo-dark-color);
-    color: white;
-    margin-left: 10px;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-
-    animation: opacity-animation 0.5s;
-  }
-
   @media screen and (max-width: 1280px) {
     .main__frame {
       grid-template-columns: 300px minmax(500px, 1fr);
@@ -349,9 +326,7 @@ const Profile = () => {
   const [prevPhotoURL, setPrevPhotoURL] = useState(null);
   const [bgImg, setBgImg] = useState(null);
   const [displayName, setDisplayName] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [nameButton, setNameButton] = useState(false);
-  const [phoneNumberButton, setPhoneNumberButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
 
   useEffect(() => {
@@ -364,9 +339,6 @@ const Profile = () => {
     }
     if (currentUser?.displayName) {
       setDisplayName(currentUser.displayName);
-    }
-    if (currentUser?.phoneNumber) {
-      setPhoneNumber(currentUser.phoneNumber);
     }
     if (currentUser?.email) {
       setLoading(true);
@@ -393,8 +365,6 @@ const Profile = () => {
       navi("/login");
     }
   }, [currentUser]);
-
-  console.log(currentUser);
 
   function handleFile(e) {
     const reader = new FileReader();
@@ -520,34 +490,6 @@ const Profile = () => {
     setNameButton(false);
   }
 
-  // 번호 수정 input
-  function handlePhoneNumber(e) {
-    setPhoneNumber(e.target.value);
-    if (e.target.value.length > 8) {
-      setPhoneNumberButton(true);
-    } else {
-      setPhoneNumberButton(false);
-    }
-  }
-
-  async function changePhoneNumber() {
-    try {
-      await updateProfile(currentUser, {
-        phoneNumber: phoneNumber,
-      });
-      alert("번호가 성공적으로 변경되었습니다.");
-      setPhoneNumberButton(false);
-    } catch (e) {
-      alert(e.message);
-      console.log(e.code);
-    }
-  }
-
-  function submitPhoneNumber(e) {
-    e.preventDefault();
-    setPhoneNumberButton(false);
-  }
-
   // 이메일 인증하기
   function verifyEmail() {
     alert("이메일 인증");
@@ -613,28 +555,6 @@ const Profile = () => {
                   </span>
                 )}
               </p>
-              <form className="phone-number__form" onSubmit={submitPhoneNumber}>
-                <FontAwesomeIcon
-                  icon={faMobile}
-                  className="profile-data__icon"
-                />
-                <input
-                  type="number"
-                  className="phone-number__input"
-                  placeholder="번호를 등록하세요"
-                  onChange={handlePhoneNumber}
-                  value={phoneNumber}
-                />
-                {phoneNumberButton && (
-                  <button
-                    className="phone-number-change__button"
-                    onClick={changePhoneNumber}
-                  >
-                    수정
-                  </button>
-                )}
-              </form>
-
               {currentUser && (
                 <>
                   <p className="date">
