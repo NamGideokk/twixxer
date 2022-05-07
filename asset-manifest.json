@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/twixxer/static/css/main.44ce2f9b.css",
-    "main.js": "/twixxer/static/js/main.7a7bd442.js",
+    "main.css": "/twixxer/static/css/main.42ccb14f.css",
+    "main.js": "/twixxer/static/js/main.406d5c31.js",
     "index.html": "/twixxer/index.html",
-    "main.44ce2f9b.css.map": "/twixxer/static/css/main.44ce2f9b.css.map",
-    "main.7a7bd442.js.map": "/twixxer/static/js/main.7a7bd442.js.map"
+    "main.42ccb14f.css.map": "/twixxer/static/css/main.42ccb14f.css.map",
+    "main.406d5c31.js.map": "/twixxer/static/js/main.406d5c31.js.map"
   },
   "entrypoints": [
-    "static/css/main.44ce2f9b.css",
-    "static/js/main.7a7bd442.js"
+    "static/css/main.42ccb14f.css",
+    "static/js/main.406d5c31.js"
   ]
 }
