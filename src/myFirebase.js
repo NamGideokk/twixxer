@@ -70,7 +70,6 @@ export async function upload(file, currentUser, setLoading) {
     updateProfile(currentUser, {
       photoURL: photoURL,
     });
-    alert("아바타가 변경 되었습니다.");
   } catch (e) {
     console.log(e);
     alert(e.message);

@@ -385,9 +385,27 @@ const Profile = () => {
     }
   }
 
-  function handleUpload() {
-    upload(photo, currentUser, setLoading);
-    clearNewPhoto();
+  async function handleUpload() {
+    try {
+      upload(photo, currentUser, setLoading);
+      clearNewPhoto();
+      setTimeout(() => {
+        setAlertContent("아바타가 변경되었습니다.");
+        setBackgroundColor("#a984ed");
+        setDisplay("block");
+        if (window.screen.width <= 414) {
+          setAlertAnimation("mobile-open-alert");
+        } else {
+          setAlertAnimation("open-alert");
+        }
+      }, 500);
+      setTimeout(() => {
+        newAlert();
+      }, 1000);
+    } catch (e) {
+      console.log(e.code);
+      alert(e.message);
+    }
   }
 
   // 내 게시물 전부 삭제
