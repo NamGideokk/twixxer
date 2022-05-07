@@ -14,6 +14,7 @@ import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading";
 import SetName from "components/SetName";
+import { useNavigate } from "react-router-dom";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -266,6 +267,7 @@ const MainFrameStyle = styled.div`
 
 const Home = () => {
   const currentUser = useAuth();
+  const navigate = useNavigate();
   const [getFeeds, setGetFeeds] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(null);
@@ -290,6 +292,12 @@ const Home = () => {
     setName(currentUser?.displayName);
     setLoading(false);
   }, [currentUser?.displayName, name]);
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/login");
+    }
+  }, [currentUser]);
 
   // 화면 위로 이동 버튼
   function upButton() {

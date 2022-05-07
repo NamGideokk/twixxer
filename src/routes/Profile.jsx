@@ -388,6 +388,12 @@ const Profile = () => {
     }
   }, [currentUser?.photoURL]);
 
+  useEffect(() => {
+    if (!currentUser) {
+      navi("/login");
+    }
+  }, [currentUser]);
+
   function handleFile(e) {
     const reader = new FileReader();
 

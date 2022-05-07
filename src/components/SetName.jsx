@@ -40,6 +40,7 @@ const SetNameStyle = styled.div`
         width: 20%;
         font-size: 18px;
         padding: 3px 0;
+        color: black;
       }
     }
   }

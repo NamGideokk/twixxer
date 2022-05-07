@@ -147,13 +147,14 @@ const Auth = () => {
     if (currentUser) {
       setTimeout(() => {
         setLoading(false);
+        navigate("/");
       }, 1000);
     } else {
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     }
-  }, []);
+  }, [currentUser]);
 
   // 여러개의 input onChange를 하나의 함수로 처리하기
   function onChange(e) {
