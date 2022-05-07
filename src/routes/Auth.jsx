@@ -149,7 +149,7 @@ const Auth = () => {
         setLoading(false);
         navigate("/");
       }, 1000);
-    } else {
+    } else if (currentUser === null && currentUser !== undefined) {
       setTimeout(() => {
         setLoading(false);
       }, 1000);

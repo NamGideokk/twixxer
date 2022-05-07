@@ -294,7 +294,7 @@ const Home = () => {
   }, [currentUser?.displayName, name]);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser === null && currentUser !== undefined) {
       navigate("/login");
     }
   }, [currentUser]);

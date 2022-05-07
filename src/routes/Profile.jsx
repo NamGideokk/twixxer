@@ -389,10 +389,12 @@ const Profile = () => {
   }, [currentUser?.photoURL]);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser === null && currentUser !== undefined) {
       navi("/login");
     }
   }, [currentUser]);
+
+  console.log(currentUser);
 
   function handleFile(e) {
     const reader = new FileReader();
