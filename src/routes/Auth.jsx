@@ -1,14 +1,11 @@
-import {
-  faGithub,
-  faGoogle,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { login, loginGoogle, loginGithub, useAuth } from "myFirebase";
-import React, { useEffect, useRef, useState } from "react";
+import { login, loginGoogle, useAuth } from "myFirebase";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SignUp from "components/SignUp";
 import Loading from "common/Loading";
+import { useNavigate } from "react-router-dom";
 
 const AuthStyle = styled.div`
   form {
@@ -65,32 +62,49 @@ const AuthStyle = styled.div`
     }
 
     .btn__wrapper {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 40px;
+      text-align: center;
     }
 
     .button__st {
-      width: fit-content;
+      width: 100%;
       background-color: transparent;
       padding: 5px;
       border: none;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
       transition: 0.3s;
     }
 
-    .google,
-    .github {
-      background-color: white;
-      color: black;
+    .google {
+      color: white;
       border-radius: 10px;
       padding: 5px 10px;
-    }
 
-    .brand__icon {
-      margin-right: 5px;
-      color: purple;
+      small {
+        :nth-of-type(1) {
+          color: #5189f1;
+        }
+        :nth-of-type(2) {
+          color: #e0433a;
+        }
+        :nth-of-type(3) {
+          color: #f5ba29;
+        }
+        :nth-of-type(4) {
+          color: #5189f1;
+        }
+        :nth-of-type(5) {
+          color: #49a757;
+        }
+        :nth-of-type(6) {
+          color: #e0433a;
+          margin-right: 10px;
+        }
+      }
+    }
+    .google-font {
+      font-size: 16px;
     }
   }
 
@@ -112,15 +126,15 @@ const AuthStyle = styled.div`
   }
 
   @media screen and (max-width: 414px) {
-    .google,
-    .github {
-      font-size: 10px !important;
+    .google {
+      font-size: 14px !important;
     }
   }
 `;
 
 const Auth = () => {
   const currentUser = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -128,10 +142,7 @@ const Auth = () => {
   const [display, setDisplay] = useState("none");
   const [animation, setAnimation] = useState("fec__open-animation");
 
-  const emailInput = useRef();
-
   useEffect(() => {
-    emailInput.current.focus();
     setLoading(true);
     if (currentUser) {
       setTimeout(() => {
@@ -163,6 +174,7 @@ const Auth = () => {
     setLoading(true);
     try {
       await login(email, password);
+      navigate("/");
       // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
     } catch (e) {
       console.log(e.code);
@@ -185,8 +197,7 @@ const Auth = () => {
     try {
       if (name === "google") {
         await loginGoogle();
-      } else if (name === "github") {
-        await loginGithub();
+        navigate("/");
       }
     } catch (e) {
       console.log(e.code);
@@ -231,7 +242,6 @@ const Auth = () => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                ref={emailInput}
                 value={email}
                 onChange={onChange}
                 required
@@ -259,17 +269,13 @@ const Auth = () => {
                   className="button__st google"
                   onClick={socialClick}
                 >
-                  <FontAwesomeIcon icon={faGoogle} className="brand__icon" />
-                  Google 계정으로 로그인
-                </button>
-                <button
-                  name="github"
-                  type="button"
-                  className="button__st github"
-                  onClick={socialClick}
-                >
-                  <FontAwesomeIcon icon={faGithub} className="brand__icon" />
-                  Github 계정으로 로그인
+                  <small className="google-font">G</small>
+                  <small className="google-font">o</small>
+                  <small className="google-font">o</small>
+                  <small className="google-font">g</small>
+                  <small className="google-font">l</small>
+                  <small className="google-font">e</small>
+                  계정으로 로그인
                 </button>
               </div>
               <div className="last__wrapper">

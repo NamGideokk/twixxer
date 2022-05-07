@@ -1,4 +1,6 @@
-import React from "react";
+import { updateProfile } from "firebase/auth";
+import { useAuth } from "myFirebase";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const SetNameStyle = styled.div`
@@ -10,7 +12,7 @@ const SetNameStyle = styled.div`
     max-width: 400px;
     width: fit-content;
     height: fit-content;
-    padding: 40px 20px;
+    padding: 30px 20px;
     background-color: rgba(30, 30, 30, 0.8);
     border-radius: 20px;
     transition: 0.3s;
@@ -18,7 +20,7 @@ const SetNameStyle = styled.div`
 
     h2 {
       color: #eeeeee;
-      margin-bottom: 10px;
+      margin-bottom: 40px;
     }
     p {
       color: #eeeeee;
@@ -28,9 +30,7 @@ const SetNameStyle = styled.div`
     form {
       input {
         width: 100%;
-
         padding: 10px 10px;
-        margin-bottom: 30px;
       }
 
       button {
@@ -42,37 +42,61 @@ const SetNameStyle = styled.div`
         padding: 3px 0;
       }
     }
-
-    .later {
-      font-size: 22px;
-      color: #b2b2b2;
-      background: none;
-      transition: 0.3s;
-
-      :hover {
-        color: white;
-      }
-    }
   }
 `;
 
-const SetName = ({ handleClose, animation }) => {
-  function handleSubmit(e) {
-    e.preventDefault();
+const SetName = () => {
+  const currentUser = useAuth();
+
+  const [name, setName] = useState("");
+  const [display, setDisplay] = useState();
+  const [animation, setAnimation] = useState("");
+
+  function handleName(e) {
+    setName(e.target.value);
   }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      await updateProfile(currentUser, {
+        displayName: name,
+      });
+
+      alert("이름이 성공적으로 변경되었습니다.");
+      setAnimation("fec__close-animation");
+
+      setTimeout(() => {
+        setDisplay("none");
+        setAnimation("");
+      }, 500);
+    } catch (e) {
+      alert(e.message);
+      console.log(e.code);
+    }
+  }
+
   return (
     <SetNameStyle>
-      <div className="wrapper-st">
+      <div className="wrapper-st" style={{ display: display }}>
         <div className={`inner ${animation} `}>
           <h2>🎉 가입을 축하합니다! 🎉</h2>
-          <p>이름을 설정하세요</p>
+          <p>
+            이름을 설정하세요 <small>( 2 ~ 8자 )</small>
+          </p>
           <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="이름" />
+            <input
+              type="text"
+              placeholder="이름"
+              value={name}
+              onChange={handleName}
+              minLength={2}
+              maxLength={8}
+              required
+            />
             <button>확인</button>
           </form>
-          <button className="later" onClick={handleClose}>
-            다음에 할래요
-          </button>
         </div>
       </div>
     </SetNameStyle>

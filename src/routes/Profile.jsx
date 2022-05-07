@@ -31,7 +31,7 @@ import {
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
-import Loading from "common/Loading";
+import LoadingContainer from "common/LoadingContainer";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -470,7 +470,7 @@ const Profile = () => {
             alert(
               "탈퇴가 정상적으로 처리되었습니다. 이용해 주셔서 감사합니다."
             );
-            navi("/");
+            navi("/login");
           } catch (e) {
             console.log(e.code);
             if (e.code === "auth/wrong-password") {
@@ -723,7 +723,7 @@ const Profile = () => {
                 />
               ))
             ) : (
-              <Loading />
+              <LoadingContainer />
             )}
           </div>
         </div>

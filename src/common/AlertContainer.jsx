@@ -39,6 +39,25 @@ const AlertContStyle = styled.div`
     .new-feed-alert__wrapper {
       width: 100vw !important;
       bottom: 65px !important;
+      top: 0;
+      left: 0;
+      z-index: 99;
+    }
+    .alert__container {
+      width: 100vw !important;
+      padding-top: 20px !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+
+      .alert__icon {
+        margin-right: 10px;
+      }
+      p {
+        display: inline-block;
+        transform: translateY(-6px);
+      }
     }
   }
 `;

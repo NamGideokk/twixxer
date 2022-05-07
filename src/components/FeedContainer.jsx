@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,16 +15,7 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import {
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-  where,
-  collection,
-  query,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
 
@@ -239,6 +230,14 @@ const FeedContStyle = styled.div`
     /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
   }
 
+  /* 모바일 환경 애니메이션 */
+  .mobile-open-alert {
+    animation: mobile-feed-alert 1.5s;
+  }
+  .mobile-close-alert {
+    animation: mobile-feed-alert2 1.5s forwards;
+  }
+
   .block {
     display: block !important;
   }
@@ -334,7 +333,6 @@ const FeedContainer = ({
 }) => {
   const currentUser = useAuth();
 
-  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
@@ -349,24 +347,6 @@ const FeedContainer = ({
   const [alertContent, setAlertContent] = useState("");
   const [display, setDisplay] = useState("none");
   const [backgroundColor, setBackgroundColor] = useState("");
-
-  useEffect(() => {
-    setLoading(true);
-
-    const collectionRef = collection(myFirestore, "feeds");
-    const q1 = query(
-      collectionRef,
-      where("like", "array-contains", "Mk9OyrJjNkgvEBThgQy68zkSLCx2")
-    );
-
-    const unsub = onSnapshot(q1, (snapshot) => {
-      console.log(snapshot.docs.map((doc) => console.log(doc.data())));
-    });
-
-    setLoading(false);
-
-    return unsub;
-  }, []);
 
   // 피드 수정 모달창 열고 ID값 state에 저장
   async function handleEdit(id) {
@@ -409,7 +389,11 @@ const FeedContainer = ({
         setAlertContent("트윅이 수정되었습니다.");
         setBackgroundColor("#ffb01f");
         setDisplay("block");
-        setAlertAnimation("open-alert");
+        if (window.screen.width <= 414) {
+          setAlertAnimation("mobile-open-alert");
+        } else {
+          setAlertAnimation("open-alert");
+        }
       }, 500);
       setTimeout(() => {
         newAlert();
@@ -501,7 +485,11 @@ const FeedContainer = ({
   // 피드 생성 알림창
   function newAlert() {
     setTimeout(() => {
-      setAlertAnimation("close-alert");
+      if (window.screen.width <= 414) {
+        setAlertAnimation("mobile-close-alert");
+      } else {
+        setAlertAnimation("close-alert");
+      }
     }, 4000);
     setTimeout(() => {
       setAlertContent("");

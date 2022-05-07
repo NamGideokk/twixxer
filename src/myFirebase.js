@@ -5,7 +5,6 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   GoogleAuthProvider,
-  GithubAuthProvider,
   signInWithPopup,
   signOut,
   updateProfile,
@@ -28,7 +27,6 @@ const app = initializeApp(firebaseConfig);
 const authService = getAuth();
 const storage = getStorage();
 const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
 
 // 현재 로그인된 유저 정보
 export function useAuth() {
@@ -37,7 +35,8 @@ export function useAuth() {
   useEffect(() => {
     const unsub = onAuthStateChanged(authService, (user) => {
       setCurrentUser(user);
-      return unsub;
+
+      return unsub();
     });
   }, []);
 
@@ -54,10 +53,6 @@ export function login(email, password) {
 
 export function loginGoogle() {
   return signInWithPopup(authService, googleProvider);
-}
-
-export function loginGithub() {
-  return signInWithPopup(authService, githubProvider);
 }
 
 export function logout() {

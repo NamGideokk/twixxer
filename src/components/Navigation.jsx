@@ -170,7 +170,8 @@ const Navigation = () => {
   async function handleLogout() {
     try {
       await logout();
-      navi("/");
+      alert("로그아웃 되었습니다.");
+      navi("/login");
     } catch (e) {
       console.log(e);
       alert(e);

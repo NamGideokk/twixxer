@@ -19,6 +19,13 @@ const FeedFormStyle = styled.div`
     top: 0;
     z-index: 90;
   }
+  .avatar-name__wrapper {
+    display: flex;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .avatar {
     width: 100px;
     height: 100px;
@@ -27,16 +34,22 @@ const FeedFormStyle = styled.div`
     object-fit: cover;
     margin-right: 20px;
     position: relative;
+    flex-grow: 0;
   }
   .name-email__wrapper {
-    width: fit-content;
     height: fit-content;
     display: inline-block;
     margin-bottom: 15px;
+    padding-top: 10px;
+    flex-grow: 1;
   }
   .user-email {
     color: var(--logo-dark-color);
+    width: 100%;
     position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .name {
     font-size: 40px;
@@ -83,6 +96,14 @@ const FeedFormStyle = styled.div`
     /* cubic-bezier(0.38, -0.55, 0.35, 1.33) */
   }
 
+  /* 모바일 환경 애니메이션 */
+  .mobile-open-alert {
+    animation: mobile-feed-alert 1.5s;
+  }
+  .mobile-close-alert {
+    animation: mobile-feed-alert2 1.5s forwards;
+  }
+
   .block {
     display: block !important;
   }
@@ -112,9 +133,21 @@ const FeedFormStyle = styled.div`
       top: 0 !important;
       z-index: 20;
     }
+    .avatar-name__wrapper {
+      margin-bottom: 5px;
+    }
     .name-email__wrapper {
       h1 {
         font-size: 22px;
+      }
+
+      /* .user-email {
+        white-space: nowrap;
+        background-color: #ff2929;
+      } */
+
+      .name {
+        font-size: 35px;
       }
     }
     .feed__form {
@@ -189,7 +222,11 @@ const FeedForm = () => {
         setTimeout(() => {
           setAlertContent("새 트윅이 작성되었습니다.");
           setDisplay("block");
-          setAnimation("open-alert");
+          if (window.screen.width <= 414) {
+            setAnimation("mobile-open-alert");
+          } else {
+            setAnimation("open-alert");
+          }
         }, 500);
         setTimeout(() => {
           newFeedAlert();
@@ -211,7 +248,11 @@ const FeedForm = () => {
   // 피드 생성 알림창
   function newFeedAlert() {
     setTimeout(() => {
-      setAnimation("close-alert");
+      if (window.screen.width <= 414) {
+        setAnimation("mobile-close-alert");
+      } else {
+        setAnimation("close-alert");
+      }
     }, 4000);
     setTimeout(() => {
       setAlertContent("");
@@ -222,10 +263,12 @@ const FeedForm = () => {
   return (
     <FeedFormStyle>
       <div className="user__wrapper">
-        <img src={photoURL} alt="avatar" className="avatar" />
-        <div className="name-email__wrapper">
-          <h1 className="user-email name">{currentUser?.displayName}</h1>
-          <h1 className="user-email">{currentUser?.email}</h1>
+        <div className="avatar-name__wrapper">
+          <img src={photoURL} alt="avatar" className="avatar" />
+          <div className="name-email__wrapper">
+            <h1 className="user-email name">{currentUser?.displayName}</h1>
+            <h1 className="user-email">{currentUser?.email}</h1>
+          </div>
         </div>
         <form onSubmit={onSubmit} className="feed__form">
           <input

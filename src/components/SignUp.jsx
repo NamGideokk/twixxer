@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { signUp } from "myFirebase";
+import { useNavigate } from "react-router-dom";
 
 const SignUpStyle = styled.div`
   .outside {
@@ -77,6 +78,8 @@ const SignUpStyle = styled.div`
 `;
 
 const SignUp = ({ display, signUpModal, animation }) => {
+  const navitage = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -100,6 +103,7 @@ const SignUp = ({ display, signUpModal, animation }) => {
     setLoading(true);
     try {
       await signUp(email, password);
+      navitage("/");
     } catch (e) {
       if (e.code === "auth/email-already-in-use") {
         setErrorText("사용 중인 이메일입니다. 다른 이메일을 입력해 주세요.");

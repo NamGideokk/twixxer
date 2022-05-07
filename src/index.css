@@ -121,6 +121,28 @@ a {
   }
 }
 
+@keyframes mobile-feed-alert {
+  from {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-feed-alert2 {
+  from {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+}
+
 @keyframes opacity-animation {
   from {
     opacity: 0;

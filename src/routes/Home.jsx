@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Auth from "./Auth";
 import Navigation from "components/Navigation";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -269,8 +268,7 @@ const Home = () => {
   const currentUser = useAuth();
   const [getFeeds, setGetFeeds] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState(false);
-  const [animation, setAnimation] = useState("");
+  const [name, setName] = useState(null);
 
   // 데이터(피드) 가져오기
   useEffect(() => {
@@ -282,19 +280,16 @@ const Home = () => {
     const unsub = onSnapshot(q1, (snapshot) => {
       setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
-
-    if (currentUser?.displayName === null) {
-      setName(true);
-      setAnimation("fec__open-animation");
-      setTimeout(() => {
-        setAnimation("");
-      }, 500);
-    }
-
     setLoading(false);
 
     return unsub;
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setName(currentUser?.displayName);
+    setLoading(false);
+  }, [currentUser?.displayName, name]);
 
   // 화면 위로 이동 버튼
   function upButton() {
@@ -304,75 +299,57 @@ const Home = () => {
     });
   }
 
-  function handleClose() {
-    setAnimation("fec__close-animation");
-    setTimeout(() => {
-      setName(false);
-      setAnimation("");
-    }, 500);
-  }
-
   return (
     <>
-      {loading ? (
-        // 로딩중이면
-        <Loading />
-      ) : // 로딩끝나면
-      currentUser?.email ? (
-        <>
-          {name && <SetName handleClose={handleClose} animation={animation} />}
-          <MainFrameStyle>
-            <div className="main__frame">
-              <div className="sec__a">
-                <Navigation />
+      <MainFrameStyle>
+        <div className="main__frame">
+          <div className="sec__a">
+            <Navigation />
+          </div>
+          <div className="sec__b">
+            <FeedForm />
+            <FormStyle>
+              <div className="feed__cont__wrapper">
+                {getFeeds ? (
+                  getFeeds.map((twixx) => (
+                    <FeedContainer
+                      key={twixx.id}
+                      photo={twixx.photo}
+                      userName={twixx.userName}
+                      userId={twixx.userId}
+                      content={twixx.content}
+                      createdAt={twixx.createdAt.substring(0, 21)}
+                      editAt={twixx.editAt}
+                      likeCount={twixx.like.length}
+                      reTwixxCount={twixx.reTwixx}
+                      id={twixx.id}
+                    />
+                  ))
+                ) : (
+                  <>
+                    <LoadingContainer />
+                    <LoadingContainer />
+                    <LoadingContainer />
+                  </>
+                )}
+                {getFeeds?.length === 0 && <EmptyFeed />}
               </div>
-              <div className="sec__b">
-                <FeedForm />
-                <FormStyle>
-                  <div className="feed__cont__wrapper">
-                    {getFeeds ? (
-                      getFeeds.map((twixx) => (
-                        <FeedContainer
-                          key={twixx.id}
-                          photo={twixx.photo}
-                          userName={twixx.userName}
-                          userId={twixx.userId}
-                          content={twixx.content}
-                          createdAt={twixx.createdAt.substring(0, 21)}
-                          editAt={twixx.editAt}
-                          likeCount={twixx.like.length}
-                          reTwixxCount={twixx.reTwixx}
-                          id={twixx.id}
-                        />
-                      ))
-                    ) : (
-                      <>
-                        <LoadingContainer />
-                        <LoadingContainer />
-                        <LoadingContainer />
-                      </>
-                    )}
+            </FormStyle>
+          </div>
+          <div className="sec__c">
+            <Aside />
+          </div>
+        </div>
+      </MainFrameStyle>
 
-                    {getFeeds?.length === 0 && <EmptyFeed />}
-                  </div>
-                </FormStyle>
-              </div>
-              <div className="sec__c">
-                <Aside />
-              </div>
-            </div>
-          </MainFrameStyle>
+      <FontAwesomeIcon
+        icon={faArrowUp}
+        className="up__button"
+        title="맨 위로 이동"
+        onClick={upButton}
+      />
 
-          <FontAwesomeIcon
-            icon={faArrowUp}
-            className="up__button"
-            title="맨 위로 이동"
-            onClick={upButton}
-          />
-        </>
-      ) : (
-        <Auth />
-      )}
+      {name === null && name !== undefined ? <SetName /> : null}
     </>
   );
 };
