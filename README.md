@@ -208,9 +208,10 @@
 
 - 모바일 알림 창
 
-![mobile 01](https://user-images.githubusercontent.com/96227239/167245689-fdc979fc-a327-4bb3-8e88-cb8e3234d097.gif)
+![19](https://user-images.githubusercontent.com/96227239/167255385-15f757f3-85dd-479d-a8c7-3734fdc6c0a8.gif)
+![mobile-alert](https://user-images.githubusercontent.com/96227239/167255388-6ffd8a06-599b-4db1-a845-5d631014254f.jpg)
 
-모바일 환경의 피드의 알림 창을 화면 상단으로 이동하였습니다.
+모바일 환경의 피드 상태 변경 알림 창을 화면 상단으로 이동하였습니다.
 
 　
  
@@ -218,7 +219,7 @@
 
 ![18](https://user-images.githubusercontent.com/96227239/167245903-659adf8d-7a38-445c-9a01-c96e016edd47.gif)
 
-회원가입 후 로그인 시 이름이 없음을 감지하고 이름 설정 모달창을 띄웁니다.
+회원가입 후 로그인 시 이름이 없음을 감지하면 이름 설정 모달창을 띄웁니다.
 
 　
 
