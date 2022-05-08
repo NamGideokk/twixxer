@@ -111,17 +111,6 @@ const FeedFormStyle = styled.div`
     display: none;
   }
 
-  .red-color {
-    transition: 0.5s !important;
-    border: 1px solid #ff2929 !important;
-    box-shadow: 0 0 15px #ff5656 !important;
-
-    ::placeholder {
-      transition: 0.5s;
-      color: #ff2929;
-    }
-  }
-
   @media screen and (max-width: 414px) {
     .user__wrapper {
       width: 100vw !important;

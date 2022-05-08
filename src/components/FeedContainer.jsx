@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,9 +15,23 @@ import {
   faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  getDoc,
+  collection,
+  Timestamp,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
+import { BsReply } from "react-icons/bs";
+import ReplyContainer from "./ReplyContainer";
 
 const FeedContStyle = styled.div`
   .feed__container {
@@ -30,12 +44,13 @@ const FeedContStyle = styled.div`
     border: 1px solid #525252;
     display: grid;
     grid-template-columns: 60px 1fr 70px;
-    grid-template-rows: 60px 1fr 20px 50px;
+    grid-template-rows: 60px 1fr 20px 50px minmax(0, fit-content);
     grid-template-areas:
       "fc01 fc02 fc03"
       "fc04 fc04 fc04"
       "fc05 fc05 fc05"
-      "fc06 fc06 fc06";
+      "fc06 fc06 fc06"
+      "fc07 fc07 fc07" !important;
 
     .fc01 {
       grid-area: fc01;
@@ -208,6 +223,42 @@ const FeedContStyle = styled.div`
     }
   }
 
+  .fc07 {
+    grid-area: fc07;
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+    background-color: rgb(30, 30, 30);
+    color: #dcdcdc;
+    transition: 0.3s;
+
+    input {
+      width: 100%;
+      padding: 5px 10px 5px 40px;
+      font-size: 16px;
+      border: none;
+      background-color: rgb(30, 30, 30);
+      transition: 0.3s;
+      border-radius: 10px;
+
+      :focus {
+        background-color: #e9e9e9;
+        box-shadow: 0 0 15px var(--logo-color);
+      }
+    }
+    .reply__icon {
+      font-size: 25px;
+      position: absolute;
+      color: var(--logo-dark-color);
+      transform: rotate(180deg) translate(-7px, -5px);
+    }
+    .reply-count {
+      padding-left: calc(100% / 15);
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
   @media screen and (max-width: 414px) {
     .feed__container {
       width: 100vw !important;
@@ -217,6 +268,13 @@ const FeedContStyle = styled.div`
     .feed-icons__wrapper {
       justify-content: space-between !important;
       width: 100% !important;
+    }
+
+    .fc07 {
+      padding: 20px 0 10px 0 !important;
+    }
+    .reply-count {
+      padding-left: 10px !important;
     }
   }
 
@@ -308,6 +366,7 @@ const FeedContainer = ({
 }) => {
   const currentUser = useAuth();
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
   const [like, setLike] = useState(false);
@@ -316,6 +375,10 @@ const FeedContainer = ({
   const [iconAni, setIconAni] = useState("");
   const [feedContAnimation, setFeedContAnimation] =
     useState("fc__open-animation");
+  const [reply, setReply] = useState("");
+  const [twixxId, setTwixxId] = useState("");
+  const [showReply, setShowReply] = useState(false);
+  const [getReplys, setGetReplys] = useState(null);
 
   // 좌측하단 알림창 state
   const [alertAnimation, setAlertAnimation] = useState("");
@@ -393,6 +456,7 @@ const FeedContainer = ({
 
     if (confirmDelete) {
       try {
+        setShowReply(false);
         setFeedContAnimation("delete__animation");
         setTimeout(() => {
           setAlertContent("트윅이 삭제되었습니다.");
@@ -488,6 +552,77 @@ const FeedContainer = ({
     }, 5000);
   }
 
+  // 댓글 아이콘 클릭
+  const clickReply = useCallback(
+    (id) => {
+      setTwixxId(id);
+      setShowReply(true);
+
+      console.log("트윅 id - ", id);
+
+      setLoading(true);
+
+      const collectionRef = collection(myFirestore, "replys");
+      const q = query(
+        collectionRef,
+        where("id", "==", id),
+        orderBy("timestamp", "asc")
+      );
+
+      const unsub = onSnapshot(q, (snapshot) => {
+        setGetReplys(
+          snapshot.docs.map((doc) => ({ ...doc.data(), replyId: doc.id }))
+        );
+      });
+      setLoading(false);
+      return unsub;
+    },
+    [getReplys, twixxId]
+  );
+
+  // 댓글 submit
+  async function replyOnSubmit(e) {
+    e.preventDefault();
+
+    if (reply.length === 0) {
+      alert("내용을 입력해 주세요");
+    } else {
+      try {
+        const collectionRef = collection(myFirestore, "replys");
+        const payload = {
+          id: twixxId,
+          userName: currentUser.displayName,
+          userId: currentUser.email,
+          photo: currentUser.photoURL,
+          content: reply,
+          createdAt: Date(),
+          timestamp: Timestamp.fromDate(new Date()),
+          like: [],
+        };
+        await addDoc(collectionRef, payload);
+        setReply("");
+        setTimeout(() => {
+          setAlertContent("댓글이 작성되었습니다.");
+          setBackgroundColor("#14ad14");
+          setDisplay("block");
+          if (window.screen.width <= 414) {
+            setAlertAnimation("mobile-open-alert");
+          } else {
+            setAlertAnimation("open-alert");
+          }
+        }, 500);
+        setTimeout(() => {
+          newAlert();
+        }, 1000);
+      } catch (e) {
+        console.log(e.code);
+        alert(e.message);
+      }
+    }
+  }
+
+  console.log(getReplys);
+
   return (
     <FeedContStyle>
       <div
@@ -553,7 +688,17 @@ const FeedContainer = ({
               <FontAwesomeIcon icon={faBookmark} title="북마크" />
             </span>
             <span className="cm__icon">
-              <FontAwesomeIcon icon={faComment} title="댓글" />
+              <FontAwesomeIcon
+                icon={faComment}
+                title="댓글"
+                onClick={
+                  showReply
+                    ? () => {
+                        setShowReply(false);
+                      }
+                    : () => clickReply(id)
+                }
+              />
             </span>
             <div className="rp__div">
               <span className="rp__icon" onClick={() => clickReTwixx(id)}>
@@ -570,7 +715,45 @@ const FeedContainer = ({
             </span>
           </div>
         </div>
+        {showReply && (
+          <div className="fc07">
+            <BsReply className="reply__icon" />
+            <form onSubmit={replyOnSubmit}>
+              <input
+                type="text"
+                placeholder={`${userName}님에게 답글을 남겨보세요`}
+                minLength={1}
+                maxLength={80}
+                value={reply}
+                onChange={(e) => {
+                  setReply(e.target.value);
+                }}
+              />
+            </form>
+            {getReplys?.length !== 0 && (
+              <p className="reply-count">댓글 ({getReplys?.length})</p>
+            )}
+            {/* 댓글 컨테이너 */}
+            {getReplys
+              ? getReplys.map((reply) => (
+                  <ReplyContainer
+                    key={reply.replyId}
+                    replyId={reply.replyId}
+                    id={reply.id}
+                    currentUserEmail={currentUser?.email}
+                    avatar={reply.photo}
+                    name={reply.userName}
+                    email={reply.userId}
+                    content={reply.content}
+                    createdAt={reply.createdAt.substring(0, 21)}
+                    editAt={reply.editAt}
+                  />
+                ))
+              : null}
+          </div>
+        )}
       </div>
+
       {edit && (
         <EditContainerStyle>
           <div className="wrapper-st">
