@@ -1,10 +1,8 @@
-import {
-  faEarthAmerica,
-  faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
+import { IoEarth } from "react-icons/io5";
 
 const EmptyFeedStyle = styled.div`
   .ef__wrapper {
@@ -59,7 +57,7 @@ const EmptyFeed = () => {
   return (
     <EmptyFeedStyle>
       <div className="ef__wrapper">
-        <FontAwesomeIcon icon={faEarthAmerica} className="earth__icon" />
+        <IoEarth className="earth__icon" />
         <p>전 세계인들과의 소통을 지금 시작해 보세요</p>
       </div>
       <div className="plane__wrapper">

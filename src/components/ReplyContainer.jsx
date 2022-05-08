@@ -13,7 +13,7 @@ const ReplyContainerStyle = styled.div`
     padding: 20px;
     display: grid;
     grid-template-columns: 60px 1fr 50px;
-    grid-template-rows: 60px 1fr 20px;
+    grid-template-rows: 45px 1fr 20px;
     grid-template-areas:
       "rc-01 rc-02 rc-03"
       "rc-01 rc-04 rc-04"
@@ -70,11 +70,15 @@ const ReplyContainerStyle = styled.div`
     }
     .rc-04 {
       grid-area: rc-04;
-      padding: 10px 20px 15px 20px;
+      padding: 5px 20px;
     }
     .rc-05 {
       grid-area: rc-05;
       padding: 0 20px;
+
+      small {
+        color: #b0b0b0;
+      }
     }
   }
 

@@ -236,7 +236,7 @@ const FeedContStyle = styled.div`
       width: 100%;
       padding: 5px 10px 5px 40px;
       font-size: 16px;
-      border: none;
+      border: 1px solid #4f4f4f;
       background-color: rgb(30, 30, 30);
       transition: 0.3s;
       border-radius: 10px;
@@ -620,8 +620,6 @@ const FeedContainer = ({
       }
     }
   }
-
-  console.log(getReplys);
 
   return (
     <FeedContStyle>

@@ -9,6 +9,7 @@ import {
   faImage,
   faPaperPlane,
   faCheck,
+  faReply,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, upload, myFirestore } from "myFirebase";
 import {
@@ -32,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
 import LoadingContainer from "common/LoadingContainer";
 import AlertContainer from "common/AlertContainer";
+import ReplyContainer from "components/ReplyContainer";
 
 const ProfileStyle = styled.div`
   .profile__wrapper {
@@ -226,6 +228,10 @@ const ProfileStyle = styled.div`
     }
   }
 
+  .reply__icon {
+    transform: rotate(180deg);
+  }
+
   @media screen and (max-width: 1280px) {
     .main__frame {
       grid-template-columns: 300px minmax(500px, 1fr);
@@ -329,6 +335,7 @@ const Profile = () => {
   const [displayName, setDisplayName] = useState(null);
   const [nameButton, setNameButton] = useState(false);
   const [myTwixxs, setMyTwixxs] = useState([]);
+  const [myReplys, setMyReplys] = useState([]);
 
   // 좌측하단 알림창 state
   const [alertAnimation, setAlertAnimation] = useState("");
@@ -340,13 +347,22 @@ const Profile = () => {
     window.scroll({
       top: 0,
     });
+  }, []);
+
+  useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
     }
+  }, [currentUser?.photoURL]);
+
+  useEffect(() => {
     if (currentUser?.displayName) {
       setDisplayName(currentUser.displayName);
     }
+  }, [currentUser?.displayName]);
+
+  useEffect(() => {
     if (currentUser?.email) {
       setLoading(true);
 
@@ -365,7 +381,30 @@ const Profile = () => {
       setLoading(false);
       return unsub;
     }
-  }, [currentUser?.photoURL]);
+  }, [currentUser?.email]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    if (currentUser?.email) {
+      const collectionRef = collection(myFirestore, "replys");
+      const q = query(
+        collectionRef,
+        where("userId", "==", currentUser.email),
+        orderBy("timestamp", "desc")
+      );
+
+      const unsub = onSnapshot(q, (snapshot) => {
+        setMyReplys(
+          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+      });
+      setLoading(false);
+      return unsub;
+    }
+  }, [currentUser?.email]);
+
+  console.log(myReplys);
 
   useEffect(() => {
     if (currentUser === null && currentUser !== undefined) {
@@ -639,6 +678,13 @@ const Profile = () => {
                         ? "트윅이 없네요😥 지금 작성해 보세요!"
                         : `내 트윅 (${myTwixxs.length})`}
                     </p>
+                    <p>
+                      <FontAwesomeIcon
+                        icon={faReply}
+                        className="profile-data__icon reply__icon"
+                      />
+                      내 댓글 ({myReplys?.length})
+                    </p>
                   </>
                 )}
               </div>
@@ -707,6 +753,24 @@ const Profile = () => {
                     handleEdit={() => {}}
                     handleDelete={() => {}}
                     id={twixx.id}
+                  />
+                ))
+              ) : (
+                <LoadingContainer />
+              )}
+              {myReplys && !loading ? (
+                myReplys.map((reply) => (
+                  <ReplyContainer
+                    key={reply.id}
+                    replyId={reply.replyId}
+                    id={reply.id}
+                    currentUserEmail={currentUser?.email}
+                    avatar={reply.photo}
+                    name={reply.userName}
+                    email={reply.userId}
+                    content={reply.content}
+                    createdAt={reply.createdAt.substring(0, 21)}
+                    editAt={reply.editAt}
                   />
                 ))
               ) : (
