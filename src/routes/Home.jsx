@@ -4,7 +4,15 @@ import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  doc,
+  getDocs,
+  where,
+} from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import FeedForm from "components/FeedForm";
 import Aside from "components/Aside";
@@ -275,17 +283,42 @@ const Home = () => {
   // 데이터(피드) 가져오기
   useEffect(() => {
     setLoading(true);
-
+    console.log("모든 피드 불러오기 작업 실행");
     const collectionRef = collection(myFirestore, "feeds");
-    const q1 = query(collectionRef, orderBy("timestamp", "desc"));
+    const q = query(collectionRef, orderBy("timestamp", "desc"));
 
-    const unsub = onSnapshot(q1, (snapshot) => {
-      setGetFeeds(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const unsub = onSnapshot(q, (snapshot) => {
+      setGetFeeds(
+        snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
     });
+
     setLoading(false);
 
     return unsub;
   }, []);
+
+  console.log("getFeeds", getFeeds);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   console.log("boolean 작업 실행");
+  //   if (getFeeds) {
+  //     getFeeds.forEach((value) => {
+  //       if (value.like.includes(currentUser.uid)) {
+  //         value.isLike = true;
+  //       } else {
+  //         value.isLike = false;
+  //       }
+  //     });
+  //   }
+  //   setLoading(false);
+  // }, [getFeeds]);
+
+  console.log(getFeeds);
 
   useEffect(() => {
     setLoading(true);
@@ -328,6 +361,7 @@ const Home = () => {
                       content={twixx.content}
                       createdAt={twixx.createdAt.substring(0, 21)}
                       editAt={twixx.editAt}
+                      like={twixx.isLike}
                       likeCount={twixx.like.length}
                       reTwixxCount={twixx.reTwixx}
                       id={twixx.id}

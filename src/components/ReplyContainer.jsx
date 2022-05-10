@@ -37,9 +37,13 @@ const ReplyContainerStyle = styled.div`
       padding: 0 20px;
 
       p {
-        color: #717171;
-        position: relative;
-        bottom: 10px;
+        :nth-of-type(1) {
+          font-weight: bold;
+          font-size: 20px;
+        }
+        :nth-of-type(2) {
+          color: #717171;
+        }
       }
     }
     .rc-03 {
@@ -159,7 +163,7 @@ const EditContainerStyle = styled.div`
   }
 `;
 
-// id = 타겟(상위) 글의 id, replyId = 댓글 id
+// id = 타겟(상위) 글의 id (중복됨), replyId = 댓글 id (중복X)
 const ReplyContainer = ({
   id,
   replyId,
@@ -242,7 +246,7 @@ const ReplyContainer = ({
             <img src={avatar} alt="avatar" />
           </div>
           <div className="rc-02">
-            <h3>{name}</h3>
+            <p>{name}</p>
             <p>{email}</p>
           </div>
           <div className="rc-03">

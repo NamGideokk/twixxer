@@ -173,6 +173,11 @@ const FeedContStyle = styled.div`
         background-color: #40c9402f;
       }
     }
+    .cm__div {
+      :hover {
+        color: #14ad14;
+      }
+    }
     .rp__div {
       :hover {
         color: #d000be;
@@ -362,6 +367,8 @@ const FeedContainer = ({
   editAt,
   likeCount,
   reTwixxCount,
+  replyCount,
+  like,
   id,
 }) => {
   const currentUser = useAuth();
@@ -369,7 +376,6 @@ const FeedContainer = ({
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
-  const [like, setLike] = useState(false);
   const [selectId, setSelectId] = useState();
   const [animation, setAnimation] = useState("");
   const [iconAni, setIconAni] = useState("");
@@ -379,6 +385,8 @@ const FeedContainer = ({
   const [twixxId, setTwixxId] = useState("");
   const [showReply, setShowReply] = useState(false);
   const [getReplys, setGetReplys] = useState(null);
+  const [replyInputError, setReplyInputError] = useState(false);
+  const [inputErrorClass, setInputErrorClass] = useState("");
 
   // 좌측하단 알림창 state
   const [alertAnimation, setAlertAnimation] = useState("");
@@ -485,8 +493,6 @@ const FeedContainer = ({
 
   // 피드 좋아요 버튼 클릭
   async function clickLike(id) {
-    setLike(!like);
-
     try {
       const docRef = doc(myFirestore, "feeds", id);
       const docSnap = await getDoc(docRef);
@@ -585,7 +591,12 @@ const FeedContainer = ({
     e.preventDefault();
 
     if (reply.length === 0) {
-      alert("내용을 입력해 주세요");
+      setReplyInputError(true);
+      setInputErrorClass("red-color");
+      setTimeout(() => {
+        setReplyInputError(false);
+        setInputErrorClass("");
+      }, 3000);
     } else {
       try {
         const collectionRef = collection(myFirestore, "replys");
@@ -685,19 +696,23 @@ const FeedContainer = ({
             <span className="bm__icon">
               <FontAwesomeIcon icon={faBookmark} title="북마크" />
             </span>
-            <span className="cm__icon">
-              <FontAwesomeIcon
-                icon={faComment}
-                title="댓글"
-                onClick={
-                  showReply
-                    ? () => {
-                        setShowReply(false);
-                      }
-                    : () => clickReply(id)
-                }
-              />
-            </span>
+            <div className="cm__div">
+              <span className="cm__icon">
+                <FontAwesomeIcon
+                  icon={faComment}
+                  title="댓글"
+                  onClick={
+                    showReply
+                      ? () => {
+                          setShowReply(false);
+                        }
+                      : () => clickReply(id)
+                  }
+                />
+              </span>
+              {/* 댓글 갯수 바로 가져오게 수정 필요 */}
+              <span className="count">{getReplys?.length}</span>
+            </div>
             <div className="rp__div">
               <span className="rp__icon" onClick={() => clickReTwixx(id)}>
                 <FontAwesomeIcon
@@ -719,7 +734,12 @@ const FeedContainer = ({
             <form onSubmit={replyOnSubmit}>
               <input
                 type="text"
-                placeholder={`${userName}님에게 답글을 남겨보세요`}
+                className={inputErrorClass}
+                placeholder={
+                  replyInputError
+                    ? "내용을 입력해 주세요"
+                    : `${userName}님에게 답글을 남겨보세요`
+                }
                 minLength={1}
                 maxLength={80}
                 value={reply}

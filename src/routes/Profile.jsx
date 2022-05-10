@@ -232,6 +232,16 @@ const ProfileStyle = styled.div`
     transform: rotate(180deg);
   }
 
+  .header {
+    color: #dcdcdc;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .reply__header {
+    margin-top: 50px;
+  }
+
   @media screen and (max-width: 1280px) {
     .main__frame {
       grid-template-columns: 300px minmax(500px, 1fr);
@@ -403,8 +413,6 @@ const Profile = () => {
       return unsub;
     }
   }, [currentUser?.email]);
-
-  console.log(myReplys);
 
   useEffect(() => {
     if (currentUser === null && currentUser !== undefined) {
@@ -583,6 +591,8 @@ const Profile = () => {
     }, 5000);
   }
 
+  console.log(myReplys);
+
   return (
     <>
       <ProfileStyle>
@@ -675,7 +685,7 @@ const Profile = () => {
                       />
 
                       {myTwixxs.length === 0
-                        ? "트윅이 없네요😥 지금 작성해 보세요!"
+                        ? "작성하신 트윅이 없네요😥"
                         : `내 트윅 (${myTwixxs.length})`}
                     </p>
                     <p>
@@ -683,7 +693,9 @@ const Profile = () => {
                         icon={faReply}
                         className="profile-data__icon reply__icon"
                       />
-                      내 댓글 ({myReplys?.length})
+                      {myReplys.length === 0
+                        ? "작성하신 댓글이 없네요😥"
+                        : `내 댓글 (${myTwixxs.length})`}
                     </p>
                   </>
                 )}
@@ -738,6 +750,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="my-feed__wrapper">
+              {myTwixxs.length !== 0 && <p className="header">트윅</p>}
               {myTwixxs && !loading ? (
                 myTwixxs.map((twixx) => (
                   <FeedContainer
@@ -757,6 +770,9 @@ const Profile = () => {
                 ))
               ) : (
                 <LoadingContainer />
+              )}
+              {myReplys.length !== 0 && (
+                <p className="header reply__header">댓글</p>
               )}
               {myReplys && !loading ? (
                 myReplys.map((reply) => (

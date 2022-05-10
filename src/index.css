@@ -198,6 +198,7 @@ a {
   padding: 7px;
   cursor: pointer;
   position: fixed;
+  z-index: 90;
   right: 10%;
   bottom: 8%;
   transition: 0.3s;
