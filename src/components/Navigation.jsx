@@ -213,13 +213,13 @@ const Navigation = () => {
               {navLang ? "알림" : "Notifications"}
             </li>
           </NavLink>
-          <NavLink to="/message">
+          <NavLink to="/messages">
             <li>
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>
           </NavLink>
-          <NavLink to="/">
+          <NavLink to="/bookmarks">
             <li>
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
