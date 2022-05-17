@@ -292,6 +292,7 @@ const Home = () => {
         snapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
+          isLike: doc.data().like.includes(currentUser.uid),
         }))
       );
     });
@@ -299,7 +300,9 @@ const Home = () => {
     setLoading(false);
 
     return unsub;
-  }, []);
+  }, [currentUser]);
+
+  console.log(getFeeds);
 
   // useEffect(() => {
   //   setLoading(true);
@@ -315,8 +318,6 @@ const Home = () => {
   //   }
   //   setLoading(false);
   // }, [getFeeds]);
-
-  console.log(getFeeds);
 
   useEffect(() => {
     setLoading(true);
