@@ -360,7 +360,6 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
     }
@@ -591,7 +590,7 @@ const Profile = () => {
     }, 5000);
   }
 
-  console.log(myReplys);
+  console.log("내 리플", myReplys);
 
   return (
     <>
@@ -695,7 +694,7 @@ const Profile = () => {
                       />
                       {myReplys.length === 0
                         ? "작성하신 댓글이 없네요😥"
-                        : `내 댓글 (${myTwixxs.length})`}
+                        : `내 댓글 (${myReplys.length})`}
                     </p>
                   </>
                 )}

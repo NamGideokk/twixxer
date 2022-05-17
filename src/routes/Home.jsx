@@ -276,7 +276,7 @@ const MainFrameStyle = styled.div`
 const Home = () => {
   const currentUser = useAuth();
   const navigate = useNavigate();
-  const [getFeeds, setGetFeeds] = useState(null);
+  const [getFeeds, setGetFeeds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(null);
 
@@ -300,8 +300,6 @@ const Home = () => {
 
     return unsub;
   }, []);
-
-  console.log("getFeeds", getFeeds);
 
   // useEffect(() => {
   //   setLoading(true);
