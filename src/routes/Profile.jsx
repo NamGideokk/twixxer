@@ -594,8 +594,6 @@ const Profile = () => {
     }, 5000);
   }
 
-  console.log("내 리플", myReplys);
-
   return (
     <>
       <ProfileStyle>

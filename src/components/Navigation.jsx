@@ -88,6 +88,12 @@ const NaviStyle = styled.div`
     width: 60px;
   }
 
+  .link-active {
+    li {
+      color: black;
+    }
+  }
+
   @media screen and (max-width: 820px) {
     .navi__wrapper {
       width: 80px;
@@ -159,6 +165,12 @@ const NaviStyle = styled.div`
     .first-list {
       display: none;
     }
+
+    .link-active {
+      li {
+        color: var(--logo-color);
+      }
+    }
   }
 `;
 
@@ -194,44 +206,65 @@ const Navigation = () => {
               {navLang ? "ENG" : "KOR"}
             </span>
           </div>
-          <NavLink to="/">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             {/* className="phone-device-none" */}
             <li>
               <FontAwesomeIcon icon={faHouse} className="nav__icons" />
               {navLang ? "홈" : "Home"}
             </li>
           </NavLink>
-          <NavLink to="/">
+          <NavLink
+            to="/explore"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
               {navLang ? "탐색" : "Explore"}
             </li>
           </NavLink>
-          <NavLink to="/">
+          <NavLink
+            to="/notifications"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faBell} className="nav__icons" />
               {navLang ? "알림" : "Notifications"}
             </li>
           </NavLink>
-          <NavLink to="/messages">
+          <NavLink
+            to="/messages"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
               {navLang ? "메세지" : "Messages"}
             </li>
           </NavLink>
-          <NavLink to="/bookmarks">
+          <NavLink
+            to="/bookmarks"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
               {navLang ? "북마크" : "Bookmarks"}
             </li>
           </NavLink>
-          <NavLink to="/">
+          <NavLink
+            to="/lists"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faList} className="nav__icons" />
               {navLang ? "목록" : "Lists"}
             </li>
           </NavLink>
-          <NavLink to="/profile">
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => (isActive ? "link-active" : "link")}
+          >
             <li>
               <FontAwesomeIcon icon={faUser} className="nav__icons" />
               {navLang ? "프로필" : "Profile"}

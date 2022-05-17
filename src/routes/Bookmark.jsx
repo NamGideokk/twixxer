@@ -25,6 +25,7 @@ const MainFrameStyle = styled.div`
 
     .sec__a {
       grid-area: a;
+      z-index: 90;
     }
     .sec__b {
       grid-area: b;
