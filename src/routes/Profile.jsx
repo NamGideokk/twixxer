@@ -384,7 +384,11 @@ const Profile = () => {
 
       const unsub = onSnapshot(q, (snapshot) => {
         setMyTwixxs(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+            isLike: doc.data().like.includes(currentUser.uid),
+          }))
         );
       });
       setLoading(false);
@@ -760,6 +764,7 @@ const Profile = () => {
                     content={twixx.content}
                     createdAt={twixx.createdAt.substring(0, 21)}
                     editAt={twixx.editAt}
+                    like={twixx.isLike}
                     likeCount={twixx.like.length}
                     reTwixxCount={twixx.reTwixx}
                     handleEdit={() => {}}
