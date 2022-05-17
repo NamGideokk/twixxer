@@ -204,6 +204,7 @@ const FeedForm = () => {
           createdAt: Date(),
           timestamp: Timestamp.fromDate(new Date()),
           like: [],
+          bookmark: [],
           reTwixx: 0,
         };
         await addDoc(collectionRef, payload);

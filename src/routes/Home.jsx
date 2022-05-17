@@ -293,6 +293,7 @@ const Home = () => {
           ...doc.data(),
           id: doc.id,
           isLike: doc.data().like.includes(currentUser.uid),
+          isBookmark: doc.data().bookmark.includes(currentUser.uid),
         }))
       );
     });
@@ -362,6 +363,7 @@ const Home = () => {
                       editAt={twixx.editAt}
                       like={twixx.isLike}
                       likeCount={twixx.like.length}
+                      bookmark={twixx.isBookmark}
                       reTwixxCount={twixx.reTwixx}
                       id={twixx.id}
                     />

@@ -6,10 +6,11 @@ import {
   faCircleXmark,
   faHeart,
   faRepeat,
+  faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
-  faBookmark,
+  faBookmark as borderBookmark,
   faComment,
   faHeart as borderHeart,
   faShareFromSquare,
@@ -163,6 +164,10 @@ const FeedContStyle = styled.div`
         color: #5252ff;
         background-color: #5252ff2f;
       }
+    }
+    /* 북마크한(true) 아이콘 */
+    .bookmark__icon {
+      color: #5252ff;
     }
     .cm__icon {
       width: 30px;
@@ -369,6 +374,7 @@ const FeedContainer = ({
   reTwixxCount,
   replyCount,
   like,
+  bookmark,
   id,
 }) => {
   const currentUser = useAuth();
@@ -522,6 +528,44 @@ const FeedContainer = ({
     } catch (e) {
       console.log(e.code);
       alert(e.message);
+    }
+  }
+
+  // 북마크 버튼 클릭
+  async function clickBookmark(userId, id) {
+    if (userId === currentUser.email) {
+      alert("회원님의 게시물입니다.");
+    } else {
+      try {
+        const docRef = doc(myFirestore, "feeds", id);
+        const docSnap = await getDoc(docRef);
+        let prevBookmark = docSnap.data().bookmark;
+
+        const isBookmark = prevBookmark.includes(currentUser.uid);
+
+        // like 배열에 나의 uid가 있으면 (좋아요한 상태)
+        if (isBookmark) {
+          // like 배열에 나의 uid 삭제
+          prevBookmark.forEach((uid, index) => {
+            if (uid === currentUser.uid) {
+              prevBookmark.splice(index, 1);
+            }
+          });
+          const payload = {
+            bookmark: prevBookmark,
+          };
+          updateDoc(docRef, payload);
+        } else {
+          const payload = {
+            bookmark: [...prevBookmark, currentUser.uid],
+          };
+
+          updateDoc(docRef, payload);
+        }
+      } catch (e) {
+        console.log(e.code);
+        alert(e.message);
+      }
     }
   }
 
@@ -694,7 +738,20 @@ const FeedContainer = ({
               <span className="count">{likeCount}</span>
             </div>
             <span className="bm__icon">
-              <FontAwesomeIcon icon={faBookmark} title="북마크" />
+              {bookmark ? (
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  onClick={() => clickBookmark(userId, id)}
+                  className="bookmark__icon"
+                  title="북마크 취소"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderBookmark}
+                  onClick={() => clickBookmark(userId, id)}
+                  title="북마크"
+                />
+              )}
             </span>
             <div className="cm__div">
               <span className="cm__icon">
