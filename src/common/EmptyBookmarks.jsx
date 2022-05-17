@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const EBStyle = styled.div`
   div {
+    margin-top: 100px;
     text-align: center;
   }
   h2 {
@@ -11,6 +12,12 @@ const EBStyle = styled.div`
   }
   p {
     color: #979797;
+  }
+
+  @media screen and (max-width: 414px) {
+    div {
+      margin-top: 190px;
+    }
   }
 `;
 

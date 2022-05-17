@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { signUp } from "myFirebase";
+import { myFirestore, signUp } from "myFirebase";
 import { useNavigate } from "react-router-dom";
+import { collection } from "firebase/firestore";
 
 const SignUpStyle = styled.div`
   .outside {
@@ -103,6 +104,15 @@ const SignUp = ({ display, signUpModal, animation }) => {
     setLoading(true);
     try {
       await signUp(email, password);
+      // const collectionRef = collection(myFirestore, "users");
+      // const payload = {
+      //   userName: currentUser.displayName,
+      //   userId: currentUser.email,
+      //   photo: currentUser.photoURL,
+      //   timestamp: Timestamp.fromDate(new Date()),
+      //   language: "KOR",
+      // };
+      // await addDoc(collectionRef, payload);
       navitage("/");
     } catch (e) {
       if (e.code === "auth/email-already-in-use") {
