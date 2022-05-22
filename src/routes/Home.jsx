@@ -304,21 +304,6 @@ const Home = () => {
     return unsub;
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   console.log("boolean 작업 실행");
-  //   if (getFeeds) {
-  //     getFeeds.forEach((value) => {
-  //       if (value.like.includes(currentUser.uid)) {
-  //         value.isLike = true;
-  //       } else {
-  //         value.isLike = false;
-  //       }
-  //     });
-  //   }
-  //   setLoading(false);
-  // }, [getFeeds]);
-
   useEffect(() => {
     setLoading(true);
     setName(currentUser?.displayName);
@@ -338,6 +323,8 @@ const Home = () => {
       top: 0,
     });
   }
+
+  console.log(getFeeds);
 
   return (
     <>

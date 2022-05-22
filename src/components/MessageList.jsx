@@ -5,8 +5,9 @@ const MessageListStyle = styled.div`
   .list__wrapper {
     width: 100%;
     height: 150px;
-    /* background-color: beige; */
     display: flex;
+    border: 1px solid #525252;
+    overflow-x: hidden;
 
     .list__item {
       width: 110px;
@@ -18,7 +19,7 @@ const MessageListStyle = styled.div`
       transition: 0.3s;
 
       :hover {
-        background-color: var(--logo-color);
+        background-color: rgb(50, 50, 50);
       }
       :active {
         transform: scale(0.95);
@@ -37,11 +38,11 @@ const MessageListStyle = styled.div`
         text-align: center;
 
         h3 {
-          color: white;
+          color: #dcdcdc;
         }
 
         p {
-          color: #323232;
+          color: #a4a4a4;
           overflow: hidden;
           text-overflow: ellipsis;
           width: 80px;
@@ -76,7 +77,151 @@ const MessageList = () => {
           </div>
           <div className="li02">
             <h3>아이유</h3>
-            <p title="iu_official@gmail.com">iu_official@gmail.com</p>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
+          </div>
+        </div>
+        <div className="list__item">
+          <div className="li01">
+            <img
+              src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg"
+              alt="avatar"
+            />
+          </div>
+          <div className="li02">
+            <h3>아이유</h3>
+            <p title="iu_official@gmail.com">iu_officialc</p>
           </div>
         </div>
       </div>

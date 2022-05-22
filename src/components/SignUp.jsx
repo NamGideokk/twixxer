@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { myFirestore, signUp } from "myFirebase";
 import { useNavigate } from "react-router-dom";
-import { collection } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 
 const SignUpStyle = styled.div`
   .outside {
@@ -104,11 +104,12 @@ const SignUp = ({ display, signUpModal, animation }) => {
     setLoading(true);
     try {
       await signUp(email, password);
-      // const collectionRef = collection(myFirestore, "users");
+      // const collectionRef = collection(myFirestore, "users", "hi");
       // const payload = {
-      //   userName: currentUser.displayName,
-      //   userId: currentUser.email,
-      //   photo: currentUser.photoURL,
+      //   uid: "hi",
+      //   userName: null,
+      //   userId: email,
+      //   photo: null,
       //   timestamp: Timestamp.fromDate(new Date()),
       //   language: "KOR",
       // };

@@ -16,7 +16,7 @@ const EBStyle = styled.div`
 
   @media screen and (max-width: 414px) {
     div {
-      margin-top: 190px;
+      margin-top: 130px;
     }
   }
 `;
