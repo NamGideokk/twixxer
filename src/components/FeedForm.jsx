@@ -67,6 +67,9 @@ const FeedFormStyle = styled.div`
     width: 100%;
     height: fit-content;
 
+    /* :has(input:focus) {
+    } */
+
     input {
       width: 100%;
       height: 50px;

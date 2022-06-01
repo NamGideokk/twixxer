@@ -7,6 +7,7 @@ const LcStyle = styled.div`
     height: 235px;
     border: 1px solid #525252;
     padding: 20px;
+    margin: 0 auto;
 
     div {
       :nth-of-type(1) {

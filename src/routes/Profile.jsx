@@ -31,7 +31,6 @@ import {
 import Aside from "components/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer";
-import LoadingContainer from "common/LoadingContainer";
 import AlertContainer from "common/AlertContainer";
 import ReplyContainer from "components/ReplyContainer";
 
@@ -752,48 +751,44 @@ const Profile = () => {
             </div>
             <div className="my-feed__wrapper">
               {myTwixxs.length !== 0 && <p className="header">트윅</p>}
-              {myTwixxs && !loading ? (
-                myTwixxs.map((twixx) => (
-                  <FeedContainer
-                    key={twixx.id}
-                    photo={twixx.photo}
-                    userName={twixx.userName}
-                    userId={twixx.userId}
-                    content={twixx.content}
-                    createdAt={twixx.createdAt.substring(0, 21)}
-                    editAt={twixx.editAt}
-                    like={twixx.isLike}
-                    likeCount={twixx.like.length}
-                    reTwixxCount={twixx.reTwixx}
-                    handleEdit={() => {}}
-                    handleDelete={() => {}}
-                    id={twixx.id}
-                  />
-                ))
-              ) : (
-                <LoadingContainer />
-              )}
+              {myTwixxs && !loading
+                ? myTwixxs.map((twixx) => (
+                    <FeedContainer
+                      key={twixx.id}
+                      photo={twixx.photo}
+                      userName={twixx.userName}
+                      userId={twixx.userId}
+                      content={twixx.content}
+                      createdAt={twixx.createdAt.substring(0, 21)}
+                      editAt={twixx.editAt}
+                      like={twixx.isLike}
+                      likeCount={twixx.like.length}
+                      reTwixxCount={twixx.reTwixx}
+                      handleEdit={() => {}}
+                      handleDelete={() => {}}
+                      id={twixx.id}
+                    />
+                  ))
+                : null}
               {myReplys.length !== 0 && (
                 <p className="header reply__header">댓글</p>
               )}
-              {myReplys && !loading ? (
-                myReplys.map((reply) => (
-                  <ReplyContainer
-                    key={reply.id}
-                    replyId={reply.replyId}
-                    id={reply.id}
-                    currentUserEmail={currentUser?.email}
-                    avatar={reply.photo}
-                    name={reply.userName}
-                    email={reply.userId}
-                    content={reply.content}
-                    createdAt={reply.createdAt.substring(0, 21)}
-                    editAt={reply.editAt}
-                  />
-                ))
-              ) : (
-                <LoadingContainer />
-              )}
+              {myReplys && !loading
+                ? myReplys.map((reply) => (
+                    <ReplyContainer
+                      key={reply.id}
+                      replyId={reply.replyId}
+                      id={reply.id}
+                      currentUserEmail={currentUser?.email}
+                      avatar={reply.photo}
+                      name={reply.userName}
+                      email={reply.userId}
+                      content={reply.content}
+                      createdAt={reply.createdAt.substring(0, 21)}
+                      editAt={reply.editAt}
+                    />
+                  ))
+                : null}
             </div>
           </div>
           <div className="sec__c">
