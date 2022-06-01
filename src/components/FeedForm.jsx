@@ -6,6 +6,7 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
+import { faImage } from "@fortawesome/free-regular-svg-icons";
 
 const FeedFormStyle = styled.div`
   .user__wrapper {
@@ -15,6 +16,7 @@ const FeedFormStyle = styled.div`
     background-color: rgba(30, 30, 30, 0.7);
     backdrop-filter: blur(10px);
     padding: 20px 20px;
+    padding-bottom: 10px;
     position: sticky;
     top: 0;
     z-index: 90;
@@ -69,6 +71,7 @@ const FeedFormStyle = styled.div`
       transition: 0.2s;
       background-color: #e1e1e1;
       position: relative;
+      margin-bottom: 15px;
 
       :focus {
         background-color: white;
@@ -83,6 +86,18 @@ const FeedFormStyle = styled.div`
       color: var(--logo-color);
       position: absolute;
       transform: translate(-50px, 2px);
+    }
+  }
+
+  .img-input__button {
+    color: #e1e1e1;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 24px;
+    margin-left: 10px;
+
+    :hover {
+      color: var(--logo-color);
     }
   }
 
@@ -277,6 +292,15 @@ const FeedForm = () => {
               className="upload-feed__icon"
             />
           </button>
+          <label htmlFor="img-input" className="img-input__button">
+            <FontAwesomeIcon icon={faImage} />
+          </label>
+          <input
+            id="img-input"
+            type="file"
+            accept="image"
+            style={{ display: "none" }}
+          />
         </form>
       </div>
       <AlertContainer
