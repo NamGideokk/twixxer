@@ -6,7 +6,12 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
-import { faImage } from "@fortawesome/free-regular-svg-icons";
+import {
+  faChartBar,
+  faClock,
+  faFaceSmile,
+  faImage,
+} from "@fortawesome/free-regular-svg-icons";
 
 const FeedFormStyle = styled.div`
   .user__wrapper {
@@ -35,13 +40,14 @@ const FeedFormStyle = styled.div`
     background-color: white;
     object-fit: cover;
     margin-right: 20px;
+    margin-bottom: 15px;
     position: relative;
     flex-grow: 0;
   }
   .name-email__wrapper {
     height: fit-content;
     display: inline-block;
-    margin-bottom: 15px;
+
     padding-top: 10px;
     flex-grow: 1;
   }
@@ -89,7 +95,10 @@ const FeedFormStyle = styled.div`
     }
   }
 
-  .img-input__button {
+  .img-input__button,
+  .emoji__button,
+  .vote__button,
+  .reservation__button {
     color: #e1e1e1;
     cursor: pointer;
     transition: 0.3s;
@@ -285,7 +294,6 @@ const FeedForm = () => {
             value={feed}
             onChange={onChange}
           />
-
           <button type="submit" className="upload-feed__button">
             <FontAwesomeIcon
               icon={faPaperPlane}
@@ -295,6 +303,9 @@ const FeedForm = () => {
           <label htmlFor="img-input" className="img-input__button">
             <FontAwesomeIcon icon={faImage} />
           </label>
+          <FontAwesomeIcon icon={faFaceSmile} className="emoji__button" />
+          <FontAwesomeIcon icon={faChartBar} className="vote__button" />
+          <FontAwesomeIcon icon={faClock} className="reservation__button" />
           <input
             id="img-input"
             type="file"
