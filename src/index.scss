@@ -1,0 +1,113 @@
+@import "./_variable.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "NanumSquareRound";
+}
+
+body {
+  background-color: $bg-color;
+}
+
+// scrollbar style
+*::-webkit-scrollbar {
+  width: 15px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--logo-dark-color);
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+*::-webkit-scrollbar-track {
+  background-color: rgb(30, 30, 30);
+  box-shadow: inset 0px 0px 5px rgb(61, 61, 61);
+}
+
+// font
+@font-face {
+  font-family: "Godo";
+  font-style: normal;
+  font-weight: 400;
+  src: url("//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2")
+      format("woff2"),
+    url("//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+// common style
+button {
+  border: none;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+input:focus,
+button:focus {
+  outline: none;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.up__button {
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: $primary-color;
+  padding: 7px;
+  cursor: pointer;
+  position: fixed;
+  z-index: 90;
+  right: 10%;
+  bottom: 8%;
+  transition: 0.3s;
+}
+.up__button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px $primary-dark-color;
+}
+.up__button:active {
+  transform: scale(0.9);
+}
+
+/* 인풋 에러 클래스 */
+.red-color {
+  transition: 0.5s !important;
+  border: 1px solid #ff2929 !important;
+  box-shadow: 0 0 15px #ff5656 !important;
+}
+.red-color::placeholder {
+  transition: 0.5s;
+  color: #ff2929;
+}
+
+@media screen and (max-width: 414px) {
+  .up__button {
+    width: 20px;
+    height: 20px;
+    right: 7%;
+    bottom: 90px;
+    background-color: rgba(169, 132, 237, 0.5);
+    backdrop-filter: blur(10px);
+  }
+}
