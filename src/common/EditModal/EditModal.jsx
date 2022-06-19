@@ -1,7 +1,13 @@
 import React from "react";
 import "./EditModal.scss";
 
-const EditModal = ({ animation }) => {
+const EditModal = ({
+  animation,
+  editContent,
+  handleEditContent,
+  editConfirm,
+  editCancel,
+}) => {
   return (
     <div className="wrapper-style">
       <div className={`edit__container ${animation}`}>

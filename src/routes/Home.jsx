@@ -20,7 +20,7 @@ import Aside from "components/Aside";
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
-import Loading from "common/Loading";
+import Loading from "common/Loading/Loading";
 import SetName from "components/SetName";
 import { useNavigate } from "react-router-dom";
 

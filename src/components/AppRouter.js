@@ -1,7 +1,7 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../routes/Home";
 import Profile from "routes/Profile";
-import Auth from "routes/Auth";
+import Auth from "routes/Auth/Auth";
 import Message from "routes/Message";
 import Bookmark from "routes/Bookmark";
 import Preparation from "common/Preparation";
