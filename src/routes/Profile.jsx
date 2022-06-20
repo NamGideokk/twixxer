@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Navigation from "components/Navigation";
+import Nav from "components/Nav/Nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
@@ -598,7 +598,7 @@ const Profile = () => {
       <ProfileStyle>
         <div className="main__frame">
           <div className="sec__a">
-            <Navigation />
+            <Nav />
           </div>
           <div className="sec__b">
             <div className="profile__wrapper">

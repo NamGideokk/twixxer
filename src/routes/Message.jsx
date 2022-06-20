@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import MessageList from "components/MessageList";
 import Aside from "components/Aside";
-import Navigation from "components/Navigation";
+import Nav from "components/Nav/Nav";
 
 const MainFrameStyle = styled.div`
   .main__frame {
@@ -113,7 +113,7 @@ const Message = () => {
     <MainFrameStyle>
       <div className="main__frame">
         <div className="sec__a">
-          <Navigation />
+          <Nav />
         </div>
         <div className="sec__b">
           {/* <div className="message__header">

@@ -2,7 +2,7 @@ import EmptyBookmarks from "common/EmptyBookmarks";
 import LoadingContainer from "common/LoadingContainer";
 import Aside from "components/Aside";
 import FeedContainer from "components/FeedContainer";
-import Navigation from "components/Navigation";
+import Nav from "components/Nav/Nav";
 import {
   collection,
   onSnapshot,
@@ -327,7 +327,7 @@ const Bookmark = () => {
     <MainFrameStyle>
       <div className="main__frame">
         <div className="sec__a">
-          <Navigation />
+          <Nav />
         </div>
         <div className="sec__b">
           <div className="bookmark__header">

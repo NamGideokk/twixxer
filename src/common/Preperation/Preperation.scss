@@ -1,0 +1,17 @@
+@import "../../_variable.scss";
+
+div {
+  width: 100%;
+  text-align: center;
+}
+h1 {
+  color: $font-white;
+  margin-top: 150px;
+}
+
+@media screen and (max-width: 414px) {
+  h1 {
+    font-size: 1.5em;
+    margin-top: 300px;
+  }
+}

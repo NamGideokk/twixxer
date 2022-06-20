@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navigation from "components/Navigation";
+import Nav from "components/Nav/Nav";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
@@ -331,7 +331,7 @@ const Home = () => {
       <MainFrameStyle>
         <div className="main__frame">
           <div className="sec__a">
-            <Navigation />
+            <Nav />
           </div>
           <div className="sec__b">
             <FeedForm />
