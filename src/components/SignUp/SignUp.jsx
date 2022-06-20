@@ -4,7 +4,7 @@ import { myFirestore, signUp } from "myFirebase";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 
-const SignUp = ({ display, signUpModal, animation }) => {
+const SignUp = ({ signUpModal, animation }) => {
   const navitage = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -12,6 +12,7 @@ const SignUp = ({ display, signUpModal, animation }) => {
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
 
+  // email, password 각 입력값 state에 할당
   function handleInput(e) {
     const {
       target: { name, value },
@@ -24,6 +25,7 @@ const SignUp = ({ display, signUpModal, animation }) => {
     }
   }
 
+  // 회원가입 버튼 클릭
   async function handleSignUp(e) {
     e.preventDefault();
 
@@ -53,7 +55,7 @@ const SignUp = ({ display, signUpModal, animation }) => {
     setLoading(false);
   }
   return (
-    <div className="outside" style={{ display: display }}>
+    <div className="outside">
       <form className={`signup__wrapper ${animation}`} onSubmit={handleSignUp}>
         <input
           name="email"
@@ -71,11 +73,11 @@ const SignUp = ({ display, signUpModal, animation }) => {
           value={password}
           required
         />
+        <p className="error-text">{errorText}</p>
+
         <button type="submit" className="submitBtn" disabled={loading}>
           {loading ? "회원가입중..." : "회원가입"}
         </button>
-        <p className="error-text">{errorText}</p>
-
         <button
           name="closeSignUp"
           type="button"
