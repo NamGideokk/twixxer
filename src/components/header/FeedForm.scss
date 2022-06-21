@@ -1,0 +1,33 @@
+@import "../../_variable.scss";
+
+.feed__form {
+  width: 100%;
+  height: fit-content;
+
+  input {
+    width: 100%;
+    height: 50px;
+    padding: 0 55px 0 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 24px;
+    transition: 0.2s;
+    background-color: #e1e1e1;
+    position: relative;
+    margin-bottom: 15px;
+
+    :focus {
+      background-color: white;
+      box-shadow: 0 0 15px var(--logo-color);
+    }
+  }
+
+  button {
+    font-size: 30px;
+    padding: 5px;
+    background-color: transparent;
+    color: var(--logo-color);
+    position: absolute;
+    transform: translate(-50px, 2px);
+  }
+}
