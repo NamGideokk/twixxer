@@ -30,7 +30,7 @@ import {
 } from "firebase/firestore";
 import Aside from "components/Aside/Aside";
 import { useNavigate } from "react-router-dom";
-import FeedContainer from "components/FeedContainer";
+import FeedContainer from "components/FeedContainer/FeedContainer";
 import AlertContainer from "common/AlertContainer";
 import ReplyContainer from "components/ReplyContainer";
 

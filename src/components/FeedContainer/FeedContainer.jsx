@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
@@ -32,272 +31,9 @@ import {
 import { myFirestore, useAuth } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
 import { BsReply } from "react-icons/bs";
-import ReplyContainer from "./ReplyContainer";
+import ReplyContainer from "../ReplyContainer";
 import EditModal from "common/EditModal/EditModal";
-
-const FeedContStyle = styled.div`
-  .feed__container {
-    width: 100%;
-    height: fit-content;
-    padding: 20px;
-    background-color: rgb(30, 30, 30);
-    color: #dcdcdc;
-    transition: 0.3s;
-    border: 1px solid #525252;
-    display: grid;
-    grid-template-columns: 60px 1fr 70px;
-    grid-template-rows: 60px 1fr 20px 50px minmax(0, fit-content);
-    grid-template-areas:
-      "fc01 fc02 fc03"
-      "fc04 fc04 fc04"
-      "fc05 fc05 fc05"
-      "fc06 fc06 fc06"
-      "fc07 fc07 fc07" !important;
-
-    .fc01 {
-      grid-area: fc01;
-
-      img {
-        background-color: white;
-      }
-    }
-    .fc02 {
-      grid-area: fc02;
-      padding-top: 5px;
-
-      p {
-        color: #717171;
-      }
-    }
-    .fc03 {
-      grid-area: fc03;
-    }
-    .fc04 {
-      grid-area: fc04;
-      padding-top: 20px;
-      padding-bottom: 10px;
-    }
-    .fc05 {
-      grid-area: fc05;
-    }
-    .fc06 {
-      grid-area: fc06;
-      padding-top: 20px;
-    }
-
-    img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .name-email {
-      margin-left: 20px;
-      margin-right: 50px;
-      margin-bottom: 3px;
-    }
-
-    h3 {
-      margin-bottom: 10px;
-    }
-
-    .feed-menu__button {
-      margin-left: 20px;
-      transition: 0.3s;
-
-      :hover {
-        color: white;
-      }
-    }
-
-    .feed-icons__wrapper {
-      display: flex;
-      justify-content: space-between;
-
-      div {
-        padding-top: 6px;
-      }
-    }
-
-    span {
-      width: fit-content;
-      padding: 7px;
-      font-size: 17px;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: 0.3s;
-      .fill-heart {
-        color: #ff4444;
-
-        animation: like-animation 1.2s;
-      }
-    }
-    .count {
-      padding: 0;
-    }
-
-    .heart__button {
-      margin-right: 0 !important;
-    }
-    .lk__div {
-      :hover {
-        color: #ff4444;
-      }
-    }
-
-    .lk__icon {
-      width: 100px !important;
-      height: 30px;
-      text-align: center;
-
-      :hover {
-        color: #ff4444;
-        background-color: #ff44442f;
-      }
-    }
-
-    .bm__icon {
-      width: 30px;
-      height: 30px;
-
-      :hover {
-        color: #5252ff;
-        background-color: #5252ff2f;
-      }
-    }
-    /* 북마크한(true) 아이콘 */
-    .bookmark__icon {
-      color: #5252ff;
-    }
-    .cm__icon {
-      width: 30px;
-      height: 30px;
-
-      :hover {
-        color: #14ad14;
-        background-color: #40c9402f;
-      }
-    }
-    .cm__div {
-      :hover {
-        color: #14ad14;
-      }
-    }
-    .rp__div {
-      :hover {
-        color: #d000be;
-      }
-    }
-    .rp__icon {
-      width: 30px;
-      height: 30px;
-
-      :hover {
-        color: #d000be;
-        background-color: #d000be2f;
-      }
-    }
-    .sr__icon {
-      width: 30px;
-      height: 30px;
-      :hover {
-        color: #d48e0e;
-        background-color: #f0b4432f;
-      }
-    }
-
-    .writer__buttons {
-      text-align: right;
-      font-size: 20px;
-    }
-  }
-  .edit__button {
-    margin-right: 10px;
-    color: #ffb01f95;
-  }
-
-  .edit__button,
-  .delete__button {
-    cursor: pointer;
-    transition: 0.3s;
-
-    :hover {
-      color: #ffb01f;
-      transform: rotate(180deg);
-    }
-  }
-  .delete__button {
-    color: #ff353595;
-    :hover {
-      color: #ff3535;
-    }
-  }
-
-  .fc07 {
-    grid-area: fc07;
-    width: 100%;
-    height: fit-content;
-    padding: 20px;
-    background-color: rgb(30, 30, 30);
-    color: #dcdcdc;
-    transition: 0.3s;
-
-    input {
-      width: 100%;
-      padding: 5px 10px 5px 40px;
-      font-size: 16px;
-      border: 1px solid #4f4f4f;
-      background-color: rgb(30, 30, 30);
-      transition: 0.3s;
-      border-radius: 10px;
-
-      :focus {
-        background-color: #e9e9e9;
-        box-shadow: 0 0 15px var(--logo-color);
-      }
-    }
-    .reply__icon {
-      font-size: 25px;
-      position: absolute;
-      color: var(--logo-dark-color);
-      transform: rotate(180deg) translate(-7px, -5px);
-    }
-    .reply-count {
-      padding-left: calc(100% / 15);
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-  }
-
-  @media screen and (max-width: 414px) {
-    .feed__container {
-      width: 100vw !important;
-      margin: 0 !important;
-      margin-right: 0 !important;
-    }
-    .feed-icons__wrapper {
-      justify-content: space-between !important;
-      width: 100% !important;
-    }
-
-    .fc07 {
-      padding: 20px 0 10px 0 !important;
-    }
-    .reply-count {
-      padding-left: 10px !important;
-    }
-  }
-
-  /* 삭제 애니메이션 */
-  .delete__animation {
-    background-color: red !important;
-    color: white;
-    transform: scale(0);
-    opacity: 0;
-    transition: 1s !important;
-  }
-`;
+import "./FeedContainer.scss";
 
 // 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
 
@@ -615,7 +351,7 @@ const FeedContainer = ({
   }
 
   return (
-    <FeedContStyle>
+    <>
       <div
         className={`feed__container ${feedContAnimation}`}
         style={{ display: deleteDisplay }}
@@ -747,22 +483,21 @@ const FeedContainer = ({
               <p className="reply-count">댓글 ({getReplys?.length})</p>
             )}
             {/* 댓글 컨테이너 */}
-            {getReplys
-              ? getReplys.map((reply) => (
-                  <ReplyContainer
-                    key={reply.replyId}
-                    replyId={reply.replyId}
-                    id={reply.id}
-                    currentUserEmail={currentUser?.email}
-                    avatar={reply.photo}
-                    name={reply.userName}
-                    email={reply.userId}
-                    content={reply.content}
-                    createdAt={reply.createdAt.substring(0, 21)}
-                    editAt={reply.editAt}
-                  />
-                ))
-              : null}
+            {getReplys &&
+              getReplys.map((reply) => (
+                <ReplyContainer
+                  key={reply.replyId}
+                  replyId={reply.replyId}
+                  id={reply.id}
+                  currentUserEmail={currentUser?.email}
+                  avatar={reply.photo}
+                  name={reply.userName}
+                  email={reply.userId}
+                  content={reply.content}
+                  createdAt={reply.createdAt.substring(0, 21)}
+                  editAt={reply.editAt}
+                />
+              ))}
           </div>
         )}
       </div>
@@ -795,7 +530,7 @@ const FeedContainer = ({
         display={display}
         backgroundColor={backgroundColor}
       />
-    </FeedContStyle>
+    </>
   );
 };
 

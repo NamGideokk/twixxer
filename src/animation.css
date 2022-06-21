@@ -146,3 +146,11 @@
 .none {
   display: none;
 }
+
+/* 게시물 버튼 애니메이션 */
+.like-ani-action {
+  animation: like-animation 2s;
+}
+.re-twixx-animation {
+  animation: rotation 1s;
+}

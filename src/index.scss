@@ -60,6 +60,14 @@ input {
   outline: none;
 }
 
+textarea {
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 input:focus,
 button:focus {
   outline: none;

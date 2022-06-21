@@ -24,7 +24,7 @@ const Header = () => {
       <div className="avatar-name__wrapper">
         <img src={photoURL} alt="avatar" className="avatar" />
         <div className="name-email__wrapper">
-          <h1 className="user-email name">{currentUser?.displayName}</h1>
+          <h1 className="user-name">{currentUser?.displayName}</h1>
           <h1 className="user-email">{currentUser?.email}</h1>
         </div>
       </div>

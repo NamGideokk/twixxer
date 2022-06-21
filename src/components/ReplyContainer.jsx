@@ -39,9 +39,10 @@ const ReplyContainerStyle = styled.div`
       p {
         :nth-of-type(1) {
           font-weight: bold;
-          font-size: 20px;
+          font-size: 1.25rem;
         }
         :nth-of-type(2) {
+          font-size: 0.9rem;
           color: #717171;
         }
       }
@@ -83,6 +84,13 @@ const ReplyContainerStyle = styled.div`
       small {
         color: #b0b0b0;
       }
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    .reply__container {
+      width: 100%;
+      padding: 0.625rem;
     }
   }
 

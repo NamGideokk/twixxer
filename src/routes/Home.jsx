@@ -14,12 +14,12 @@ import {
   where,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-import Header from "components/header/Header";
-import FeedForm from "components/header/FeedForm";
+import Header from "components/Header/Header";
+import FeedForm from "components/Header/FeedForm";
 import Aside from "components/Aside/Aside";
 
 import LoadingContainer from "common/LoadingContainer";
-import FeedContainer from "components/FeedContainer";
+import FeedContainer from "components/FeedContainer/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
 import Loading from "common/Loading/Loading";
 import SetName from "components/SetName";

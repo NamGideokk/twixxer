@@ -1,7 +1,7 @@
 import EmptyBookmarks from "common/EmptyBookmarks";
 import LoadingContainer from "common/LoadingContainer";
 import Aside from "components/Aside/Aside";
-import FeedContainer from "components/FeedContainer";
+import FeedContainer from "components/FeedContainer/FeedContainer";
 import Nav from "components/Nav/Nav";
 import {
   collection,
