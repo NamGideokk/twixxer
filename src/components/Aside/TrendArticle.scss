@@ -1,0 +1,63 @@
+@import "../../_variable.scss";
+
+.trends__wrapper {
+  width: 100%;
+  height: fit-content;
+  background-color: $primary-color;
+  margin-top: 1.875rem;
+  padding: 1.25rem 0;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.625rem;
+    padding: 0 1.25rem;
+    padding-bottom: 0.313rem;
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      cursor: pointer;
+      display: inline-block;
+
+      padding: {
+        top: 0.313rem;
+        left: 0.313rem;
+      }
+      border-radius: 0.625rem;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: $primary-dark-color;
+      }
+    }
+  }
+}
+
+.trends__item {
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 0.313rem 1.25rem;
+
+  &:hover {
+    background-color: $font-white;
+  }
+
+  small {
+    color: $font-dark;
+  }
+
+  h3 {
+    color: $font-black;
+    margin: 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    color: $font-black;
+  }
+}

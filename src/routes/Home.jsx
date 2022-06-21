@@ -16,7 +16,7 @@ import {
 import { myFirestore } from "myFirebase";
 import Header from "components/header/Header";
 import FeedForm from "components/header/FeedForm";
-import Aside from "components/Aside";
+import Aside from "components/Aside/Aside";
 
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/FeedContainer";

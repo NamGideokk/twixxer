@@ -20,7 +20,7 @@
     position: relative;
     margin-bottom: 15px;
 
-    :focus {
+    &:focus {
       background-color: white;
       box-shadow: 0 0 15px $primary-color;
     }

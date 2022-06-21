@@ -55,6 +55,11 @@ button {
   }
 }
 
+input {
+  border: none;
+  outline: none;
+}
+
 input:focus,
 button:focus {
   outline: none;
