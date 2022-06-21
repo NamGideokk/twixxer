@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import Header from "components/header/Header";
+import FeedForm from "components/header/FeedForm";
 import Aside from "components/Aside";
 
 import LoadingContainer from "common/LoadingContainer";
@@ -250,6 +251,7 @@ const Home = () => {
         secB={
           <>
             <Header />
+            <FeedForm />
             <FormStyle>
               <div className="feed__cont__wrapper">
                 {getFeeds ? (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./FeedForm.scss";
-
+import AlertContainer from "common/AlertContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -110,31 +110,40 @@ const FeedForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="feed__form">
-      <input
-        type="text"
-        className={errorClass}
-        placeholder={placeholder}
-        maxLength={120}
-        value={feed}
-        onChange={onChange}
+    <>
+      <form onSubmit={onSubmit} className="feed__form">
+        <input
+          type="text"
+          className={errorClass}
+          placeholder={placeholder}
+          maxLength={120}
+          value={feed}
+          onChange={onChange}
+        />
+        <button type="submit" className="upload-feed__button">
+          <FontAwesomeIcon icon={faPaperPlane} className="upload-feed__icon" />
+        </button>
+        <div className="btns">
+          <label htmlFor="img-input" className="img-input__button">
+            <FontAwesomeIcon icon={faImage} />
+          </label>
+          <FontAwesomeIcon icon={faFaceSmile} className="emoji__button" />
+          <FontAwesomeIcon icon={faChartBar} className="vote__button" />
+          <FontAwesomeIcon icon={faClock} className="reservation__button" />
+          <input
+            id="img-input"
+            type="file"
+            accept="image"
+            style={{ display: "none" }}
+          />
+        </div>
+      </form>
+      <AlertContainer
+        animation={animation}
+        alertContent={alertContent}
+        display={display}
       />
-      <button type="submit" className="upload-feed__button">
-        <FontAwesomeIcon icon={faPaperPlane} className="upload-feed__icon" />
-      </button>
-      <label htmlFor="img-input" className="img-input__button">
-        <FontAwesomeIcon icon={faImage} />
-      </label>
-      <FontAwesomeIcon icon={faFaceSmile} className="emoji__button" />
-      <FontAwesomeIcon icon={faChartBar} className="vote__button" />
-      <FontAwesomeIcon icon={faClock} className="reservation__button" />
-      <input
-        id="img-input"
-        type="file"
-        accept="image"
-        style={{ display: "none" }}
-      />
-    </form>
+    </>
   );
 };
 

@@ -79,7 +79,7 @@ const Login = ({ signUpModal }) => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="login__form">
       <FontAwesomeIcon icon={faTwitter} className="logo__icon" />
       <img
         src={process.env.PUBLIC_URL + "/imgs/twixxer_logo.png"}

@@ -1,16 +1,16 @@
 @import "../../_variable.scss";
 
-div {
+.preperation {
   width: 100%;
   text-align: center;
-}
-h1 {
-  color: $font-white;
-  margin-top: 150px;
+  .prep-text {
+    color: $font-white;
+    margin-top: 150px;
+  }
 }
 
 @media screen and (max-width: 414px) {
-  h1 {
+  .prep-text {
     font-size: 1.5em;
     margin-top: 300px;
   }

@@ -52,3 +52,8 @@ $button-color: rgb(112, 91, 111);
   @include primary-button($color: $primary-dark-color, $bgColor: $font-white);
   box-shadow: 0 0 0 3px $primary-dark-color inset;
 }
+
+@mixin header-bg {
+  background-color: rgba(30, 30, 30, 0.7);
+  backdrop-filter: blur(10px);
+}

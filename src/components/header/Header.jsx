@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Header.scss";
 import { useAuth } from "myFirebase";
-import AlertContainer from "common/AlertContainer";
-import FeedForm from "./FeedForm";
 
 const Header = () => {
   const currentUser = useAuth();
@@ -22,23 +20,15 @@ const Header = () => {
   }, [currentUser]);
 
   return (
-    <>
-      <header className="user__wrapper">
-        <div className="avatar-name__wrapper">
-          <img src={photoURL} alt="avatar" className="avatar" />
-          <div className="name-email__wrapper">
-            <h1 className="user-email name">{currentUser?.displayName}</h1>
-            <h1 className="user-email">{currentUser?.email}</h1>
-          </div>
+    <header className="user__wrapper">
+      <div className="avatar-name__wrapper">
+        <img src={photoURL} alt="avatar" className="avatar" />
+        <div className="name-email__wrapper">
+          <h1 className="user-email name">{currentUser?.displayName}</h1>
+          <h1 className="user-email">{currentUser?.email}</h1>
         </div>
-        <FeedForm />
-      </header>
-      <AlertContainer
-        animation={animation}
-        alertContent={alertContent}
-        display={display}
-      />
-    </>
+      </div>
+    </header>
   );
 };
 
