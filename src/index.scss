@@ -16,13 +16,13 @@ body {
   width: 15px;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: var(--logo-dark-color);
+  background-color: $primary-dark-color;
   border-radius: 10px;
   background-clip: padding-box;
   border: 2px solid transparent;
 }
 *::-webkit-scrollbar-track {
-  background-color: rgb(30, 30, 30);
+  background-color: $bg-color;
   box-shadow: inset 0px 0px 5px rgb(61, 61, 61);
 }
 

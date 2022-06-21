@@ -37,7 +37,7 @@ $button-color: rgb(112, 91, 111);
 ) {
   font-size: 1.2rem;
   min-width: 45%;
-  padding: 1rem 2rem;
+  padding: 0.9rem 2rem;
   background-color: $bgColor;
   color: $color;
   transition: 0.3s;
@@ -49,10 +49,6 @@ $button-color: rgb(112, 91, 111);
 }
 
 @mixin secondary-button {
-  @include primary-button(
-    $color: $primary-dark-color,
-    $bgColor: $font-white,
-    $hoverBgColor: $primary-color
-  );
+  @include primary-button($color: $primary-dark-color, $bgColor: $font-white);
   box-shadow: 0 0 0 3px $primary-dark-color inset;
 }
