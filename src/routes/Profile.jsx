@@ -34,6 +34,8 @@ import FeedContainer from "components/FeedContainer";
 import AlertContainer from "common/AlertContainer";
 import ReplyContainer from "components/ReplyContainer";
 
+import MainFrame from "layouts/MainFrame";
+
 const ProfileStyle = styled.div`
   .profile__wrapper {
     width: 100%;
@@ -596,205 +598,206 @@ const Profile = () => {
   return (
     <>
       <ProfileStyle>
-        <div className="main__frame">
-          <div className="sec__a">
-            <Nav />
-          </div>
-          <div className="sec__b">
-            <div className="profile__wrapper">
-              <img
-                // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
-                src={
-                  bgImg
-                    ? bgImg
-                    : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
-                }
-                alt="avatar-background"
-                className="avatar-background"
-              />
-              <img
-                src={prevPhotoURL ? prevPhotoURL : photoURL}
-                alt="avatar"
-                className="avatar"
-              />
-
-              <div className="form__wraapper">
-                <form onSubmit={submitName}>
-                  <input
-                    className="display-name__input"
-                    type="text"
-                    value={!displayName ? "" : displayName}
-                    placeholder="이름을 설정하세요"
-                    minLength={2}
-                    maxLength={8}
-                    onChange={changeName}
-                  />
-                  {nameButton && (
-                    <button
-                      className="name-change__button"
-                      onClick={handleName}
-                    >
-                      수정
-                    </button>
-                  )}
-                </form>
-              </div>
-              <div className="info__wrapper">
-                <p>
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className="profile-data__icon"
-                  />
-                  {currentUser?.email}　
-                  {currentUser?.emailVerified ? (
-                    <span>
-                      인증완료
-                      <FontAwesomeIcon icon={faCheck} className="check__icon" />
-                    </span>
-                  ) : (
-                    <span
-                      className="verify-email__button"
-                      onClick={verifyEmail}
-                    >
-                      이메일을 인증하세요
-                    </span>
-                  )}
-                </p>
-                {currentUser && (
-                  <>
-                    <p className="date">
-                      <FontAwesomeIcon
-                        icon={faArrowRightToBracket}
-                        className="profile-data__icon"
-                      />
-                      계정 생성일 :{" "}
-                      {currentUser?.metadata.creationTime.substring(0, 22)}
-                    </p>
-                    <p className="date">
-                      <FontAwesomeIcon
-                        icon={faCalendarDays}
-                        className="profile-data__icon"
-                      />
-                      마지막 접속 :{" "}
-                      {currentUser?.metadata.lastSignInTime.substring(0, 22)}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon
-                        icon={faPaperPlane}
-                        className="profile-data__icon"
-                      />
-
-                      {myTwixxs.length === 0
-                        ? "작성하신 트윅이 없네요😥"
-                        : `내 트윅 (${myTwixxs.length})`}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon
-                        icon={faReply}
-                        className="profile-data__icon reply__icon"
-                      />
-                      {myReplys.length === 0
-                        ? "작성하신 댓글이 없네요😥"
-                        : `내 댓글 (${myReplys.length})`}
-                    </p>
-                  </>
-                )}
-              </div>
-              <div className="util__buttons__wrapper">
-                {photo ? (
-                  <>
-                    <button
-                      disabled={loading}
-                      onClick={handleUpload}
-                      className="upload__button avatar__buttonSt"
-                    >
-                      {loading ? "업로드중..." : "아바타 업로드"}
-                    </button>
-                    <button
-                      className="clear__button avatar__buttonSt"
-                      onClick={clearNewPhoto}
-                    >
-                      변경 취소
-                    </button>
-                  </>
-                ) : (
-                  <label htmlFor="file" className="avatar__label">
-                    <FontAwesomeIcon icon={faImage} className="img__icon" />
-                    아바타 변경
-                  </label>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="file"
-                  onChange={handleFile}
+        <MainFrame
+          secA={<Nav />}
+          secB={
+            <>
+              <div className="profile__wrapper">
+                <img
+                  // src={process.env.PUBLIC_URL + "imgs/userBgimg.png"}
+                  src={
+                    bgImg
+                      ? bgImg
+                      : "https://i.pinimg.com/736x/ee/7d/f1/ee7df1e617d1ab095b75110f2e4dde97.jpg"
+                  }
+                  alt="avatar-background"
+                  className="avatar-background"
                 />
-                {myTwixxs.length === 0 ? (
-                  <button className="all-feeds-delete__button" disabled>
-                    삭제할 트윅이 없습니다
-                  </button>
-                ) : (
+                <img
+                  src={prevPhotoURL ? prevPhotoURL : photoURL}
+                  alt="avatar"
+                  className="avatar"
+                />
+
+                <div className="form__wraapper">
+                  <form onSubmit={submitName}>
+                    <input
+                      className="display-name__input"
+                      type="text"
+                      value={!displayName ? "" : displayName}
+                      placeholder="이름을 설정하세요"
+                      minLength={2}
+                      maxLength={8}
+                      onChange={changeName}
+                    />
+                    {nameButton && (
+                      <button
+                        className="name-change__button"
+                        onClick={handleName}
+                      >
+                        수정
+                      </button>
+                    )}
+                  </form>
+                </div>
+                <div className="info__wrapper">
+                  <p>
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      className="profile-data__icon"
+                    />
+                    {currentUser?.email}　
+                    {currentUser?.emailVerified ? (
+                      <span>
+                        인증완료
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className="check__icon"
+                        />
+                      </span>
+                    ) : (
+                      <span
+                        className="verify-email__button"
+                        onClick={verifyEmail}
+                      >
+                        이메일을 인증하세요
+                      </span>
+                    )}
+                  </p>
+                  {currentUser && (
+                    <>
+                      <p className="date">
+                        <FontAwesomeIcon
+                          icon={faArrowRightToBracket}
+                          className="profile-data__icon"
+                        />
+                        계정 생성일 :{" "}
+                        {currentUser?.metadata.creationTime.substring(0, 22)}
+                      </p>
+                      <p className="date">
+                        <FontAwesomeIcon
+                          icon={faCalendarDays}
+                          className="profile-data__icon"
+                        />
+                        마지막 접속 :{" "}
+                        {currentUser?.metadata.lastSignInTime.substring(0, 22)}
+                      </p>
+                      <p>
+                        <FontAwesomeIcon
+                          icon={faPaperPlane}
+                          className="profile-data__icon"
+                        />
+
+                        {myTwixxs.length === 0
+                          ? "작성하신 트윅이 없네요😥"
+                          : `내 트윅 (${myTwixxs.length})`}
+                      </p>
+                      <p>
+                        <FontAwesomeIcon
+                          icon={faReply}
+                          className="profile-data__icon reply__icon"
+                        />
+                        {myReplys.length === 0
+                          ? "작성하신 댓글이 없네요😥"
+                          : `내 댓글 (${myReplys.length})`}
+                      </p>
+                    </>
+                  )}
+                </div>
+                <div className="util__buttons__wrapper">
+                  {photo ? (
+                    <>
+                      <button
+                        disabled={loading}
+                        onClick={handleUpload}
+                        className="upload__button avatar__buttonSt"
+                      >
+                        {loading ? "업로드중..." : "아바타 업로드"}
+                      </button>
+                      <button
+                        className="clear__button avatar__buttonSt"
+                        onClick={clearNewPhoto}
+                      >
+                        변경 취소
+                      </button>
+                    </>
+                  ) : (
+                    <label htmlFor="file" className="avatar__label">
+                      <FontAwesomeIcon icon={faImage} className="img__icon" />
+                      아바타 변경
+                    </label>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="file"
+                    onChange={handleFile}
+                  />
+                  {myTwixxs.length === 0 ? (
+                    <button className="all-feeds-delete__button" disabled>
+                      삭제할 트윅이 없습니다
+                    </button>
+                  ) : (
+                    <button
+                      className="all-feeds-delete__button"
+                      onClick={allFeedsDelete}
+                    >
+                      내 게시물 전부 삭제
+                    </button>
+                  )}
                   <button
-                    className="all-feeds-delete__button"
-                    onClick={allFeedsDelete}
+                    className="withdrawal__button"
+                    onClick={handleDeleteUser}
                   >
-                    내 게시물 전부 삭제
+                    회원탈퇴
                   </button>
-                )}
-                <button
-                  className="withdrawal__button"
-                  onClick={handleDeleteUser}
-                >
-                  회원탈퇴
-                </button>
+                </div>
               </div>
-            </div>
-            <div className="my-feed__wrapper">
-              {myTwixxs.length !== 0 && <p className="header">트윅</p>}
-              {myTwixxs && !loading
-                ? myTwixxs.map((twixx) => (
-                    <FeedContainer
-                      key={twixx.id}
-                      photo={twixx.photo}
-                      userName={twixx.userName}
-                      userId={twixx.userId}
-                      content={twixx.content}
-                      createdAt={twixx.createdAt.substring(0, 21)}
-                      editAt={twixx.editAt}
-                      like={twixx.isLike}
-                      likeCount={twixx.like.length}
-                      reTwixxCount={twixx.reTwixx}
-                      handleEdit={() => {}}
-                      handleDelete={() => {}}
-                      id={twixx.id}
-                    />
-                  ))
-                : null}
-              {myReplys.length !== 0 && (
-                <p className="header reply__header">댓글</p>
-              )}
-              {myReplys && !loading
-                ? myReplys.map((reply) => (
-                    <ReplyContainer
-                      key={reply.id}
-                      replyId={reply.replyId}
-                      id={reply.id}
-                      currentUserEmail={currentUser?.email}
-                      avatar={reply.photo}
-                      name={reply.userName}
-                      email={reply.userId}
-                      content={reply.content}
-                      createdAt={reply.createdAt.substring(0, 21)}
-                      editAt={reply.editAt}
-                    />
-                  ))
-                : null}
-            </div>
-          </div>
-          <div className="sec__c">
-            <Aside />
-          </div>
-        </div>
+              <div className="my-feed__wrapper">
+                {myTwixxs.length !== 0 && <p className="header">트윅</p>}
+                {myTwixxs && !loading
+                  ? myTwixxs.map((twixx) => (
+                      <FeedContainer
+                        key={twixx.id}
+                        photo={twixx.photo}
+                        userName={twixx.userName}
+                        userId={twixx.userId}
+                        content={twixx.content}
+                        createdAt={twixx.createdAt.substring(0, 21)}
+                        editAt={twixx.editAt}
+                        like={twixx.isLike}
+                        likeCount={twixx.like.length}
+                        reTwixxCount={twixx.reTwixx}
+                        handleEdit={() => {}}
+                        handleDelete={() => {}}
+                        id={twixx.id}
+                      />
+                    ))
+                  : null}
+                {myReplys.length !== 0 && (
+                  <p className="header reply__header">댓글</p>
+                )}
+                {myReplys && !loading
+                  ? myReplys.map((reply) => (
+                      <ReplyContainer
+                        key={reply.id}
+                        replyId={reply.replyId}
+                        id={reply.id}
+                        currentUserEmail={currentUser?.email}
+                        avatar={reply.photo}
+                        name={reply.userName}
+                        email={reply.userId}
+                        content={reply.content}
+                        createdAt={reply.createdAt.substring(0, 21)}
+                        editAt={reply.editAt}
+                      />
+                    ))
+                  : null}
+              </div>
+            </>
+          }
+          secC={<Aside />}
+        />
       </ProfileStyle>
       <AlertContainer
         animation={alertAnimation}
