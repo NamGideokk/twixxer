@@ -6,15 +6,13 @@ import Message from "routes/Message";
 import Bookmark from "routes/Bookmark";
 import Preparation from "common/Preperation/Preparation";
 
-import MainFrame from "layouts/MainFrame";
-
 const AppRouter = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/explore" element={<MainFrame />} />
+        <Route path="/explore" element={<Preparation />} />
         <Route path="/notifications" element={<Preparation />} />
         <Route path="/messages" element={<Message />} />
         <Route path="/bookmarks" element={<Bookmark />} />
