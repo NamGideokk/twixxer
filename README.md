@@ -28,7 +28,7 @@
 
 ![loginGoogle](https://user-images.githubusercontent.com/96227239/175805484-a5f1b9d1-3f90-436b-a06c-0fbf64d179b2.png)
 
-> 가입한 간편 이메일이나 구글, 깃허브 소셜 계정을 이용하여 로그인할 수 있습니다.
+> 가입한 간편 이메일이나 구글 계정을 이용하여 로그인할 수 있습니다.
 
 
 　
