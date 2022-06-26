@@ -8,7 +8,7 @@
 
 - 💻 https://namgideokk.github.io/twixxer/
 
-  📱 모바일 환경은 iPhone XR 기준으로 최적화 되었습니다.
+- 📱 모바일 환경은 iPhone XR 기준으로 최적화 되었습니다.
 
 - 🛠 Skill to use <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=black"/>
 
