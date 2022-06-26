@@ -1,0 +1,17 @@
+@import "../../_variable.scss";
+
+.bookmark__header {
+  @include header-bg;
+  padding: 1rem 1rem;
+  color: $font-light;
+  width: 100%;
+  font-size: 1.5rem;
+  position: sticky;
+  top: 0;
+
+  small {
+    font-size: 0.9rem;
+    color: $font-dark;
+    margin-left: 0.6rem;
+  }
+}

@@ -227,10 +227,11 @@
     }
   }
   .reply__icon {
-    font-size: 25px;
+    font-size: 1.563rem;
     position: absolute;
     color: $primary-dark-color;
     transform: rotate(180deg) translate(-7px, -5px);
+    z-index: 1;
   }
   .reply-count {
     padding-left: calc(100% / 15);
