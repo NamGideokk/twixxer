@@ -327,9 +327,11 @@ const AlertContainer = ({
  
  - 나의 게시물, 나의 댓글
  
-![myFeed](https://user-images.githubusercontent.com/96227239/175808092-36081e23-fd61-4518-8e76-8769451d6c34.jpg)
+　![myFeedsm](https://user-images.githubusercontent.com/96227239/175808958-23b4f6c8-cc92-4303-aad7-80a53b705af7.jpg)
 
 > 프로필 페이지에서 나의 게시물과 댓글을 한번에 볼 수 있습니다.
+
+ 
 
 　
  
