@@ -12,7 +12,15 @@
 
 - 🛠 Skill to use <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=black"/>
 
+- ⚠ GIF 이미지 파일이 많습니다. 데이터 주의!
+
 　
+ 
+ ## 개요
+ 
+ - 혼자서 할 토이 프로젝트를 구상하다 백엔드 없이도 웹서비스를 구현할 수 있는 Firebase를 접하고 흥미로워 사용하게 되었습니다.
+ 
+ 　
 
 ## 화면 구성 및 기능 소개
 
