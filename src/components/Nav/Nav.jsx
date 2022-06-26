@@ -18,13 +18,20 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const Nav = () => {
   const navi = useNavigate();
-  const [navLang, setNavLang] = useState(true); // true : kor, false : eng
   let language = localStorage.getItem("lang");
+  const [navLang, setNavLang] = useState(language); // true : kor, false : eng
 
   if (language === null) {
-    localStorage.setItem("lang", "kor");
+    localStorage.setItem("lang", true);
+    setNavLang(true);
   } else {
     language = localStorage.getItem("lang");
+
+    // if (language === "kor") {
+    //   setNavLang(true);
+    // } else {
+    //   setNavLang(false);
+    // }
   }
 
   async function handleLogout() {
@@ -67,7 +74,7 @@ const Nav = () => {
           {/* className="phone-device-none" */}
           <li>
             <FontAwesomeIcon icon={faHouse} className="nav__icons" />
-            {navLang ? "홈" : "Home"}
+            {language === "kor" ? "홈" : "Home"}
           </li>
         </NavLink>
         <NavLink
@@ -76,7 +83,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faHashtag} className="nav__icons" />
-            {navLang ? "탐색" : "Explore"}
+            {language === "kor" ? "탐색" : "Explore"}
           </li>
         </NavLink>
         <NavLink
@@ -85,7 +92,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faBell} className="nav__icons" />
-            {navLang ? "알림" : "Notifications"}
+            {language === "kor" ? "알림" : "Notifications"}
           </li>
         </NavLink>
         <NavLink
@@ -94,7 +101,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faEnvelope} className="nav__icons" />
-            {navLang ? "메세지" : "Messages"}
+            {language === "kor" ? "메세지" : "Messages"}
           </li>
         </NavLink>
         <NavLink
@@ -103,7 +110,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faBookmark} className="nav__icons" />
-            {navLang ? "북마크" : "Bookmarks"}
+            {language === "kor" ? "북마크" : "Bookmarks"}
           </li>
         </NavLink>
         <NavLink
@@ -112,7 +119,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faList} className="nav__icons" />
-            {navLang ? "목록" : "Lists"}
+            {language === "kor" ? "목록" : "Lists"}
           </li>
         </NavLink>
         <NavLink
@@ -121,7 +128,7 @@ const Nav = () => {
         >
           <li>
             <FontAwesomeIcon icon={faUser} className="nav__icons" />
-            {navLang ? "프로필" : "Profile"}
+            {language === "kor" ? "프로필" : "Profile"}
           </li>
         </NavLink>
 
@@ -130,7 +137,7 @@ const Nav = () => {
             icon={faArrowRightFromBracket}
             className="nav__icons"
           />
-          {navLang ? "로그아웃" : "Logout"}
+          {language === "kor" ? "로그아웃" : "Logout"}
         </li>
       </ul>
     </nav>
