@@ -18,7 +18,14 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const Nav = () => {
   const navi = useNavigate();
-  const [navLang, setNavLang] = useState(true);
+  const [navLang, setNavLang] = useState(true); // true : kor, false : eng
+  let language = localStorage.getItem("lang");
+
+  if (language === null) {
+    localStorage.setItem("lang", "kor");
+  } else {
+    language = localStorage.getItem("lang");
+  }
 
   async function handleLogout() {
     try {
@@ -34,6 +41,12 @@ const Nav = () => {
   // 네이게이션 언어 변경
   function changeLanguage() {
     setNavLang(!navLang);
+
+    if (navLang === true) {
+      localStorage.setItem("lang", "kor");
+    } else {
+      localStorage.setItem("lang", "eng");
+    }
   }
 
   return (
