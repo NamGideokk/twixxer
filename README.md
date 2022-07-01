@@ -164,7 +164,7 @@
 　
 
 ```JavaScript
-// 알림창 컴포넌트 (모듈화)
+// 알림창 컴포넌트
 
 const AlertContainer = ({
   animation,
