@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Header.scss";
+import "./header.scss";
 import { useAuth } from "myFirebase";
 
 const Header = () => {
@@ -8,9 +8,6 @@ const Header = () => {
   const [photoURL, setPhotoURL] = useState(
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
-  const [animation, setAnimation] = useState("");
-  const [display, setDisplay] = useState("");
-  const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면

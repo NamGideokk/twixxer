@@ -29,11 +29,11 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
-import AlertContainer from "common/AlertContainer";
+import NotificationContainer from "common/notificationContainer/NotificationContainer";
 import { BsReply } from "react-icons/bs";
 import ReplyContainer from "../ReplyContainer/ReplyContainer";
-import EditModal from "common/EditModal/EditModal";
-import "./FeedContainer.scss";
+import EditModal from "common/editModal/EditModal";
+import "./feedContainer.scss";
 
 // 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
 
@@ -524,7 +524,7 @@ const FeedContainer = ({
           editCancel={editCancel}
         />
       )}
-      <AlertContainer
+      <NotificationContainer
         animation={alertAnimation}
         alertContent={alertContent}
         display={display}

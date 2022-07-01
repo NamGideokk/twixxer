@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./Preperation.scss";
+import "./preperation.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

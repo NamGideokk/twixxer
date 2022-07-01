@@ -3,11 +3,13 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
-const useNotification = (message, backgroundColor) => {
+const useNotification = (message) => {
   const [animation, setAnimation] = useState("");
   const [display, setDisplay] = useState("none");
   const [notification, setNotification] = useState(message);
   const [backgroundColor, setBackgroundColor] = useState("#a984ed");
+
+  const DEFAULT_STATE = "";
 
   useEffect(() => {
     setTimeout(() => {
@@ -36,8 +38,8 @@ const useNotification = (message, backgroundColor) => {
       }
     }, 4000);
     setTimeout(() => {
-      setAnimation("");
-      setNotification("");
+      setAnimation(DEFAULT_STATE);
+      setNotification(DEFAULT_STATE);
       setDisplay("none");
     }, 5000);
   }

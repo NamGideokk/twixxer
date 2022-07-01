@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Nav.scss";
+import "./nav.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

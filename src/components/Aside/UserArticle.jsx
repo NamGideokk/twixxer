@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserArticle.scss";
+import "./userArticle.scss";
 
 const UserArticle = () => {
   return (

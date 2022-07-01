@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Nav from "components/Nav/Nav";
+import Nav from "components/nav/Nav";
 import { useAuth } from "myFirebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
@@ -14,14 +14,14 @@ import {
   where,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-import Header from "components/Header/Header";
-import FeedForm from "components/Header/FeedForm";
-import Aside from "components/Aside/Aside";
+import Header from "components/header/Header";
+import FeedForm from "components/header/FeedForm";
+import Aside from "components/aside/Aside";
 
 import LoadingContainer from "common/LoadingContainer";
-import FeedContainer from "components/FeedContainer/FeedContainer";
+import FeedContainer from "components/feedContainer/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
-import Loading from "common/Loading/Loading";
+import Loading from "common/loading/Loading";
 import SetName from "components/SetName";
 import { useNavigate } from "react-router-dom";
 import MainFrame from "layouts/MainFrame";

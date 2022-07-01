@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SignUp from "components/SignUp/SignUp";
-import Loading from "common/Loading/Loading";
-import Login from "components/Login/Login";
+import Loading from "common/loading/Loading";
+import Login from "components/login/Login";
 
 const Auth = () => {
   const [loading, setLoading] = useState(false);

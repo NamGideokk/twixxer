@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import MessageList from "components/MessageList";
-import Aside from "components/Aside/Aside";
-import Nav from "components/Nav/Nav";
+import Aside from "components/aside/Aside";
+import Nav from "components/nav/Nav";
 
 const MainFrameStyle = styled.div`
   .main__frame {

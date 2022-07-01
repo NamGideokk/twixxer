@@ -7,7 +7,7 @@ import {
   query,
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-import "./TrendArticle.scss";
+import "./trendArticle.scss";
 
 const TrendArticle = () => {
   const [getHotFeeds, setGetHotFeeds] = useState([]);

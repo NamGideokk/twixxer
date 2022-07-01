@@ -4,7 +4,7 @@ import Profile from "routes/Profile";
 import Auth from "routes/Auth/Auth";
 import Message from "routes/Message";
 import Bookmark from "routes/Bookmark";
-import Preparation from "common/Preperation/Preparation";
+import Preparation from "common/preperation/Preparation";
 
 const AppRouter = () => {
   return (

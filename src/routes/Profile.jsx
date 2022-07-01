@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Nav from "components/Nav/Nav";
+import Nav from "components/nav/Nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
@@ -28,10 +28,10 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import Aside from "components/Aside/Aside";
+import Aside from "components/aside/Aside";
 import { useNavigate } from "react-router-dom";
-import FeedContainer from "components/FeedContainer/FeedContainer";
-import AlertContainer from "common/AlertContainer";
+import FeedContainer from "components/feedContainer/FeedContainer";
+import NotificationContainer from "common/notificationContainer/NotificationContainer";
 import ReplyContainer from "components/ReplyContainer/ReplyContainer";
 
 import MainFrame from "layouts/MainFrame";
@@ -799,7 +799,7 @@ const Profile = () => {
           secC={<Aside />}
         />
       </ProfileStyle>
-      <AlertContainer
+      <NotificationContainer
         animation={alertAnimation}
         alertContent={alertContent}
         display={display}

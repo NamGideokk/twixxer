@@ -1,5 +1,5 @@
 import React from "react";
-import "./Login.scss";
+import "./login.scss";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { login, loginGoogle, useAuth } from "myFirebase";

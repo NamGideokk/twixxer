@@ -1,5 +1,5 @@
 import React from "react";
-import "./EditModal.scss";
+import "./editModal.scss";
 
 const EditModal = ({
   animation,

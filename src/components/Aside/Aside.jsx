@@ -1,5 +1,5 @@
 import React from "react";
-import "./Aside.scss";
+import "./aside.scss";
 import TrendArticle from "./TrendArticle";
 import UserArticle from "./UserArticle";
 

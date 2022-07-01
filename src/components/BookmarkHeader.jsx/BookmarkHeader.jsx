@@ -1,5 +1,5 @@
 import React from "react";
-import "./BookmarkHeader.scss";
+import "./bookmarkHeader.scss";
 
 const BookmarkHeader = () => {
   return (

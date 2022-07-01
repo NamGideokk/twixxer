@@ -1,8 +1,8 @@
 import EmptyBookmarks from "common/EmptyBookmarks";
 import LoadingContainer from "common/LoadingContainer";
-import Aside from "components/Aside/Aside";
-import FeedContainer from "components/FeedContainer/FeedContainer";
-import Nav from "components/Nav/Nav";
+import Aside from "components/aside/Aside";
+import FeedContainer from "components/feedContainer/FeedContainer";
+import Nav from "components/nav/Nav";
 import {
   collection,
   onSnapshot,
@@ -13,7 +13,7 @@ import {
 import { myFirestore, useAuth } from "myFirebase";
 import React, { useEffect, useState } from "react";
 import MainFrame from "layouts/MainFrame";
-import BookmarkHeader from "components/BookmarkHeader.jsx/BookmarkHeader";
+import BookmarkHeader from "components/bookmarkHeader.jsx/BookmarkHeader";
 
 const Bookmark = () => {
   const currentUser = useAuth();

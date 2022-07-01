@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./FeedForm.scss";
-import AlertContainer from "common/AlertContainer";
+import "./feedForm.scss";
+import NotificationContainer from "common/notificationContainer/NotificationContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -24,9 +24,9 @@ const FeedForm = () => {
   const [errorClass, setErrorClass] = useState("");
   const [placeholder, setPlaceholder] = useState("친구들과 소식을 공유하세요!");
 
-  // const [animation, setAnimation] = useState("");
-  // const [display, setDisplay] = useState("");
-  // const [alertContent, setAlertContent] = useState("");
+  const [animation, setAnimation] = useState("");
+  const [display, setDisplay] = useState("");
+  const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -143,11 +143,11 @@ const FeedForm = () => {
           />
         </div>
       </form>
-      {/* <AlertContainer
+      <NotificationContainer
         animation={animation}
         alertContent={alertContent}
         display={display}
-      /> */}
+      />
     </>
   );
 };
