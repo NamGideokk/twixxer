@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { myFirestore, useAuth } from "myFirebase";
+import useNotification from "customHook/useNotification";
 
 const FeedForm = () => {
   const currentUser = useAuth();
@@ -23,9 +24,9 @@ const FeedForm = () => {
   const [errorClass, setErrorClass] = useState("");
   const [placeholder, setPlaceholder] = useState("친구들과 소식을 공유하세요!");
 
-  const [animation, setAnimation] = useState("");
-  const [display, setDisplay] = useState("");
-  const [alertContent, setAlertContent] = useState("");
+  // const [animation, setAnimation] = useState("");
+  // const [display, setDisplay] = useState("");
+  // const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
@@ -74,18 +75,21 @@ const FeedForm = () => {
         };
         await addDoc(collectionRef, payload);
         setFeed("");
-        setTimeout(() => {
-          setAlertContent("새 트윅이 작성되었습니다.");
-          setDisplay("block");
-          if (window.screen.width <= 414) {
-            setAnimation("mobile-open-alert");
-          } else {
-            setAnimation("open-alert");
-          }
-        }, 500);
-        setTimeout(() => {
-          newFeedAlert();
-        }, 1000);
+
+        // 알림창 애니메이션
+        // setTimeout(() => {
+        //   console.log("피드 생성 알림창 start");
+        //   setAlertContent("새 트윅이 작성되었습니다.");
+        //   setDisplay("block");
+        //   if (window.screen.width <= 414) {
+        //     setAnimation("mobile-open-alert");
+        //   } else {
+        //     setAnimation("open-alert");
+        //   }
+        // }, 500);
+        // setTimeout(() => {
+        //   newFeedAlert();
+        // }, 1000);
       } catch (e) {
         console.log(e.code);
         alert(e.message);
@@ -94,20 +98,21 @@ const FeedForm = () => {
   }
 
   // 피드 생성 알림창
-  function newFeedAlert() {
-    setTimeout(() => {
-      if (window.screen.width <= 414) {
-        setAnimation("mobile-close-alert");
-      } else {
-        setAnimation("close-alert");
-      }
-    }, 4000);
-    setTimeout(() => {
-      setAnimation("");
-      setAlertContent("");
-      setDisplay("none");
-    }, 5000);
-  }
+  // function newFeedAlert() {
+  //   console.log("피드 생성 알림창 close");
+  //   setTimeout(() => {
+  //     if (window.screen.width <= 414) {
+  //       setAnimation("mobile-close-alert");
+  //     } else {
+  //       setAnimation("close-alert");
+  //     }
+  //   }, 4000);
+  //   setTimeout(() => {
+  //     setAnimation("");
+  //     setAlertContent("");
+  //     setDisplay("none");
+  //   }, 5000);
+  // }
 
   return (
     <>
@@ -138,11 +143,11 @@ const FeedForm = () => {
           />
         </div>
       </form>
-      <AlertContainer
+      {/* <AlertContainer
         animation={animation}
         alertContent={alertContent}
         display={display}
-      />
+      /> */}
     </>
   );
 };

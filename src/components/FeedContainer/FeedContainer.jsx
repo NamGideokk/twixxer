@@ -31,7 +31,7 @@ import {
 import { myFirestore, useAuth } from "myFirebase";
 import AlertContainer from "common/AlertContainer";
 import { BsReply } from "react-icons/bs";
-import ReplyContainer from "../ReplyContainer";
+import ReplyContainer from "../ReplyContainer/ReplyContainer";
 import EditModal from "common/EditModal/EditModal";
 import "./FeedContainer.scss";
 

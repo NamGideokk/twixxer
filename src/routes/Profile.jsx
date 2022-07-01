@@ -32,7 +32,7 @@ import Aside from "components/Aside/Aside";
 import { useNavigate } from "react-router-dom";
 import FeedContainer from "components/FeedContainer/FeedContainer";
 import AlertContainer from "common/AlertContainer";
-import ReplyContainer from "components/ReplyContainer";
+import ReplyContainer from "components/ReplyContainer/ReplyContainer";
 
 import MainFrame from "layouts/MainFrame";
 

@@ -181,7 +181,7 @@
 
 .edit__button {
   margin-right: 10px;
-  color: #ffb01f95;
+  color: $edit-button-color;
 }
 
 .edit__button,
@@ -190,14 +190,14 @@
   transition: 0.3s;
 
   &:hover {
-    color: #ffb01f;
+    color: $edit-button-hover-color;
     transform: rotate(180deg);
   }
 }
 .delete__button {
-  color: #ff353595;
+  color: $delete-button-color;
   &:hover {
-    color: #ff3535;
+    color: $delete-button-hover-color;
   }
 }
 

@@ -4,109 +4,7 @@ import { faCirclePlus, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
-
-const ReplyContainerStyle = styled.div`
-  .reply__container {
-    width: 90%;
-    height: fit-content;
-    margin: 0 auto;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 60px 1fr 50px;
-    grid-template-rows: 45px 1fr 20px;
-    grid-template-areas:
-      "rc-01 rc-02 rc-03"
-      "rc-01 rc-04 rc-04"
-      "rc-01 rc-05 rc-05";
-    color: #dcdcdc;
-    border: 1px solid #404040;
-    background-color: #222222;
-
-    .rc-01 {
-      grid-area: rc-01;
-
-      img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-    }
-    .rc-02 {
-      grid-area: rc-02;
-      padding: 0 20px;
-
-      p {
-        :nth-of-type(1) {
-          font-weight: bold;
-          font-size: 1.25rem;
-        }
-        :nth-of-type(2) {
-          font-size: 0.9rem;
-          color: #717171;
-        }
-      }
-    }
-    .rc-03 {
-      grid-area: rc-03;
-      text-align: right;
-
-      .edit__button {
-        margin-right: 10px;
-        color: #ffb01f95;
-      }
-
-      .edit__button,
-      .delete__button {
-        cursor: pointer;
-        transition: 0.3s;
-
-        :hover {
-          color: #ffb01f;
-          transform: rotate(180deg);
-        }
-      }
-      .delete__button {
-        color: #ff353595;
-        :hover {
-          color: #ff3535;
-        }
-      }
-    }
-    .rc-04 {
-      grid-area: rc-04;
-      padding: 5px 20px;
-    }
-    .rc-05 {
-      grid-area: rc-05;
-      padding: 0 20px;
-
-      small {
-        color: #b0b0b0;
-      }
-    }
-  }
-
-  @media screen and (max-width: 820px) {
-    .reply__container {
-      width: 100%;
-      padding: 0.625rem;
-    }
-  }
-
-  @media screen and (max-width: 414px) {
-    .reply__container {
-      width: 100%;
-      grid-template-columns: 60px 1fr 42px;
-    }
-    .rc-01 {
-      img {
-        width: 50px !important;
-        height: 50px !important;
-      }
-    }
-  }
-`;
+import "./ReplyContainer.scss";
 
 const EditContainerStyle = styled.div`
   .edit__container {
@@ -248,39 +146,37 @@ const ReplyContainer = ({
 
   return (
     <>
-      <ReplyContainerStyle>
-        <div className={`reply__container ${replyContAnimation}`}>
-          <div className="rc-01">
-            <img src={avatar} alt="avatar" />
-          </div>
-          <div className="rc-02">
-            <p>{name}</p>
-            <p>{email}</p>
-          </div>
-          <div className="rc-03">
-            {email === currentUserEmail && (
-              <>
-                <FontAwesomeIcon
-                  icon={faCirclePlus}
-                  className="edit__button"
-                  onClick={() => handleEditModal(replyId)}
-                />
-                <FontAwesomeIcon
-                  icon={faCircleXmark}
-                  className="delete__button"
-                  onClick={() => handleDelete(replyId)}
-                />
-              </>
-            )}
-          </div>
-          <div className="rc-04">{content}</div>
-          <div className="rc-05">
-            <small>
-              {createdAt}　{editAt}
-            </small>
-          </div>
+      <div className={`reply__container ${replyContAnimation}`}>
+        <div className="rc-01">
+          <img src={avatar} alt="avatar" />
         </div>
-      </ReplyContainerStyle>
+        <div className="rc-02">
+          <p>{name}</p>
+          <p>{email}</p>
+        </div>
+        <div className="rc-03">
+          {email === currentUserEmail && (
+            <>
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="edit__button"
+                onClick={() => handleEditModal(replyId)}
+              />
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                className="delete__button"
+                onClick={() => handleDelete(replyId)}
+              />
+            </>
+          )}
+        </div>
+        <div className="rc-04">{content}</div>
+        <div className="rc-05">
+          <small>
+            {createdAt}　{editAt}
+          </small>
+        </div>
+      </div>
 
       {editModal && (
         <EditContainerStyle>
