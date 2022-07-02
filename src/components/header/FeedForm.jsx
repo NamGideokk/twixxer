@@ -78,7 +78,6 @@ const FeedForm = () => {
 
         // 알림창 애니메이션
         // setTimeout(() => {
-        //   console.log("피드 생성 알림창 start");
         //   setAlertContent("새 트윅이 작성되었습니다.");
         //   setDisplay("block");
         //   if (window.screen.width <= 414) {
@@ -99,7 +98,6 @@ const FeedForm = () => {
 
   // 피드 생성 알림창
   // function newFeedAlert() {
-  //   console.log("피드 생성 알림창 close");
   //   setTimeout(() => {
   //     if (window.screen.width <= 414) {
   //       setAnimation("mobile-close-alert");

@@ -25,6 +25,8 @@ import Loading from "common/loading/Loading";
 import SetName from "components/SetName";
 import { useNavigate } from "react-router-dom";
 import MainFrame from "layouts/MainFrame";
+import { useDispatch } from "react-redux";
+import { getFeeds } from "reduxStore/feed/feedSlice";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -195,32 +197,35 @@ const FormStyle = styled.div`
 const Home = () => {
   const currentUser = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [getFeeds, setGetFeeds] = useState();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(null);
 
+  console.log(currentUser);
+
   // 데이터(피드) 가져오기
-  useEffect(() => {
-    setLoading(true);
-    console.log("모든 피드 불러오기 작업 실행");
-    const collectionRef = collection(myFirestore, "feeds");
-    const q = query(collectionRef, orderBy("timestamp", "desc"));
+  // useEffect(() => {
+  //   setLoading(true);
+  //   console.log("모든 피드 불러오기 작업 실행");
+  //   const collectionRef = collection(myFirestore, "feeds");
+  //   const q = query(collectionRef, orderBy("timestamp", "desc"));
 
-    const unsub = onSnapshot(q, (snapshot) => {
-      setGetFeeds(
-        snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-          isLike: doc.data().like.includes(currentUser.uid),
-          isBookmark: doc.data().bookmark.includes(currentUser.uid),
-        }))
-      );
-    });
+  //   const unsub = onSnapshot(q, (snapshot) => {
+  //     setGetFeeds(
+  //       snapshot.docs.map((doc) => ({
+  //         ...doc.data(),
+  //         id: doc.id,
+  //         isLike: doc.data().like.includes(currentUser.uid),
+  //         isBookmark: doc.data().bookmark.includes(currentUser.uid),
+  //       }))
+  //     );
+  //   });
 
-    setLoading(false);
+  //   setLoading(false);
 
-    return unsub;
-  }, [currentUser]);
+  //   return unsub;
+  // }, [currentUser]);
 
   useEffect(() => {
     setLoading(true);

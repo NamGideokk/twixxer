@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./header.scss";
 import { useAuth } from "myFirebase";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   const currentUser = useAuth();
+  const dispatch = useDispatch();
+  const { userName, userEmail } = useSelector((store) => store.user);
+
+  console.log(userName, userEmail);
 
   const [photoURL, setPhotoURL] = useState(
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"

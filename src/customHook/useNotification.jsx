@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
-const useNotification = (message) => {
+export const useNotification = (message) => {
   const [animation, setAnimation] = useState("");
   const [display, setDisplay] = useState("none");
   const [notification, setNotification] = useState(message);
@@ -43,18 +41,4 @@ const useNotification = (message) => {
       setDisplay("none");
     }, 5000);
   }
-
-  return (
-    <div className="new-feed-alert__wrapper">
-      <div
-        style={{ backgroundColor: backgroundColor, display: display }}
-        className={`alert__container ${animation}`}
-      >
-        <FontAwesomeIcon icon={faCircleExclamation} className="alert__icon" />
-        <p>{notification}</p>
-      </div>
-    </div>
-  );
 };
-
-export default useNotification;
