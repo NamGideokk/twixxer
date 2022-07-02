@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { login, loginGoogle, useAuth } from "myFirebase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setActiveUser } from "reduxStore/user/userSlice";
 
 const Login = ({ signUpModal }) => {
   const currentUser = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,7 +72,11 @@ const Login = ({ signUpModal }) => {
 
     try {
       if (name === "google") {
-        await loginGoogle();
+        await loginGoogle().then((respone) => {
+          const user = respone.user;
+          console.log(user);
+          dispatch(setActiveUser(user));
+        });
         navigate("/");
       }
     } catch (e) {

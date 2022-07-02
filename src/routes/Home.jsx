@@ -17,7 +17,6 @@ import { myFirestore } from "myFirebase";
 import Header from "components/header/Header";
 import FeedForm from "components/header/FeedForm";
 import Aside from "components/aside/Aside";
-
 import LoadingContainer from "common/LoadingContainer";
 import FeedContainer from "components/feedContainer/FeedContainer";
 import EmptyFeed from "common/EmptyFeed";
@@ -27,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 import MainFrame from "layouts/MainFrame";
 import { useDispatch } from "react-redux";
 import { getFeeds } from "reduxStore/feed/feedSlice";
+import { useSelector } from "react-redux";
+import { setActiveUser, setLogoutUser } from "../reduxStore/user/userSlice";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -202,7 +203,20 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(null);
 
-  console.log(currentUser);
+  const { user } = useSelector((store) => store);
+
+  if (currentUser) {
+    dispatch(
+      setActiveUser({
+        displayName: currentUser.displayName,
+        email: currentUser.email,
+        photoURL: currentUser.photoURL,
+        uid: currentUser.uid,
+      })
+    );
+  } else {
+    dispatch(setLogoutUser());
+  }
 
   // 데이터(피드) 가져오기
   // useEffect(() => {
@@ -227,17 +241,18 @@ const Home = () => {
   //   return unsub;
   // }, [currentUser]);
 
-  useEffect(() => {
-    setLoading(true);
-    setName(currentUser?.displayName);
-    setLoading(false);
-  }, [currentUser?.displayName, name]);
+  // 계정 displayName 검사
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setName(currentUser?.displayName);
+  //   setLoading(false);
+  // }, [currentUser?.displayName, name]);
 
-  useEffect(() => {
-    if (currentUser === null && currentUser !== undefined) {
-      navigate("/login");
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser === null && currentUser !== undefined) {
+  //     navigate("/login");
+  //   }
+  // }, [currentUser]);
 
   // 화면 위로 이동 버튼
   function upButton() {
@@ -246,8 +261,6 @@ const Home = () => {
       top: 0,
     });
   }
-
-  console.log(getFeeds);
 
   return (
     <>
@@ -298,7 +311,7 @@ const Home = () => {
         onClick={upButton}
       />
 
-      {name === null && name !== undefined ? <SetName /> : null}
+      {/* {name === null && name !== undefined ? <SetName /> : null} */}
       {loading && <Loading />}
     </>
   );
