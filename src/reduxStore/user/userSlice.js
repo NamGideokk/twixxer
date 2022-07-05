@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  displayName: null, // displayName
-  email: null, // email
-  photoURL: null, // photoURL
-  uid: null, // uid
+  displayName: null,
+  email: null,
+  photoURL: null,
+  uid: null,
   isLoggedIn: false,
   isLoading: false,
 };

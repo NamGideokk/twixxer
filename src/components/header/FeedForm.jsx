@@ -115,8 +115,8 @@ const FeedForm = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="feed__form">
-        <input
-          type="text"
+        <textarea
+          // type="text"
           className={errorClass}
           placeholder={placeholder}
           maxLength={120}

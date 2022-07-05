@@ -10,6 +10,7 @@ const Header = () => {
   );
 
   useEffect(() => {
+    console.log("Header component Rendering");
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
     if (user?.photoURL) {
       setPhotoURL(user.photoURL);

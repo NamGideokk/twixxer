@@ -8,8 +8,11 @@ import {
 } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import "./trendArticle.scss";
+import { useContext } from "react";
+import { LanguageContext } from "context/LanguageContext";
 
 const TrendArticle = () => {
+  const { isKor } = useContext(LanguageContext);
   const [getHotFeeds, setGetHotFeeds] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,19 +34,23 @@ const TrendArticle = () => {
   return (
     <article className="trends__wrapper">
       <header>
-        <h2>당신을 위한 핫이슈 🔥</h2>
-        <p className="more">더보기＞</p>
+        <h2>{isKor ? "당신을 위한 핫이슈 🔥" : "Trends for you 🔥"}</h2>
+        <p className="more">{isKor ? "더보기＞" : "More＞"}</p>
       </header>
 
       {/* 필터를 통한 추천 (일단 하드 코딩) */}
       {getHotFeeds.length > 0 && !loading ? (
         getHotFeeds.map((twixx) => (
           <main className="trends__item" key={twixx.id}>
-            <small>한국에서 핫한 게시물</small>
+            <small>
+              {isKor ? "한국에서 핫한 게시물" : "Trending in South Korea"}
+            </small>
             <h3>
               {twixx.userName}　<small>{twixx.content}</small>
             </h3>
-            <p>{twixx.reTwixx} 리트윅</p>
+            <p>
+              {twixx.reTwixx} {isKor ? "리트윅" : "Re-twixx"}
+            </p>
           </main>
         ))
       ) : (
@@ -56,7 +63,9 @@ const TrendArticle = () => {
               fontWeight: "lighter",
             }}
           >
-            추천할 게시물이 없네요 😥
+            {isKor
+              ? "추천할 게시물이 없네요 😥"
+              : "There are no twixxs to recommend."}
           </h3>
           <p></p>
         </section>

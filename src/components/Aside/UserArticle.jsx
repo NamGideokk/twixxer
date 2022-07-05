@@ -1,12 +1,16 @@
+import { LanguageContext } from "context/LanguageContext";
 import React from "react";
+import { useContext } from "react";
 import "./userArticle.scss";
 
 const UserArticle = () => {
+  const { isKor } = useContext(LanguageContext);
+
   return (
     <article className="follow__wrapper">
       <header>
-        <h2>팔로우 추천</h2>
-        <p className="more">더보기＞</p>
+        <h2>{isKor ? "팔로우 추천" : "Who to follow"}</h2>
+        <p className="more">{isKor ? "더보기＞" : "More＞"}</p>
       </header>
 
       <main className="follow__item">
@@ -21,7 +25,7 @@ const UserArticle = () => {
           <p>@IUlje</p>
         </div>
         <div className="fi03">
-          <button>팔로우</button>
+          <button>{isKor ? "팔로우" : "Follow"}</button>
         </div>
       </main>
       <div className="follow__item">
@@ -36,7 +40,7 @@ const UserArticle = () => {
           <p>@mavley</p>
         </div>
         <div className="fi03">
-          <button>팔로우</button>
+          <button>{isKor ? "팔로우" : "Follow"}</button>
         </div>
       </div>
     </article>

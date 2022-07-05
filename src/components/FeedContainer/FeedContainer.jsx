@@ -34,6 +34,8 @@ import { BsReply } from "react-icons/bs";
 import ReplyContainer from "../ReplyContainer/ReplyContainer";
 import EditModal from "common/editModal/EditModal";
 import "./feedContainer.scss";
+import { useContext } from "react";
+import { LanguageContext } from "context/LanguageContext";
 
 // 수정 필요 사항 - 프로필 > 피드 수정 모달창 wrapper에 갇혀있음
 
@@ -51,6 +53,7 @@ const FeedContainer = ({
   bookmark,
   id,
 }) => {
+  const { isKor } = useContext(LanguageContext);
   const currentUser = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -370,13 +373,13 @@ const FeedContainer = ({
                 icon={faCirclePlus}
                 className="edit__button"
                 onClick={() => handleEdit(id)}
-                title="수정하기"
+                title={isKor ? "수정하기" : "Edit"}
               />
               <FontAwesomeIcon
                 icon={faCircleXmark}
                 className="delete__button"
                 onClick={() => handleDelete(id)}
-                title="삭제하기"
+                title={isKor ? "삭제하기" : "Delete"}
               />
             </div>
           ) : null}
@@ -398,14 +401,14 @@ const FeedContainer = ({
                     icon={faHeart}
                     className="heart__button fill-heart"
                     onClick={() => clickLike(id)}
-                    title="좋아요 취소"
+                    title={isKor ? "좋아요 취소" : "Unlike"}
                   />
                 ) : (
                   <FontAwesomeIcon
                     icon={borderHeart}
                     className="heart__button"
                     onClick={() => clickLike(id)}
-                    title="좋아요"
+                    title={isKor ? "좋아요" : "Like"}
                   />
                 )}
               </span>
@@ -417,13 +420,13 @@ const FeedContainer = ({
                   icon={faBookmark}
                   onClick={() => clickBookmark(userId, id)}
                   className="bookmark__icon"
-                  title="북마크 취소"
+                  title={isKor ? "북마크 취소" : "Unbookmark"}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderBookmark}
                   onClick={() => clickBookmark(userId, id)}
-                  title="북마크"
+                  title={isKor ? "북마크" : "Bookmark"}
                 />
               )}
             </span>
@@ -431,7 +434,7 @@ const FeedContainer = ({
               <span className="cm__icon">
                 <FontAwesomeIcon
                   icon={faComment}
-                  title="댓글"
+                  title={isKor ? "댓글" : "Reply"}
                   onClick={
                     showReply
                       ? () => {
@@ -449,13 +452,16 @@ const FeedContainer = ({
                 <FontAwesomeIcon
                   icon={faRepeat}
                   className={iconAni}
-                  title="리트윅"
+                  title={isKor ? "리트윅" : "Re-twixx"}
                 />
               </span>
               <span className="count">{reTwixxCount}</span>
             </div>
             <span className="sr__icon">
-              <FontAwesomeIcon icon={faShareFromSquare} title="공유" />
+              <FontAwesomeIcon
+                icon={faShareFromSquare}
+                title={isKor ? "공유" : "Share"}
+              />
             </span>
           </div>
         </div>
