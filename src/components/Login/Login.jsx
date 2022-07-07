@@ -17,20 +17,6 @@ const Login = ({ signUpModal }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    if (currentUser) {
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/");
-      }, 1000);
-    } else if (currentUser === null && currentUser !== undefined) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [currentUser]);
-
   // 여러개의 input onChange를 하나의 함수로 처리하기
   function onChange(e) {
     const {
@@ -44,12 +30,40 @@ const Login = ({ signUpModal }) => {
     }
   }
 
-  async function onSubmit(e) {
+  // async function onSubmit(e) {
+  //   e.preventDefault();
+
+  //   try {
+  //     await login(email, password);
+  //     navigate("/");
+  //     // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
+  //   } catch (e) {
+  //     console.log(e.code);
+  //     if (e.code === "auth/user-not-found") {
+  //       alert("존재하지 않는 이메일 입니다.");
+  //     } else if (e.code === "auth/wrong-password") {
+  //       alert("비밀번호가 맞지 않습니다.");
+  //     } else if (e.code === "auth/too-many-requests") {
+  //       alert("너무 많은 접속 시도를 하였습니다. 잠시 후 다시 시도하세요.");
+  //     }
+  //   }
+  // }
+
+  function onSubmit(e) {
     e.preventDefault();
 
-    setLoading(true);
     try {
-      await login(email, password);
+      login(email, password).then((auth) => {
+        console.log(auth.user);
+        dispatch(
+          setActiveUser({
+            displayName: auth.user.displayName,
+            email: auth.user.email,
+            photoURL: auth.user.photoURL,
+            uid: auth.user.uid,
+          })
+        );
+      });
       navigate("/");
       // 두번째 인자값 replace에 true값을 줄 경우 이전 페이지로 뒤로 가기 할수 없음 (기본값 false)
     } catch (e) {
@@ -62,7 +76,6 @@ const Login = ({ signUpModal }) => {
         alert("너무 많은 접속 시도를 하였습니다. 잠시 후 다시 시도하세요.");
       }
     }
-    setLoading(false);
   }
 
   async function socialClick(e) {

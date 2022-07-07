@@ -3,12 +3,16 @@ import "./SignUp.scss";
 import { myFirestore, signUp } from "myFirebase";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setActiveUser } from "reduxStore/user/userSlice";
 
 const SignUp = ({ signUpModal, animation }) => {
   const navitage = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
 
@@ -22,16 +26,27 @@ const SignUp = ({ signUpModal, animation }) => {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "name") {
+      setName(value);
     }
   }
 
   // 회원가입 버튼 클릭
-  async function handleSignUp(e) {
+  function handleSignUp(e) {
     e.preventDefault();
 
-    setLoading(true);
     try {
-      await signUp(email, password);
+      signUp(email, password).then((auth) => {
+        console.log(auth.user);
+        dispatch(
+          setActiveUser({
+            displayName: name,
+            email,
+            photoURL: auth.user.photoURL,
+            uid: auth.user.uid,
+          })
+        );
+      });
       // const collectionRef = collection(myFirestore, "users", "hi");
       // const payload = {
       //   uid: "hi",
@@ -52,7 +67,6 @@ const SignUp = ({ signUpModal, animation }) => {
         setErrorText("양식을 모두 입력해 주세요.");
       }
     }
-    setLoading(false);
   }
   return (
     <div className="outside">
@@ -71,6 +85,14 @@ const SignUp = ({ signUpModal, animation }) => {
           placeholder="Password"
           onChange={handleInput}
           value={password}
+          required
+        />
+        <input
+          name="name"
+          type="text"
+          placeholder="Name"
+          onChange={handleInput}
+          value={name}
           required
         />
         <p className="error-text">{errorText}</p>

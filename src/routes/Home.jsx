@@ -29,7 +29,6 @@ import { getFeeds } from "reduxStore/feed/feedSlice";
 import { useSelector } from "react-redux";
 import { setActiveUser, setLogoutUser } from "../reduxStore/user/userSlice";
 import useGetTwixxs from "customHook/useGetTwixxs";
-import useTest from "customHook/useTest";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -207,21 +206,27 @@ const Home = () => {
 
   const { user } = useSelector((store) => store);
 
-  if (currentUser) {
-    dispatch(
-      setActiveUser({
-        displayName: currentUser.displayName,
-        email: currentUser.email,
-        photoURL: currentUser.photoURL,
-        uid: currentUser.uid,
-      })
-    );
-  } else {
-    dispatch(setLogoutUser());
+  if (!user.isLoggedIn) {
+    navigate("/login");
   }
 
   useEffect(() => {
     console.log("Home component rendering");
+  }, []);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      dispatch(
+        setActiveUser({
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          uid: user.uid,
+        })
+      );
+    } else {
+      dispatch(setLogoutUser());
+    }
   }, []);
 
   // 데이터(피드) 가져오기
