@@ -142,7 +142,10 @@ const FeedContainer = ({
 
   // 피드 삭제하기
   async function handleDelete(id) {
-    let confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (isKor) {
+      let confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    }
+    let confirmDelete = window.confirm("Are you sure you want to delete?");
     const docRef = doc(myFirestore, "feeds", id);
 
     if (confirmDelete) {

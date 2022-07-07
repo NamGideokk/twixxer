@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import "./header.scss";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const { user } = useSelector((store) => store);
-
   const [photoURL, setPhotoURL] = useState(
     "http://cdn.onlinewebfonts.com/svg/img_264570.png"
   );
 
   useEffect(() => {
     console.log("Header component Rendering");
+  }, []);
+
+  useEffect(() => {
     // 현재 유저정보가 null이 아니고 (로그인 된 상태), photoURL이 null이 아니면
     if (user?.photoURL) {
       setPhotoURL(user.photoURL);
@@ -30,4 +32,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

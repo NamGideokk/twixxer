@@ -28,6 +28,8 @@ import { useDispatch } from "react-redux";
 import { getFeeds } from "reduxStore/feed/feedSlice";
 import { useSelector } from "react-redux";
 import { setActiveUser, setLogoutUser } from "../reduxStore/user/userSlice";
+import useGetTwixxs from "customHook/useGetTwixxs";
+import useTest from "customHook/useTest";
 
 const FormStyle = styled.div`
   .feed__cont__wrapper {
@@ -218,23 +220,29 @@ const Home = () => {
     dispatch(setLogoutUser());
   }
 
-  // 데이터(피드) 가져오기
-  // useEffect(() => {
-  //   setLoading(true);
-  //   console.log("모든 피드 불러오기 작업 실행");
-  //   const collectionRef = collection(myFirestore, "feeds");
-  //   const q = query(collectionRef, orderBy("timestamp", "desc"));
+  useEffect(() => {
+    console.log("Home component rendering");
+  }, []);
 
-  //   const unsub = onSnapshot(q, (snapshot) => {
-  //     setGetFeeds(
-  //       snapshot.docs.map((doc) => ({
-  //         ...doc.data(),
-  //         id: doc.id,
-  //         isLike: doc.data().like.includes(currentUser.uid),
-  //         isBookmark: doc.data().bookmark.includes(currentUser.uid),
-  //       }))
-  //     );
-  //   });
+  // 데이터(피드) 가져오기
+  useEffect(() => {
+    setLoading(true);
+    console.log("모든 피드 불러오기 작업 실행");
+    const collectionRef = collection(myFirestore, "feeds");
+    const q = query(collectionRef, orderBy("timestamp", "desc"));
+
+    const unsub = onSnapshot(q, (snapshot) => {
+      setGetFeeds(
+        snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+          isLike: doc.data().like.includes(user.uid),
+          isBookmark: doc.data().bookmark.includes(user.uid),
+        }))
+      );
+    });
+    setLoading(false);
+  }, []);
 
   //   setLoading(false);
 

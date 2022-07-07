@@ -1,4 +1,6 @@
+import { LanguageContext } from "context/LanguageContext";
 import React from "react";
+import { useContext } from "react";
 import "./editModal.scss";
 
 const EditModal = ({
@@ -8,6 +10,8 @@ const EditModal = ({
   editConfirm,
   editCancel,
 }) => {
+  const { isKor } = useContext(LanguageContext);
+
   return (
     <div className="wrapper-style">
       <div className={`edit__container ${animation}`}>
@@ -16,8 +20,8 @@ const EditModal = ({
           value={editContent}
           onChange={handleEditContent}
         />
-        <button onClick={editConfirm}>수정하기</button>
-        <button onClick={editCancel}>취소</button>
+        <button onClick={editConfirm}>{isKor ? "수정하기" : "Edit"}</button>
+        <button onClick={editCancel}>{isKor ? "취소" : "Cancel"}</button>
       </div>
     </div>
   );

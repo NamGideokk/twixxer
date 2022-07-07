@@ -2,8 +2,8 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { myFirestore } from "myFirebase";
 import { useEffect, useState } from "react";
 
-const useFirebase = () => {
-  const [feeds, setFeeds] = useState([]);
+const useGetTwixxs = ({ uid }) => {
+  const [twixxs, settwixxs] = useState([]);
 
   useEffect(() => {
     console.log("모든 피드 불러오기 작업 실행");
@@ -11,12 +11,12 @@ const useFirebase = () => {
     const q = query(collectionRef, orderBy("timestamp", "desc"));
 
     const unsub = onSnapshot(q, (snapshot) => {
-      setFeeds(
+      settwixxs(
         snapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
-          //   isLike: doc.data().like.includes(currentUser.uid),
-          //   isBookmark: doc.data().bookmark.includes(currentUser.uid),
+          isLike: doc.data().like.includes(uid),
+          isBookmark: doc.data().bookmark.includes(uid),
         }))
       );
     });
@@ -24,7 +24,7 @@ const useFirebase = () => {
     return unsub();
   }, []);
 
-  return feeds;
+  return twixxs;
 };
 
-export default useFirebase;
+export default useGetTwixxs;
