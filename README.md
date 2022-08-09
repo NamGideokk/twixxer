@@ -6,7 +6,7 @@
 
 - 📱 모바일 환경은 iPhone XR 기준으로 최적화 되었습니다.
 
-- 🛠 Skill to use ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+- 🛠 Skill to use ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 
 - ⚠ GIF 이미지 파일이 많습니다. 데이터 주의!
 
